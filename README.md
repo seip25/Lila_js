@@ -12,7 +12,6 @@ Easy installation, just include it in HTML and use it.
 - 🔄 Two-way data binding automático / Automatic two-way data binding
 - 🧭 Enrutamiento cliente simple / Simple client-side routing
 - 📦 0 dependencias (solo JS vanilla) / Zero dependencies (vanilla JS only)
-- 🌈 Integración con PicoCSS para estilos / PicoCSS integration for styling
 
 ## 📚 Uso Básico / Basic Usage
 
