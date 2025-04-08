@@ -1,157 +1,471 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lila JS</title>
+    <link rel="canonical" href="https://yourdomain.com/lila-js" />
+    <title>Lila JS - Zero Dependency Reactive JavaScript Library</title>
+    <meta name="description"
+        content="Lila JS is a lightweight reactive JavaScript library for building modern web applications with zero dependencies. Simple, fast, and powerful.">
+    <meta name="keywords" content="JavaScript, reactive framework, vanilla JS, web components, no dependencies">
+    <meta name="author" content="Lila JS Team">
 
-    <!--CSS-->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Lila JS - Zero Dependency Reactive JavaScript Library">
+    <meta property="og:description"
+        content="Build modern web apps with this lightweight reactive JavaScript library. No dependencies, just pure JS power.">
+    <meta property="og:image" content="https://yourdomain.com/img/lila-js-social.png">
+    <meta property="og:url" content="https://yourdomain.com/lila-js">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lila JS - Zero Dependency Reactive JavaScript Library">
+    <meta name="twitter:description"
+        content="The simplest way to build reactive web apps with vanilla JavaScript. No build step, no dependencies.">
+    <meta name="twitter:image" content="https://yourdomain.com/img/lila-js-social.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/lila.png" alt="Lila JS Logo">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css">
-    <!--CSS-->
-    <script src="lila.js"> </script>
+    <link rel="stylesheet" href="css/atom-one-dark.min.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- Highlight.js -->
+    <script src="js/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
 </head>
 
 <body>
     <header class="container">
         <nav>
-            <a href="/" data-link>Inicio</a>
-            <a href="/about" data-link>Acerca de</a>
-            <a href="/counter" data-link>Contador</a>
+            <ul>
+                <li>
+                    <a href="index.html" class="logo">
+                        <strong>Lila JS</strong>
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                <li><a href="documentacion.html" class="secondary">Español</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="https://github.com/seip25/lila_js" target="_blank">GitHub</a></li>
+            </ul>
         </nav>
     </header>
 
-    <main id="app-lila" class="container"></main>
+    <main class="container">
+        <section class="hero">
+            <hgroup>
+                <h1>Lila JS</h1>
+                <h2>The simplest reactive JavaScript library</h2>
+                <p>Build modern web applications with zero dependencies and pure JavaScript</p>
+            </hgroup>
 
-    <footer>
+        </section>
 
+        <section id="features">
+            <h2>Why Choose Lila JS?</h2>
+            <div class="grid">
+                <article class="shadow">
+                    <h3>🚀 Zero Dependencies</h3>
+                    <p>No npm, no build step, no complex tooling. Just include lila.js and start coding.</p>
+                </article>
+                <article class="shadow">
+                    <h3>💡 Reactive State</h3>
+                    <p>Automatic DOM updates when your state changes with our Proxy-based system.</p>
+                </article>
+                <article class="shadow">
+                    <h3>🧩 Component-Based</h3>
+                    <p>Build encapsulated components with their own state and lifecycle methods.</p>
+                </article>
+            </div>
+            <div class="grid">
+                <article class="shadow">
+                    <h3>🔄 Two-Way Binding</h3>
+                    <p>Easily sync your state with forms and inputs using simple data attributes.</p>
+                </article>
+                <article class="shadow">
+                    <h3>🧭 Client-Side Routing</h3>
+                    <p>Simple but powerful routing system for SPA-like navigation.</p>
+                </article>
+                <article class="shadow">
+                    <h3>⚡ Lightweight</h3>
+                    <p>Under 5KB gzipped. Perfect for projects where bundle size matters.</p>
+                </article>
+            </div>
+        </section>
+
+
+        <section id="getting-started">
+            <h2>Getting Started</h2>
+            <article class="shadow">
+                <h3>1. Installation</h3>
+                <p>Just include the script in your HTML file:</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">index.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;script src="lila.js"&gt;&lt;/script&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            </article>
+
+            <article class="shadow">
+                <h3>2. Basic Structure</h3>
+                <p>Here's a minimal setup for a Lila JS application:</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">index.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;body&gt;
+  &lt;nav&gt;
+    &lt;a href="/" data-link&gt;Home&lt;/a&gt;
+    &lt;a href="/about" data-link&gt;About&lt;/a&gt;
+  &lt;/nav&gt;
+  
+  &lt;main id="app-lila"&gt;&lt;/main&gt;
+  
+  &lt;template data-template="home-template"&gt;
+    &lt;h1&gt;Welcome&lt;/h1&gt;
+    &lt;p data-bind="message"&gt;&lt;/p&gt;
+  &lt;/template&gt;
+  
+    &lt;template data-template="about-template"&gt;
+    &lt;h1&gt;About&lt;/h1&gt;
+    &lt;p&gt;This is the about us page.&lt;/p&gt;
+    &lt;/template&gt;
+
+  &lt;script&gt;
+    App.createComponent('Home', {
+      template: 'home-template',
+      state: () => ({ message: 'Hello World!' })
+    });
+    App.addRoute('/', 'Home');
+
+    App.createComponent('About', {
+        template: 'about-template'
+    });
+    
+    App.addRoute('/about', 'About');
+  &lt;/script&gt;
+&lt;/body&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section id="examples">
+            <h2>Practical Examples</h2>
+
+
+            <article id="counter">
+                <h2>Counter Component</h2>
+                <p>A simple counter with increment, decrement and reset functionality, plus auto-increment every second.
+                </p>
+                <h3>Template</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">counter-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+    &lt;template data-template="counter-template"&gt;
+        &lt;h1&gt;Counter&lt;/h1&gt;
+        &lt;p&gt;Current count: &lt;span data-bind="count"&gt;&lt;/span&gt;&lt;/p&gt;
+        &lt;button data-action="increment"&gt;Increment&lt;/button&gt;
+        &lt;button data-action="decrement"&gt;Decrement&lt;/button&gt;
+        &lt;button data-action="reset"&gt;Reset&lt;/button&gt;
+    &lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Component Definition</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">counter-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+    const incrementCounter = ({ state }) => { state.count++ };
+        
+    App.createComponent('Counter', {
+        template: 'counter-template',
+        state: () => ({
+            count: 0,
+            interval: null
+        }),
+        actions: {
+            increment: incrementCounter,
+            decrement: ({ state }) => { state.count-- },
+            reset: ({ state }) => { state.count = 0 }
+        },
+        onMount: (state) => {
+            console.log('Counter mounted');
+            state.interval = setInterval(() => {
+                console.log('Interval tick', state.count);
+                state.count++;
+            }, 1000);
+        },
+        onDestroy: (state) => {
+            console.log('Counter destroyed');
+            if (state.interval) {
+                clearInterval(state.interval);
+                state.interval = null;
+            }
+        }
+    });
+    
+    App.addRoute('/counter', 'Counter');
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Features</h3>
+                <ul>
+                    <li><strong>Reactive State:</strong> The count updates automatically in the UI when changed</li>
+                    <li><strong>Lifecycle Methods:</strong> <code>onMount</code> starts auto-incrementing,
+                        <code>onDestroy</code> cleans up</li>
+                    <li><strong>Actions:</strong> Three user-triggerable actions (increment, decrement, reset)</li>
+                    <li><strong>Routing:</strong> Accessible at <code>/counter</code> route</li>
+                </ul>
+            </article>
+
+            <article id="about">
+                <h2>About Component</h2>
+                <p>A simple static page component.</p>
+
+                <h3>Template</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+    &lt;template data-template="about-template"&gt;
+        &lt;h1&gt;About&lt;/h1&gt;
+        &lt;p&gt;This is the about us page.&lt;/p&gt;
+    &lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Component Definition</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+    App.createComponent('About', {
+        template: 'about-template'
+    });
+    
+    App.addRoute('/about', 'About');
+                        </code></pre>
+                    </div>
+                </div>
+            </article>
+
+            <article id="not-found">
+                <h2>Not Found (404) Component</h2>
+                <p>A fallback component for unmatched routes with a button to return home.</p>
+
+                <h3>Template</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">not-found-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+    &lt;template data-template="not-found-template"&gt;
+        &lt;h1&gt;404 Not Found&lt;/h1&gt;
+        &lt;p&gt;The page you're looking for doesn't exist.&lt;/p&gt;
+        &lt;button data-action="goHome"&gt;Go Home&lt;/button&gt;
+    &lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Component Definition</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">not-found-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+    App.createComponent('NotFound', {
+        template: 'not-found-template',
+        actions: {
+            goHome: () => {
+                App.navigateTo('#/');
+            }
+        }
+    });
+    
+    App.addRoute('*', 'NotFound');
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Features</h3>
+                <ul>
+                    <li><strong>Catch-all Route:</strong> Matches any unmatched path (<code>*</code>)</li>
+                    <li><strong>Navigation Action:</strong> <code>goHome</code> action redirects to root</li>
+                    <li><strong>Simple UI:</strong> Clear 404 message with call to action</li>
+                </ul>
+            </article>
+
+        </section>
+
+        <section id="api-reference">
+            <h2>API Reference</h2>
+
+            <article class="shadow">
+                <h3>Core Methods</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">API Reference</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+// Create a reactive state object
+const state = App.reactive({ 
+  count: 0 
+});
+
+// Create a component
+App.createComponent('ComponentName', {
+  template: 'template-id',  // ID of the template element
+  state: () => ({ ... }),  // Initial state function
+  actions: {               // Component methods
+    actionName: ({ state, event }, ...args) => { ... }
+  },
+  onMount: (state) => {    // Called when component mounts
+    console.log('Mounted');
+  },
+  onDestroy: (state) => {  // Called when component unmounts
+    console.log('Destroyed');
+  }
+});
+
+// Routing
+App.addRoute('/path', 'ComponentName');
+App.navigateTo('/path');   // Programmatic navigation
+                        </code></pre>
+                    </div>
+                </div>
+            </article>
+
+            <article class="shadow">
+                <h3>Template Directives</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Directive</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>data-bind</code></td>
+                            <td>One-way data binding</td>
+                            <td><code>&lt;span data-bind="message"&gt;&lt;/span&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-model</code></td>
+                            <td>Two-way data binding for form inputs</td>
+                            <td><code>&lt;input data-model="username"&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-action</code></td>
+                            <td>Bind component method to DOM events</td>
+                            <td><code>&lt;button data-action="submit"&gt;&lt;/button&gt;</code></td>
+                        </tr>
+
+
+                        <tr>
+                            <td><code>data-component</code></td>
+                            <td>Nested components</td>
+                            <td><code>&lt;div data-component="Child"&gt;&lt;/div&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-link</code></td>
+                            <td>Router link</td>
+                            <td><code>&lt;a href="/about" data-link&gt;&lt;/a&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </section>
+    </main>
+
+    <footer class="container">
+        <small>
+            © 2025 Lila JS - MIT License |
+            <a href="https://github.com/seip25/lila_js" target="_blank"><i class='icon-github'></i>GitHub</a> |
+            <a href="documentacion.html">📚Documentación en Español</a>
+        </small>
     </footer>
-
-    <template data-template="home-template">
-        <h1>¡Bienvenido a la página de inicio!</h1>
-
-        <form data-action="submit">
-            <input type="text" name="greet" data-bind="greet" placeholder="Ingresa tu saludo" class="w-full" />
-            <button type="submit" class="contrast">
-                <i class="icon-send"></i>Enviar
-            </button>
-            <br />
-        </form>
-        <br />
-        <div>
-            <p>Tu saludo es: <span data-bind="greet"></span></p>
-        </div>
-        <div class="input-icon">
-            <i class="icon-edit"></i>
-            <input type="text" data-model="greet" placeholder="Cambiar saludo" value="">
-        </div>
-        <button data-action="changeGreeting" class="w-full">
-            <i class="icon-check-circle"></i>Cambiar Saludo
-        </button>
-        <br />
-        <div data-component="Counter"></div>
-    </template>
-
-    <template data-template="about-template">
-        <h1>Acerca de</h1>
-        <p>Esta es la página acerca de nosotros.</p>
-        
-    </template>
-
-    <template data-template="counter-template">
-        <h1>Contador</h1>
-        <p>Conteo actual: <span data-bind="count"></span></p>
-        <div class="flex between gap-2">
-            <button data-action="increment" class="secondary">Incrementar</button>
-            <button data-action="decrement" class="secondary">Disminuir</button>
-            <button data-action="reset" class="secondary">Reiniciar</button>
-        </div>
-    </template>
-
-    <template data-template="not-found-template">
-        <h1>404 No Encontrado</h1>
-        <p>La página que buscas no existe.</p>
-        <button data-action="goHome">Ir al Inicio</button>
-    </template>
-
-
-
-    <script>
-         
-        App.createComponent('Home', {
-            template: 'home-template',
-            state: () => ({
-                greet: null
-            }),
-            actions: {
-                changeGreeting: ({ state }) => {
-                    state.greet = state.greet === "Hello World!"
-                        ? "Hola Mundo!"
-                        : "Hello World!";
-                    console.log(state.greet);
-                },
-                submit: ({ state, event }) => {
-                    event.preventDefault();
-                    const formData = Object.fromEntries(new FormData(event.target));
-                    console.log('Form submitted:', formData);
-                    alert(JSON.stringify(formData));
-                }
-            }
-        });
-
-        App.createComponent('About', {
-            template: 'about-template'
-        });
-
-        const incrementCounter=({ state }) => { state.count++ };
-        
-        App.createComponent('Counter', {
-            template: 'counter-template',
-            state: () => ({
-                count: 0,
-                interval: null
-            }),
-            actions: {
-                increment: incrementCounter,
-                decrement: ({ state }) => { state.count-- },
-                reset: ({ state }) => { state.count = 0 }
-            },
-            onMount: (state) => {
-                console.log('Counter mounted');
-                state.interval = setInterval(() => {
-                    console.log('Interval tick', state.count);
-                    state.count++;
-                }, 1000);
-            },
-            onDestroy: (state) => {
-                console.log('Counter destroyed');
-                if (state.interval) {
-                    clearInterval(state.interval);
-                    state.interval = null;
-                }
-            }
-        });
-
-        App.createComponent('NotFound', {
-            template: 'not-found-template',
-            actions: {
-                goHome: () => {
-                    App.navigateTo('#/');
-                }
-            }
-        });
-
-        App.addRoute('/', 'Home');
-        App.addRoute('/about', 'About');
-        App.addRoute('/counter', 'Counter');
-        App.addRoute('*', 'NotFound');
-
-        handleRouting();
-    </script>
-
-
 </body>
 
 </html>
