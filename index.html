@@ -373,6 +373,192 @@
 
         </section>
 
+                <section id="advanced-examples">
+            <h2>Advanced Examples</h2>
+
+            <article id="home-component">
+                <h2>Home Component with Form and Nested Components</h2>
+                <p>A complete home page with form handling, data binding, and nested components.</p>
+
+                <h3>Template</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">home-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="home-template"&gt;
+    &lt;h1&gt;¡Bienvenido a la página de inicio!&lt;/h1&gt;
+
+    &lt;form data-action="submit"&gt;
+        &lt;input type="text" name="greet" data-bind="greet" placeholder="Ingresa tu saludo" class="w-full" /&gt;
+        &lt;button type="submit" class="contrast"&gt;
+            &lt;i class="icon-send"&gt;&lt;/i&gt;Enviar
+        &lt;/button&gt;
+    &lt;/form&gt;
+    &lt;br /&gt;
+    &lt;div&gt;
+        &lt;p&gt;Tu saludo es: &lt;span data-bind="greet"&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="input-icon"&gt;
+        &lt;i class="icon-edit"&gt;&lt;/i&gt;
+        &lt;input type="text" data-model="greet" placeholder="Cambiar saludo" value=""&gt;
+    &lt;/div&gt;
+    &lt;button data-action="changeGreeting" class="w-full"&gt;
+        &lt;i class="icon-check-circle"&gt;&lt;/i&gt;Cambiar Saludo
+    &lt;/button&gt;
+    &lt;br /&gt;
+    &lt;div data-component="Counter"&gt;&lt;/div&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Component Definition</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">home-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('Home', {
+    template: 'home-template',
+    state: () => ({
+        greet: null
+    }),
+    actions: {
+        changeGreeting: ({ state }) => {
+            state.greet = state.greet === "Hello World!"
+                ? "Hola Mundo!"
+                : "Hello World!";
+            console.log(state.greet);
+        },
+        submit: ({ state, event }) => {
+            event.preventDefault();
+            const formData = Object.fromEntries(new FormData(event.target));
+            console.log('Form submitted:', formData);
+            alert(JSON.stringify(formData));
+        }
+    }
+});
+
+App.addRoute('/', 'Home');
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Key Features Demonstrated</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Form Handling</h4>
+                        <p>The <code>data-action="submit"</code> attribute binds the form submission to the component's submit action.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Two-Way Data Binding</h4>
+                        <p><code>data-model="greet"</code> creates two-way binding between the input and state property.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>One-Way Data Binding</h4>
+                        <p><code>data-bind="greet"</code> displays the state value and updates when it changes.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Nested Components</h4>
+                        <p><code>data-component="Counter"</code> embeds the Counter component within the Home component.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Action Handling</h4>
+                        <p><code>data-action="changeGreeting"</code> binds the button click to the component action.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Form Data Processing</h4>
+                        <p>The submit action uses <code>FormData</code> to easily process form inputs.</p>
+                    </div>
+                </div>
+            </article>
+
+            <article id="complete-app-structure">
+                <h2>Complete Application Structure</h2>
+                <p>This example shows how all components work together in a complete application.</p>
+
+                <h3>Main Application Structure</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">index.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;header class="container"&gt;
+    &lt;nav&gt;
+        &lt;a href="/" data-link&gt;Inicio&lt;/a&gt;
+        &lt;a href="/about" data-link&gt;Acerca de&lt;/a&gt;
+        &lt;a href="/counter" data-link&gt;Contador&lt;/a&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main id="app-lila" class="container"&gt;&lt;/main&gt;
+
+&lt;footer&gt;&lt;/footer&gt;
+
+&lt;!-- All templates would be included here --&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Complete Routing Setup</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">app.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+// Define all components first
+App.createComponent('Home', { /* ... */ });
+App.createComponent('About', { /* ... */ });
+App.createComponent('Counter', { /* ... */ });
+App.createComponent('NotFound', { /* ... */ });
+
+// Set up routes
+App.addRoute('/', 'Home');
+App.addRoute('/about', 'About');
+App.addRoute('/counter', 'Counter');
+App.addRoute('*', 'NotFound'); // Catch-all route
+
+// Initialize routing
+handleRouting();
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Key Patterns</h3>
+                <ul>
+                    <li><strong>Modular Components:</strong> Each feature is encapsulated in its own component</li>
+                    <li><strong>Centralized Routing:</strong> All routes are defined in one place for easy maintenance</li>
+                    <li><strong>Error Handling:</strong> The NotFound component catches all unmatched routes</li>
+                    <li><strong>Consistent Structure:</strong> All components follow the same pattern for predictability</li>
+                </ul>
+            </article>
+        </section>
+
         <section id="api-reference">
             <h2>API Reference</h2>
 
