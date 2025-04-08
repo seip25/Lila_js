@@ -366,6 +366,192 @@
             </article>
         </section>
 
+                <section id="ejemplos-avanzados">
+            <h2>Ejemplos Avanzados</h2>
+
+            <article id="componente-home">
+                <h2>Componente Home con Formulario y Componentes Anidados</h2>
+                <p>Una página de inicio completa con manejo de formularios, enlace de datos y componentes anidados.</p>
+
+                <h3>Plantilla</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">home-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="home-template"&gt;
+    &lt;h1&gt;¡Bienvenido a la página de inicio!&lt;/h1&gt;
+
+    &lt;form data-action="submit"&gt;
+        &lt;input type="text" name="greet" data-bind="greet" placeholder="Ingresa tu saludo" class="w-full" /&gt;
+        &lt;button type="submit" class="contrast"&gt;
+            &lt;i class="icon-send"&gt;&lt;/i&gt;Enviar
+        &lt;/button&gt;
+    &lt;/form&gt;
+    &lt;br /&gt;
+    &lt;div&gt;
+        &lt;p&gt;Tu saludo es: &lt;span data-bind="greet"&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="input-icon"&gt;
+        &lt;i class="icon-edit"&gt;&lt;/i&gt;
+        &lt;input type="text" data-model="greet" placeholder="Cambiar saludo" value=""&gt;
+    &lt;/div&gt;
+    &lt;button data-action="changeGreeting" class="w-full"&gt;
+        &lt;i class="icon-check-circle"&gt;&lt;/i&gt;Cambiar Saludo
+    &lt;/button&gt;
+    &lt;br /&gt;
+    &lt;div data-component="Counter"&gt;&lt;/div&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Definición del Componente</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">home-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('Home', {
+    template: 'home-template',
+    state: () => ({
+        greet: null
+    }),
+    actions: {
+        changeGreeting: ({ state }) => {
+            state.greet = state.greet === "Hello World!"
+                ? "Hola Mundo!"
+                : "Hello World!";
+            console.log(state.greet);
+        },
+        submit: ({ state, event }) => {
+            event.preventDefault();
+            const formData = Object.fromEntries(new FormData(event.target));
+            console.log('Formulario enviado:', formData);
+            alert(JSON.stringify(formData));
+        }
+    }
+});
+
+App.addRoute('/', 'Home');
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Características Clave</h3>
+                <div class="grid">
+                    <article class="shadow">
+                        <h4>Manejo de Formularios</h4>
+                        <p>El atributo <code>data-action="submit"</code> enlaza el envío del formulario con la acción submit del componente.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Enlace de Datos Bidireccional</h4>
+                        <p><code>data-model="greet"</code> crea un enlace bidireccional entre el input y la propiedad del estado.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Enlace de Datos Unidireccional</h4>
+                        <p><code>data-bind="greet"</code> muestra el valor del estado y se actualiza cuando cambia.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Componentes Anidados</h4>
+                        <p><code>data-component="Counter"</code> incrusta el componente Counter dentro del componente Home.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Manejo de Acciones</h4>
+                        <p><code>data-action="changeGreeting"</code> enlaza el clic del botón con la acción del componente.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Procesamiento de Formularios</h4>
+                        <p>La acción submit usa <code>FormData</code> para procesar fácilmente los inputs del formulario.</p>
+                    </article>
+                </div>
+            </article>
+
+            <article id="estructura-completa">
+                <h2>Estructura Completa de la Aplicación</h2>
+                <p>Este ejemplo muestra cómo todos los componentes trabajan juntos en una aplicación completa.</p>
+
+                <h3>Estructura Principal</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">index.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;header class="container"&gt;
+    &lt;nav&gt;
+        &lt;a href="/" data-link&gt;Inicio&lt;/a&gt;
+        &lt;a href="/about" data-link&gt;Acerca de&lt;/a&gt;
+        &lt;a href="/counter" data-link&gt;Contador&lt;/a&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main id="app-lila" class="container"&gt;&lt;/main&gt;
+
+&lt;footer&gt;&lt;/footer&gt;
+
+&lt;!-- Todas las plantillas se incluirían aquí --&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Configuración de Rutas</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">app.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+// Definir todos los componentes primero
+App.createComponent('Home', { /* ... */ });
+App.createComponent('About', { /* ... */ });
+App.createComponent('Counter', { /* ... */ });
+App.createComponent('NotFound', { /* ... */ });
+
+// Configurar rutas
+App.addRoute('/', 'Home');
+App.addRoute('/about', 'About');
+App.addRoute('/counter', 'Counter');
+App.addRoute('*', 'NotFound'); // Ruta comodín
+
+// Inicializar el enrutamiento
+handleRouting();
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Patrones Clave</h3>
+                <ul>
+                    <li><strong>Componentes Modulares:</strong> Cada característica está encapsulada en su propio componente</li>
+                    <li><strong>Enrutamiento Centralizado:</strong> Todas las rutas se definen en un lugar para fácil mantenimiento</li>
+                    <li><strong>Manejo de Errores:</strong> El componente NotFound captura todas las rutas no coincidentes</li>
+                    <li><strong>Estructura Consistente:</strong> Todos los componentes siguen el mismo patrón para predictibilidad</li>
+                </ul>
+            </article>
+        </section>
+
         <section id="api-reference">
             <h2>Referencia de API</h2>
 
