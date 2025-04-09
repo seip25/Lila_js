@@ -16,7 +16,7 @@ Easy installation, just include it in HTML and use it.
 ## Documentation   (English)
 https://seip25.github.io/Lila_js/ 
 
-##Documentación (Español)
+## Documentación (Español)
 https://seip25.github.io/Lila_js/documentacion.html 
 
 ## 📚 Uso Básico / Basic Usage
