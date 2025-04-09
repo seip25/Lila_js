@@ -13,6 +13,10 @@ Easy installation, just include it in HTML and use it.
 - 🧭 Enrutamiento cliente simple / Simple client-side routing
 - 📦 0 dependencias (solo JS vanilla) / Zero dependencies (vanilla JS only)
 
+## Documentation / Documentación 
+https://seip25.github.io/Lila_js/ (English)
+https://seip25.github.io/Lila_js/documentacion.html (Español)
+
 ## 📚 Uso Básico / Basic Usage
 
 ### 1. Estructura básica / Basic Structure
