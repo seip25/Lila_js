@@ -80,9 +80,12 @@
             <div class="mt-4" data-if="items.length >3 ">
                 <p>Hay más de 3 items.</p>
             </div>
-           
+            <div class="mt-4" data-if="items.length>0">
+                <span data-bind="items"></span>
+            </div>
+
         </article>
- 
+
 
     </template>
 
@@ -133,11 +136,12 @@
         App.createComponent('About', {
             template: 'about-template',
             state: () => ({
-                items: [],  
+                items: [],
+                html_items: null
             }),
             actions: {
                 addItem: ({ state }) => {
-                    state.items = [...state.items, `Item ${state.items.length + 1}`];
+                    state.items = [...state.items, ` Item ${state.items.length + 1}`];
 
                 },
                 removeItem: ({ state }, index) => {
@@ -145,16 +149,17 @@
                     item.splice(index, 1);
                     state.items = [...item];
                 },
-                removeProduct: ({ state, event },index) => {
+                removeProduct: ({ state, event }, index) => {
                     event.preventDefault();
-                    console.log(index); 
+                   
                 }
             },
             onMount: (state) => {
                 console.log('About component mounted');
-                state.items = ['Item 1', 'Item 2', 'Item 3']; 
+                state.items = ['Item 1', 'Item 2', 'Item 3'];
             },
         });
+       
 
         const incrementCounter = ({ state }) => { state.count++ };
 
