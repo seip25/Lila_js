@@ -17,7 +17,7 @@
     <meta property="og:title" content="Lila JS - Biblioteca Reactiva de JavaScript sin Dependencias">
     <meta property="og:description"
         content="Construye aplicaciones web modernas con esta ligera biblioteca de JavaScript reactivo. Sin dependencias, solo el poder de JS puro.">
- 
+
     <meta property="og:url" content="https://seip25.github.io/Lila_js">
     <meta property="og:type" content="website">
 
@@ -26,7 +26,7 @@
     <meta name="twitter:title" content="Lila JS - Biblioteca Reactiva de JavaScript sin Dependencias">
     <meta name="twitter:description"
         content="La forma más simple de construir aplicaciones web reactivas con vanilla JavaScript. Sin pasos de compilación, sin dependencias.">
-   
+
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="lila.jpeg" alt="Logo de Lila JS">
 
@@ -73,11 +73,13 @@
             <div class="grid">
                 <article>
                     <h3>🚀 Sin Dependencias</h3>
-                    <p>Sin npm, sin pasos de compilación, sin herramientas complejas. Solo incluye lila.js y empieza a codificar.</p>
+                    <p>Sin npm, sin pasos de compilación, sin herramientas complejas. Solo incluye lila.js y empieza a
+                        codificar.</p>
                 </article>
                 <article>
                     <h3>💡 Estado Reactivo</h3>
-                    <p>Actualizaciones automáticas del DOM cuando tu estado cambia con nuestro sistema basado en Proxy.</p>
+                    <p>Actualizaciones automáticas del DOM cuando tu estado cambia con nuestro sistema basado en Proxy.
+                    </p>
                 </article>
                 <article>
                     <h3>🧩 Basado en Componentes</h3>
@@ -181,7 +183,8 @@
 
             <article id="counter">
                 <h2>Componente Contador</h2>
-                <p>Un contador simple con funcionalidad de incrementar, decrementar y reiniciar, más auto-incremento cada segundo.</p>
+                <p>Un contador simple con funcionalidad de incrementar, decrementar y reiniciar, más auto-incremento
+                    cada segundo.</p>
                 <h3>Plantilla</h3>
                 <div class="code-editor">
                     <div class="editor-header">
@@ -253,9 +256,12 @@
 
                 <h3>Características</h3>
                 <ul>
-                    <li><strong>Estado Reactivo:</strong> El conteo se actualiza automáticamente en la UI cuando cambia</li>
-                    <li><strong>Métodos de Ciclo de Vida:</strong> <code>onMount</code> inicia el auto-incremento, <code>onDestroy</code> limpia</li>
-                    <li><strong>Acciones:</strong> Tres acciones activables por el usuario (incrementar, decrementar, reiniciar)</li>
+                    <li><strong>Estado Reactivo:</strong> El conteo se actualiza automáticamente en la UI cuando cambia
+                    </li>
+                    <li><strong>Métodos de Ciclo de Vida:</strong> <code>onMount</code> inicia el auto-incremento,
+                        <code>onDestroy</code> limpia</li>
+                    <li><strong>Acciones:</strong> Tres acciones activables por el usuario (incrementar, decrementar,
+                        reiniciar)</li>
                     <li><strong>Enrutamiento:</strong> Accesible en la ruta <code>/counter</code></li>
                 </ul>
             </article>
@@ -366,7 +372,7 @@
             </article>
         </section>
 
-                <section id="ejemplos-avanzados">
+        <section id="ejemplos-avanzados">
             <h2>Ejemplos Avanzados</h2>
 
             <article id="componente-home">
@@ -454,11 +460,13 @@ App.addRoute('/', 'Home');
                 <div class="grid">
                     <article class="shadow">
                         <h4>Manejo de Formularios</h4>
-                        <p>El atributo <code>data-action="submit"</code> enlaza el envío del formulario con la acción submit del componente.</p>
+                        <p>El atributo <code>data-action="submit"</code> enlaza el envío del formulario con la acción
+                            submit del componente.</p>
                     </article>
                     <article class="shadow">
                         <h4>Enlace de Datos Bidireccional</h4>
-                        <p><code>data-model="greet"</code> crea un enlace bidireccional entre el input y la propiedad del estado.</p>
+                        <p><code>data-model="greet"</code> crea un enlace bidireccional entre el input y la propiedad
+                            del estado.</p>
                     </article>
                     <article class="shadow">
                         <h4>Enlace de Datos Unidireccional</h4>
@@ -468,15 +476,18 @@ App.addRoute('/', 'Home');
                 <div class="grid">
                     <article class="shadow">
                         <h4>Componentes Anidados</h4>
-                        <p><code>data-component="Counter"</code> incrusta el componente Counter dentro del componente Home.</p>
+                        <p><code>data-component="Counter"</code> incrusta el componente Counter dentro del componente
+                            Home.</p>
                     </article>
                     <article class="shadow">
                         <h4>Manejo de Acciones</h4>
-                        <p><code>data-action="changeGreeting"</code> enlaza el clic del botón con la acción del componente.</p>
+                        <p><code>data-action="changeGreeting"</code> enlaza el clic del botón con la acción del
+                            componente.</p>
                     </article>
                     <article class="shadow">
                         <h4>Procesamiento de Formularios</h4>
-                        <p>La acción submit usa <code>FormData</code> para procesar fácilmente los inputs del formulario.</p>
+                        <p>La acción submit usa <code>FormData</code> para procesar fácilmente los inputs del
+                            formulario.</p>
                     </article>
                 </div>
             </article>
@@ -546,11 +557,149 @@ handleRouting();
 
                 <h3>Patrones Clave</h3>
                 <ul>
-                    <li><strong>Componentes Modulares:</strong> Cada característica está encapsulada en su propio componente</li>
-                    <li><strong>Enrutamiento Centralizado:</strong> Todas las rutas se definen en un lugar para fácil mantenimiento</li>
-                    <li><strong>Manejo de Errores:</strong> El componente NotFound captura todas las rutas no coincidentes</li>
-                    <li><strong>Estructura Consistente:</strong> Todos los componentes siguen el mismo patrón para predictibilidad</li>
+                    <li><strong>Componentes Modulares:</strong> Cada característica está encapsulada en su propio
+                        componente</li>
+                    <li><strong>Enrutamiento Centralizado:</strong> Todas las rutas se definen en un lugar para fácil
+                        mantenimiento</li>
+                    <li><strong>Manejo de Errores:</strong> El componente NotFound captura todas las rutas no
+                        coincidentes</li>
+                    <li><strong>Estructura Consistente:</strong> Todos los componentes siguen el mismo patrón para
+                        predictibilidad</li>
                 </ul>
+            </article>
+
+            <article id="conditional-rendering">
+                <h2>Renderizado Condicional con data-if</h2>
+                <p>Muestra u oculta elementos basado en condiciones del estado de tu componente.</p>
+                
+                <h3>Ejemplo de Plantilla</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+            &lt;template data-template="about-template"&gt;
+                &lt;h1&gt;Acerca de&lt;/h1&gt;
+                &lt;div data-if="items.length === 0"&gt;
+                    &lt;p&gt;No hay items.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div data-if="items.length > 3"&gt;
+                    &lt;p&gt;Hay más de 3 items.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div data-if="items.length > 0"&gt;
+                    &lt;span data-bind="items"&gt;&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Definición del Componente</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+            App.createComponent('About', {
+                template: 'about-template',
+                state: () => ({
+                    items: []
+                }),
+                actions: {
+                    addItem: ({ state }) => {
+                        state.items = [...state.items, `Item ${state.items.length + 1}`];
+                    },
+                    removeItem: ({ state }) => {
+                        state.items.pop();
+                    }
+                },
+                onMount: (state) => {
+                    state.items = ['Item 1', 'Item 2', 'Item 3'];
+                }
+            });
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Características</h3>
+                <ul>
+                    <li><strong>Visualización Condicional:</strong> Los elementos se muestran/ocultan basados en expresiones JavaScript</li>
+                    <li><strong>Reactivo:</strong> Se actualiza automáticamente cuando cambia el estado</li>
+                    <li><strong>Condiciones Flexibles:</strong> Soporta cualquier expresión JavaScript válida</li>
+                    <li><strong>Basado en CSS:</strong> Usa <code>display: none</code> para ocultar elementos (mantiene la posición en el DOM)</li>
+                </ul>
+            
+                <h3>Referencia de Directivas</h3>
+                <table class="directive-table">
+                    <thead>
+                        <tr>
+                            <th>Directiva</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>data-if</code></td>
+                            <td>Muestra/oculta elementos condicionalmente basado en una expresión</td>
+                            <td><code>&lt;div data-if="items.length > 0"&gt;...&lt;/div&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-bind</code></td>
+                            <td>Vincula el contenido del elemento a una propiedad del estado</td>
+                            <td><code>&lt;span data-bind="count"&gt;&lt;/span&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-action</code></td>
+                            <td>Vincula eventos del DOM a acciones del componente</td>
+                            <td><code>&lt;button data-action="increment"&gt;&lt;/button&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-link</code></td>
+                            <td>Navegación mediante enrutador</td>
+                            <td><code>&lt;a href="/about" data-link&gt;&lt;/a&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <h3>Mejores Prácticas</h3>
+                <div class="tips">
+                    <div class="tip">
+                        <h4>Mantén las condiciones simples</h4>
+                        <p>Usa expresiones booleanas simples en <code>data-if</code> para mejor rendimiento.</p>
+                        <p><strong>Recomendado:</strong> <code>data-if="isActive"</code></p>
+                        <p><strong>Evitar:</strong> <code>data-if="user.roles.includes('admin') && items.length > 5"</code></p>
+                    </div>
+                    <div class="tip">
+                        <h4>Combina con data-bind</h4>
+                        <p>Usa <code>data-bind</code> dentro de bloques condicionales para mostrar contenido dinámico.</p>
+                        <pre><code class="language-html">
+            &lt;div data-if="hasItems"&gt;
+                &lt;span data-bind="itemCount"&gt;&lt;/span&gt; items
+            &lt;/div&gt;
+                        </code></pre>
+                    </div>
+                    <div class="tip">
+                        <h4>Secciones mutuamente excluyentes</h4>
+                        <p>Para alternar entre vistas, usa condiciones complementarias.</p>
+                        <pre><code class="language-html">
+            &lt;div data-if="isEditing"&gt;Modo Edición&lt;/div&gt;
+            &lt;div data-if="!isEditing"&gt;Modo Visualización&lt;/div&gt;
+                        </code></pre>
+                    </div>
+                </div>
             </article>
         </section>
 
@@ -635,6 +784,11 @@ App.navigateTo('/ruta');   // Navegación programática
                             <td><code>data-link</code></td>
                             <td>Enlace del enrutador</td>
                             <td><code>&lt;a href="/about" data-link&gt;&lt;/a&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-if</code></td>
+                            <td>Condicional</td>
+                            <td><code>&lt;div data-if="items.length >0"&gt;&lt;/div&gt;</code></td>
                         </tr>
                     </tbody>
                 </table>

@@ -17,14 +17,14 @@
     <meta property="og:title" content="Lila JS - Zero Dependency Reactive JavaScript Library">
     <meta property="og:description"
         content="Build modern web apps with this lightweight reactive JavaScript library. No dependencies, just pure JS power."
-    <meta property="og:type" content="website">
+        <meta property="og:type" content="website">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Lila JS - Zero Dependency Reactive JavaScript Library">
     <meta name="twitter:description"
         content="The simplest way to build reactive web apps with vanilla JavaScript. No build step, no dependencies.">
- 
+
 
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="lila.jpeg" alt="Lila JS Logo">
@@ -260,7 +260,8 @@
                 <ul>
                     <li><strong>Reactive State:</strong> The count updates automatically in the UI when changed</li>
                     <li><strong>Lifecycle Methods:</strong> <code>onMount</code> starts auto-incrementing,
-                        <code>onDestroy</code> cleans up</li>
+                        <code>onDestroy</code> cleans up
+                    </li>
                     <li><strong>Actions:</strong> Three user-triggerable actions (increment, decrement, reset)</li>
                     <li><strong>Routing:</strong> Accessible at <code>/counter</code> route</li>
                 </ul>
@@ -373,7 +374,7 @@
 
         </section>
 
-                <section id="advanced-examples">
+        <section id="advanced-examples">
             <h2>Advanced Examples</h2>
 
             <article id="home-component">
@@ -461,11 +462,13 @@ App.addRoute('/', 'Home');
                 <div class="feature-grid">
                     <div class="feature-card">
                         <h4>Form Handling</h4>
-                        <p>The <code>data-action="submit"</code> attribute binds the form submission to the component's submit action.</p>
+                        <p>The <code>data-action="submit"</code> attribute binds the form submission to the component's
+                            submit action.</p>
                     </div>
                     <div class="feature-card">
                         <h4>Two-Way Data Binding</h4>
-                        <p><code>data-model="greet"</code> creates two-way binding between the input and state property.</p>
+                        <p><code>data-model="greet"</code> creates two-way binding between the input and state property.
+                        </p>
                     </div>
                     <div class="feature-card">
                         <h4>One-Way Data Binding</h4>
@@ -473,7 +476,8 @@ App.addRoute('/', 'Home');
                     </div>
                     <div class="feature-card">
                         <h4>Nested Components</h4>
-                        <p><code>data-component="Counter"</code> embeds the Counter component within the Home component.</p>
+                        <p><code>data-component="Counter"</code> embeds the Counter component within the Home component.
+                        </p>
                     </div>
                     <div class="feature-card">
                         <h4>Action Handling</h4>
@@ -552,11 +556,148 @@ handleRouting();
                 <h3>Key Patterns</h3>
                 <ul>
                     <li><strong>Modular Components:</strong> Each feature is encapsulated in its own component</li>
-                    <li><strong>Centralized Routing:</strong> All routes are defined in one place for easy maintenance</li>
+                    <li><strong>Centralized Routing:</strong> All routes are defined in one place for easy maintenance
+                    </li>
                     <li><strong>Error Handling:</strong> The NotFound component catches all unmatched routes</li>
-                    <li><strong>Consistent Structure:</strong> All components follow the same pattern for predictability</li>
+                    <li><strong>Consistent Structure:</strong> All components follow the same pattern for predictability
+                    </li>
                 </ul>
             </article>
+
+            <article id="conditional-rendering">
+                <h2>Conditional Rendering with data-if</h2>
+                <p>Show or hide elements based on conditions in your component state.</p>
+                
+                <h3>Template Example</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+            &lt;template data-template="about-template"&gt;
+                &lt;h1&gt;Acerca de&lt;/h1&gt;
+                &lt;div data-if="items.length === 0"&gt;
+                    &lt;p&gt;No hay items.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div data-if="items.length > 3"&gt;
+                    &lt;p&gt;Hay más de 3 items.&lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div data-if="items.length > 0"&gt;
+                    &lt;span data-bind="items"&gt;&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Component Definition</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+            App.createComponent('About', {
+                template: 'about-template',
+                state: () => ({
+                    items: []
+                }),
+                actions: {
+                    addItem: ({ state }) => {
+                        state.items = [...state.items, `Item ${state.items.length + 1}`];
+                    },
+                    removeItem: ({ state }) => {
+                        state.items.pop();
+                    }
+                },
+                onMount: (state) => {
+                    state.items = ['Item 1', 'Item 2', 'Item 3'];
+                }
+            });
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Features</h3>
+                <ul>
+                    <li><strong>Conditional Display:</strong> Elements are shown/hidden based on JavaScript expressions</li>
+                    <li><strong>Reactive:</strong> Automatically updates when state changes</li>
+                    <li><strong>Flexible Conditions:</strong> Supports any valid JavaScript expression</li>
+                    <li><strong>CSS-Based:</strong> Uses <code>display: none</code> to hide elements (preserves DOM position)</li>
+                </ul>
+            
+                <h3>Directive Reference</h3>
+                <table class="directive-table">
+                    <thead>
+                        <tr>
+                            <th>Directive</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>data-if</code></td>
+                            <td>Conditionally shows/hides element based on expression</td>
+                            <td><code>&lt;div data-if="items.length > 0"&gt;...&lt;/div&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-bind</code></td>
+                            <td>Binds element content to state property</td>
+                            <td><code>&lt;span data-bind="count"&gt;&lt;/span&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-action</code></td>
+                            <td>Binds DOM events to component actions</td>
+                            <td><code>&lt;button data-action="increment"&gt;&lt;/button&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-link</code></td>
+                            <td>Router link navigation</td>
+                            <td><code>&lt;a href="/about" data-link&gt;&lt;/a&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <h3>Best Practices</h3>
+                <div class="tips">
+                    <div class="tip">
+                        <h4>Keep Conditions Simple</h4>
+                        <p>Use simple boolean expressions in <code>data-if</code> for better performance.</p>
+                        <p><strong>Recommended:</strong> <code>data-if="isActive"</code></p>
+                        <p><strong>Avoid:</strong> <code>data-if="user.roles.includes('admin') && items.length > 5"</code></p>
+                    </div>
+                    <div class="tip">
+                        <h4>Combine with data-bind</h4>
+                        <p>Use <code>data-bind</code> inside conditional blocks to display dynamic content.</p>
+                        <pre><code class="language-html">
+            &lt;div data-if="hasItems"&gt;
+                &lt;span data-bind="itemCount"&gt;&lt;/span&gt; items
+            &lt;/div&gt;
+                        </code></pre>
+                    </div>
+                    <div class="tip">
+                        <h4>Mutually Exclusive Sections</h4>
+                        <p>For toggle between views, use complementary conditions.</p>
+                        <pre><code class="language-html">
+            &lt;div data-if="isEditing"&gt;Edit Mode&lt;/div&gt;
+            &lt;div data-if="!isEditing"&gt;View Mode&lt;/div&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            </article>
+
         </section>
 
         <section id="api-reference">
@@ -644,6 +785,13 @@ App.navigateTo('/path');   // Programmatic navigation
                             <td>Router link</td>
                             <td><code>&lt;a href="/about" data-link&gt;&lt;/a&gt;</code></td>
                         </tr>
+
+                        <tr>
+                            <td><code>data-if</code></td>
+                            <td>Conditional</td>
+                            <td><code>&lt;div data-if="items.length >0"&gt;&lt;/div&gt;</code></td>
+                        </tr>
+
                     </tbody>
                 </table>
             </article>
