@@ -149,10 +149,6 @@
                     item.splice(index, 1);
                     state.items = [...item];
                 },
-                removeProduct: ({ state, event }, index) => {
-                    event.preventDefault();
-                   
-                }
             },
             onMount: (state) => {
                 console.log('About component mounted');
