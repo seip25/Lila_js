@@ -9,7 +9,7 @@
     <title>Lila JS</title>
 
     <!--CSS-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css">
+    <link rel="stylesheet" href="https://seip25.github.io/material-lite-design/material.css">
     <!--CSS-->
     <script src="lila.js"> </script>
 </head>
@@ -17,24 +17,27 @@
 <body>
     <header class="container">
         <nav>
-            <a href="/" data-link>Inicio</a>
-            <a href="/about" data-link>Acerca de</a>
-            <a href="/counter" data-link>Contador</a>
+            <a href="/" class="underline-none" data-link>Inicio</a>
+            <a href="/about" class="underline-none" data-link>Acerca de</a>
+            <a href="/counter" class="underline-none" data-link>Contador</a>
         </nav>
     </header>
 
-    <main id="app-lila" class="container"></main>
+    <main id="app-lila" class="container "></main>
 
     <footer>
 
     </footer>
 
     <template data-template="home-template">
-        <h1>¡Bienvenido a la página de inicio!</h1>
+        <h3>¡Bienvenido a la página de inicio!</h3>
 
         <form data-action="submit">
-            <input type="text" name="greet" data-bind="greet" placeholder="Ingresa tu saludo" class="w-full" />
-            <button type="submit" class="contrast">
+            <div>
+                <input type="text" name="greet" data-bind="greet" placeholder="" class="w-full" />
+                <label>Ingresa tu saludo</label>
+            </div>
+            <button type="submit" class="w-full">
                 <i class="icon-send"></i>Enviar
             </button>
             <br />
@@ -43,30 +46,59 @@
         <div>
             <p>Tu saludo es: <span data-bind="greet"></span></p>
         </div>
-        <div class="input-icon">
-            <i class="icon-edit"></i>
-            <input type="text" data-model="greet" placeholder="Cambiar saludo" value="">
+        <div>
+            <i class="icon icon-edit"></i>
+            <input type="text" data-model="greet" placeholder="" value="">
+            <label>Cambiar saludo</label>
         </div>
         <button data-action="changeGreeting" class="w-full">
             <i class="icon-check-circle"></i>Cambiar Saludo
         </button>
         <br />
-        <div data-component="Counter"></div>
+        <div class="mt-4" data-component="Counter"></div>
     </template>
 
     <template data-template="about-template">
         <h1>Acerca de</h1>
         <p>Esta es la página acerca de nosotros.</p>
-        
+        <div class="mt-4 mb-4">
+            <button data-action="addItem" class="btn-success">
+                <i class="icon icon-add"></i>
+                Agregar
+            </button>
+            <button data-action="removeItem" class="btn-error">
+                <i class="icon icon-delete"></i>
+                Eliminar último
+            </button>
+        </div>
+
+        <article>
+            <h1 class="flex center">Lista de items</h1>
+            <div class="mt-4" data-if="items.length === 0">
+                <p>No hay items.</p>
+            </div>
+            <div class="mt-4" data-if="items.length >3 ">
+                <p>Hay más de 3 items.</p>
+            </div>
+            <div class="mt-4" data-if="items.length>0">
+                <span data-bind="items"></span>
+            </div>
+
+        </article>
+
+
     </template>
 
     <template data-template="counter-template">
         <h1>Contador</h1>
         <p>Conteo actual: <span data-bind="count"></span></p>
         <div class="flex between gap-2">
-            <button data-action="increment" class="secondary">Incrementar</button>
-            <button data-action="decrement" class="secondary">Disminuir</button>
-            <button data-action="reset" class="secondary">Reiniciar</button>
+            <button data-action="increment" class="btn-secondary">Incrementar +</button>
+            <button data-action="decrement" class="btn-secondary">Disminuir -</button>
+            <button data-action="reset" class="btn-secondary">Reiniciar</button>
+        </div>
+        <div class="mt-4" data-if="count > 3">
+            <p>El contador es mayor que tres. (<span data-bind="count"></span>)</p>
         </div>
     </template>
 
@@ -79,7 +111,7 @@
 
 
     <script>
-         
+
         App.createComponent('Home', {
             template: 'home-template',
             state: () => ({
@@ -102,11 +134,31 @@
         });
 
         App.createComponent('About', {
-            template: 'about-template'
-        });
+            template: 'about-template',
+            state: () => ({
+                items: [],
+                html_items: null
+            }),
+            actions: {
+                addItem: ({ state }) => {
+                    state.items = [...state.items, ` Item ${state.items.length + 1}`];
 
-        const incrementCounter=({ state }) => { state.count++ };
-        
+                },
+                removeItem: ({ state }, index) => {
+                    let item = state.items;
+                    item.splice(index, 1);
+                    state.items = [...item];
+                },
+            },
+            onMount: (state) => {
+                console.log('About component mounted');
+                state.items = ['Item 1', 'Item 2', 'Item 3'];
+            },
+        });
+       
+
+        const incrementCounter = ({ state }) => { state.count++ };
+
         App.createComponent('Counter', {
             template: 'counter-template',
             state: () => ({
