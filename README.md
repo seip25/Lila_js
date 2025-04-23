@@ -1,6 +1,6 @@
 ## Lila JS (ES) / Lila JS (EN)
-Una librería reactiva minimalista para construir aplicaciones web con JavaScript vanilla y HTML.
-A minimalist reactive library for building web applications with vanilla JavaScript and HTML.
+Una nucro framework reactivo para construir aplicaciones web con JavaScript vanilla y HTML.
+A minimalist reactive micro framework for building web applications with vanilla JavaScript and HTML.
 
 ### 📦 Instalación / Installation
 Fácil instalación, solo incluirlo en HTML y utilizarlo.
