@@ -108,15 +108,12 @@ function mountComponent(name, targetId, props = {}) {
         const items = evalInContext(repeatExpr, { ...state, ...componentDef.actions });
         const container = templateEl.parentNode;
 
-        console.log(`renderRepeatSection para "${repeatExpr}" llamado. Items recibidos:`, items);
-        console.log('Estado items en renderRepeatSection:', state.items);
-        console.log('Plantilla repeat original (templateEl):', templateEl);
+         
 
         let currentElement = templateEl.nextElementSibling;
         while (currentElement) {
             const nextElement = currentElement.nextElementSibling;
-            if (currentElement && currentElement.hasAttribute('data-repeated-item')) {
-                console.log('Removiendo item repetido existente:', currentElement);
+            if (currentElement && currentElement.hasAttribute('data-repeated-item')) { 
                 container.removeChild(currentElement);
             } else {
                 break;
@@ -166,12 +163,10 @@ function mountComponent(name, targetId, props = {}) {
             console.warn(`data-repeat expression "${repeatExpr}" did not evaluate to an array. Result:`, items);
         }
 
-        container.insertBefore(fragment, templateEl.nextSibling);
-        console.log('Nuevos items insertados después de:', templateEl);
+        container.insertBefore(fragment, templateEl.nextSibling); 
 
 
-        templateEl.style.display = 'none';
-        console.log('Plantilla data-repeat ocultada:', templateEl);
+        templateEl.style.display = 'none'; 
     }
 
 
@@ -353,21 +348,17 @@ function mountComponent(name, targetId, props = {}) {
     });
 
 
-    setTimeout(() => {
-        console.log('Initial render');
+    setTimeout(() => { 
         update();
 
         if (componentDef.onMount) {
-            try {
-                console.log('Executing onMount');
+            try { 
                 const result = componentDef.onMount(state);
                 if (result && typeof result.then === 'function') {
-                    result.then(() => {
-                        console.log('onMount promise resolved. Updating...');
+                    result.then(() => { 
                         update();
                     }).catch(error => console.error('Error in onMount promise:', error));
-                } else {
-                    console.log('onMount finished (sync). Updating...');
+                } else { 
                     update();
                 }
             } catch (error) {
@@ -378,8 +369,7 @@ function mountComponent(name, targetId, props = {}) {
 
 
     const componentInstance = {
-        destroy: () => {
-            console.log(`Destroying component ${name}`);
+        destroy: () => { 
             try {
                 if (componentDef.onDestroy) componentDef.onDestroy(state);
             } catch (error) {
@@ -417,8 +407,7 @@ function mountComponent(name, targetId, props = {}) {
             }
         },
         state,
-        forceUpdate: () => {
-            console.log('Force updating component');
+        forceUpdate: () => { 
             update();
         }
     };
