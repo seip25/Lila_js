@@ -742,6 +742,307 @@ handleRouting();
                     </div>
                 </div>
             </article>
+            
+            <article id="data-repeat">
+                <h2>List Rendering with data-repeat</h2>
+                <p>Render dynamic lists from your component state with automatic updates.</p>
+                
+                <h3>Template Example</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="about-template"&gt;
+    &lt;h1&gt;Acerca de&lt;/h1&gt;
+    &lt;div class="mt-4" data-if="items.length === 0"&gt;
+        &lt;p&gt;No hay items.&lt;/p&gt;
+    &lt;/div&gt;
+    
+    &lt;div data-repeat="items"&gt;
+        &lt;article class="mt-4 flex between gap-2" data-repeated-item="" secondary&gt;
+            &lt;span class="flex between gap-1"&gt;
+                &lt;span&gt;Index:&lt;/span&gt;
+                &lt;span data-repeat-bind="index"&gt;&lt;/span&gt;
+            &lt;/span&gt;
+            &lt;span data-repeat-bind="item.id"&gt;&lt;/span&gt;
+            &lt;span data-repeat-bind="item.name"&gt;&lt;/span&gt;
+            &lt;button data-repeat-action="removeItemId" class="btn-error"&gt;
+                &lt;i class="icon-delete"&gt;&lt;/i&gt;
+                &lt;span data-repeat-bind="'Remove ' + item.name"&gt;&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/article&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Component Definition</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('About', {
+    template: 'about-template',
+    state: () => ({
+        items: []
+    }),
+    actions: {
+        addItem: ({ state }) => {
+            let item = {
+                name: 'Item ' + (state.items.length + 1),
+                id: state.items.length + 1
+            };
+            state.items = [...state.items, item];
+        },
+        removeItem: ({ state }, index) => {
+            let items = state.items;
+            items.splice(index, 1);
+            state.items = [...items];
+        },
+        removeItemId: ({ state, event, item, index }) => {
+            event.preventDefault();
+            state.items = state.items.filter((i) => i.id !== item.id);
+        }
+    },
+    onMount: (state) => {
+        state.items = [
+            { name: 'Item 1', id: 1 },
+            { name: 'Item 2', id: 2 },
+            { name: 'Item 3', id: 3 }
+        ];
+    }
+});
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Features</h3>
+                <ul>
+                    <li><strong>Automatic List Rendering:</strong> Creates DOM elements for each item in your array</li>
+                    <li><strong>Reactive Updates:</strong> Automatically updates when the array changes</li>
+                    <li><strong>Item Binding:</strong> Access current item with <code>item</code> and index with <code>index</code></li>
+                    <li><strong>Scoped Actions:</strong> Bind actions to each item with item context</li>
+                    <li><strong>Flexible Content:</strong> Supports any HTML structure inside the repeated element</li>
+                </ul>
+            
+                <h3>Directive Reference</h3>
+                <table class="directive-table">
+                    <thead>
+                        <tr>
+                            <th>Directive</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>data-repeat</code></td>
+                            <td>Repeats element for each item in array</td>
+                            <td><code>&lt;div data-repeat="items"&gt;...&lt;/div&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-repeat-bind</code></td>
+                            <td>Binds content to current item properties</td>
+                            <td><code>&lt;span data-repeat-bind="item.name"&gt;&lt;/span&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-repeat-action</code></td>
+                            <td>Binds action with item context</td>
+                            <td><code>&lt;button data-repeat-action="removeItem"&gt;&lt;/button&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-repeated-item</code></td>
+                            <td>Marker attribute for repeated items (auto-added)</td>
+                            <td><code>&lt;div data-repeated-item&gt;&lt;/div&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <h3>Best Practices</h3>
+                <div class="tips">
+                    <div class="tip">
+                        <h4>Use Keys for Dynamic Lists</h4>
+                        <p>Include unique identifiers in your items for better performance with dynamic lists.</p>
+                        <pre><code class="language-javascript">
+state.items = [
+    { id: 1, name: 'Item 1' },  // Good - has unique id
+    { id: 2, name: 'Item 2' }
+];
+                        </code></pre>
+                    </div>
+                    <div class="tip">
+                        <h4>Combine with Conditional Rendering</h4>
+                        <p>Use <code>data-if</code> to show empty state messages.</p>
+                        <pre><code class="language-html">
+&lt;div data-if="items.length === 0"&gt;
+    &lt;p&gt;No items found&lt;/p&gt;
+&lt;/div&gt;
+&lt;div data-repeat="items"&gt;...&lt;/div&gt;
+                        </code></pre>
+                    </div>
+                    <div class="tip">
+                        <h4>Access Item Properties Safely</h4>
+                        <p>Check for property existence when binding to avoid errors.</p>
+                        <pre><code class="language-html">
+            &lt;span data-repeat-bind="item.name || 'Unnamed'"&gt;&lt;/span&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Special Variables</h3>
+                <table class="variables-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Available In</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>item</code></td>
+                            <td><code>data-repeat-bind</code>, <code>data-repeat-action</code></td>
+                            <td>Current item in the iteration</td>
+                        </tr>
+                        <tr>
+                            <td><code>index</code></td>
+                            <td><code>data-repeat-bind</code>, <code>data-repeat-action</code></td>
+                            <td>Current index (0-based) in the iteration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <h3>data-repeat-action Context</h3>
+                <p>When using <code>data-repeat-action</code> in repeated items, your action handler receives additional context properties:</p>
+                
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">repeat-action-context.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+// Action signature for repeated items
+actions: {
+    handleItem: ({ 
+        state,     // Component state
+        event,     // Original DOM event
+        item,      // Current item object from the array
+        index      // Current index in the array
+    }) => {
+        // Action logic here
+    }
+}
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <h4>Context Properties Reference</h4>
+                <table class="context-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Example Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>state</code></td>
+                            <td>Object</td>
+                            <td>Component state object (read/write)</td>
+                            <td><code>state.items.push(newItem)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>event</code></td>
+                            <td>DOM Event</td>
+                            <td>Original event that triggered the action</td>
+                            <td><code>event.preventDefault()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>item</code></td>
+                            <td>Object</td>
+                            <td>Current item from the repeated array</td>
+                            <td><code>console.log(item.id)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>index</code></td>
+                            <td>Number</td>
+                            <td>Current index in the array (0-based)</td>
+                            <td><code>state.items.splice(index, 1)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>Common Patterns</h4>
+                <div class="patterns">
+                    <div class="pattern">
+                        <h5>Remove Item by ID</h5>
+                        <pre><code class="language-javascript">
+removeItem: ({ state, item }) => {
+    state.items = state.items.filter(i => i.id !== item.id);
+}
+                        </code></pre>
+                    </div>
+                    
+                    <div class="pattern">
+                        <h5>Update Specific Item</h5>
+                        <pre><code class="language-javascript">
+updateItem: ({ state, item, index }) => {
+    state.items[index] = { ...item, updated: true };
+    state.items = [...state.items]; // Trigger reactivity
+}
+                        </code></pre>
+                    </div>
+                    
+                    <div class="pattern">
+                        <h5>Event Handling with Item Context</h5>
+                        <pre><code class="language-javascript">
+handleClick: ({ event, item }) => {
+    event.stopPropagation();
+    console.log('Clicked item:', item.name);
+}
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="important-note">
+                    <h4>Important Notes</h4>
+                    <ul>
+                        <li>Always use <code>event.preventDefault()</code> for form submissions or anchor clicks</li>
+                        <li>For array mutations, always create new references to trigger reactivity:
+                            <pre><code class="language-javascript">
+// Good - triggers update
+state.items = state.items.filter(...);
+
+// Bad - won't trigger reactive update
+state.items.splice(index, 1);
+                            </code></pre>
+                        </li>
+                        <li>The <code>item</code> reference is the same object as in the array (not a deep clone)</li>
+                    </ul>
+                </div>
+            </article>
 
         </section>
 
@@ -836,6 +1137,8 @@ App.navigateTo('/path');   // Programmatic navigation
                             <td>Conditional</td>
                             <td><code>&lt;div data-if="items.length >0"&gt;&lt;/div&gt;</code></td>
                         </tr>
+
+
 
                     </tbody>
                 </table>

@@ -628,18 +628,18 @@ handleRouting();
                     </div>
                     <div class="editor-content">
                         <pre><code class="language-html">
-            &lt;template data-template="about-template"&gt;
-                &lt;h1&gt;Acerca de&lt;/h1&gt;
-                &lt;div data-if="items.length === 0"&gt;
-                    &lt;p&gt;No hay items.&lt;/p&gt;
-                &lt;/div&gt;
-                &lt;div data-if="items.length > 3"&gt;
-                    &lt;p&gt;Hay más de 3 items.&lt;/p&gt;
-                &lt;/div&gt;
-                &lt;div data-if="items.length > 0"&gt;
-                    &lt;span data-bind="items"&gt;&lt;/span&gt;
-                &lt;/div&gt;
-            &lt;/template&gt;
+&lt;template data-template="about-template"&gt;
+    &lt;h1&gt;Acerca de&lt;/h1&gt;
+    &lt;div data-if="items.length === 0"&gt;
+        &lt;p&gt;No hay items.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div data-if="items.length > 3"&gt;
+        &lt;p&gt;Hay más de 3 items.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div data-if="items.length > 0"&gt;
+        &lt;span data-bind="items"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
                         </code></pre>
                     </div>
                 </div>
@@ -656,23 +656,23 @@ handleRouting();
                     </div>
                     <div class="editor-content">
                         <pre><code class="language-javascript">
-            App.createComponent('About', {
-                template: 'about-template',
-                state: () => ({
-                    items: []
-                }),
-                actions: {
-                    addItem: ({ state }) => {
-                        state.items = [...state.items, `Item ${state.items.length + 1}`];
-                    },
-                    removeItem: ({ state }) => {
-                        state.items.pop();
-                    }
-                },
-                onMount: (state) => {
-                    state.items = ['Item 1', 'Item 2', 'Item 3'];
-                }
-            });
+App.createComponent('About', {
+    template: 'about-template',
+    state: () => ({
+        items: []
+    }),
+    actions: {
+        addItem: ({ state }) => {
+            state.items = [...state.items, `Item ${state.items.length + 1}`];
+        },
+        removeItem: ({ state }) => {
+            state.items.pop();
+        }
+    },
+    onMount: (state) => {
+        state.items = ['Item 1', 'Item 2', 'Item 3'];
+    }
+});
                         </code></pre>
                     </div>
                 </div>
@@ -743,6 +743,308 @@ handleRouting();
             &lt;div data-if="!isEditing"&gt;Modo Visualización&lt;/div&gt;
                         </code></pre>
                     </div>
+                </div>
+            </article>
+
+
+            <article id="data-repeat">
+                <h2>Renderizado de Listas con data-repeat</h2>
+                <p>Renderiza listas dinámicas desde el estado de tu componente con actualizaciones automáticas.</p>
+                
+                <h3>Ejemplo de Plantilla</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-template.html</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="about-template"&gt;
+    &lt;h1&gt;Acerca de&lt;/h1&gt;
+    &lt;div class="mt-4" data-if="items.length === 0"&gt;
+        &lt;p&gt;No hay items.&lt;/p&gt;
+    &lt;/div&gt;
+    
+    &lt;div data-repeat="items"&gt;
+        &lt;article class="mt-4 flex between gap-2" data-repeated-item="" secondary&gt;
+            &lt;span class="flex between gap-1"&gt;
+                &lt;span&gt;Índice:&lt;/span&gt;
+                &lt;span data-repeat-bind="index"&gt;&lt;/span&gt;
+            &lt;/span&gt;
+            &lt;span data-repeat-bind="item.id"&gt;&lt;/span&gt;
+            &lt;span data-repeat-bind="item.name"&gt;&lt;/span&gt;
+            &lt;button data-repeat-action="removeItemId" class="btn-error"&gt;
+                &lt;i class="icon-delete"&gt;&lt;/i&gt;
+                &lt;span data-repeat-bind="'Eliminar ' + item.name"&gt;&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/article&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Definición del Componente</h3>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">about-component.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('About', {
+    template: 'about-template',
+    state: () => ({
+        items: []
+    }),
+    actions: {
+        addItem: ({ state }) => {
+            let item = {
+                name: 'Item ' + (state.items.length + 1),
+                id: state.items.length + 1
+            };
+            state.items = [...state.items, item];
+        },
+        removeItem: ({ state }, index) => {
+            let items = state.items;
+            items.splice(index, 1);
+            state.items = [...items];
+        },
+        removeItemId: ({ state, event, item, index }) => {
+            event.preventDefault();
+            state.items = state.items.filter((i) => i.id !== item.id);
+        }
+    },
+    onMount: (state) => {
+        state.items = [
+            { name: 'Item 1', id: 1 },
+            { name: 'Item 2', id: 2 },
+            { name: 'Item 3', id: 3 }
+        ];
+    }
+});
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Características</h3>
+                <ul>
+                    <li><strong>Renderizado Automático:</strong> Crea elementos DOM por cada item en tu array</li>
+                    <li><strong>Actualizaciones Reactivas:</strong> Se actualiza automáticamente cuando el array cambia</li>
+                    <li><strong>Vinculación de Items:</strong> Accede al item actual con <code>item</code> y al índice con <code>index</code></li>
+                    <li><strong>Acciones con Contexto:</strong> Vincula acciones a cada item con su contexto</li>
+                    <li><strong>Contenido Flexible:</strong> Soporta cualquier estructura HTML dentro del elemento repetido</li>
+                </ul>
+            
+                <h3>Referencia de Directivas</h3>
+                <table class="directive-table">
+                    <thead>
+                        <tr>
+                            <th>Directiva</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>data-repeat</code></td>
+                            <td>Repite el elemento por cada item en el array</td>
+                            <td><code>&lt;div data-repeat="items"&gt;...&lt;/div&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-repeat-bind</code></td>
+                            <td>Vincula contenido a propiedades del item actual</td>
+                            <td><code>&lt;span data-repeat-bind="item.name"&gt;&lt;/span&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-repeat-action</code></td>
+                            <td>Vincula una acción con contexto del item</td>
+                            <td><code>&lt;button data-repeat-action="removeItem"&gt;&lt;/button&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>data-repeated-item</code></td>
+                            <td>Atributo marcador para items repetidos (se añade automáticamente)</td>
+                            <td><code>&lt;div data-repeated-item&gt;&lt;/div&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <h3>Mejores Prácticas</h3>
+                <div class="tips">
+                    <div class="tip">
+                        <h4>Usa Claves Únicas</h4>
+                        <p>Incluye identificadores únicos en tus items para mejor rendimiento con listas dinámicas.</p>
+                        <pre><code class="language-javascript">
+state.items = [
+    { id: 1, name: 'Item 1' },  // Bien - tiene ID único
+    { id: 2, name: 'Item 2' }
+];
+                        </code></pre>
+                    </div>
+                    <div class="tip">
+                        <h4>Combina con Renderizado Condicional</h4>
+                        <p>Usa <code>data-if</code> para mostrar mensajes cuando la lista está vacía.</p>
+                        <pre><code class="language-html">
+&lt;div data-if="items.length === 0"&gt;
+    &lt;p&gt;No se encontraron items&lt;/p&gt;
+&lt;/div&gt;
+&lt;div data-repeat="items"&gt;...&lt;/div&gt;
+                        </code></pre>
+                    </div>
+                    <div class="tip">
+                        <h4>Acceso Seguro a Propiedades</h4>
+                        <p>Verifica la existencia de propiedades al vincular para evitar errores.</p>
+                        <pre><code class="language-html">
+            &lt;span data-repeat-bind="item.name || 'Sin nombre'"&gt;&lt;/span&gt;
+                        </code></pre>
+                    </div>
+                </div>
+            
+                <h3>Variables Especiales</h3>
+                <table class="variables-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Disponible En</th>
+                            <th>Descripción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>item</code></td>
+                            <td><code>data-repeat-bind</code>, <code>data-repeat-action</code></td>
+                            <td>Item actual en la iteración</td>
+                        </tr>
+                        <tr>
+                            <td><code>index</code></td>
+                            <td><code>data-repeat-bind</code>, <code>data-repeat-action</code></td>
+                            <td>Índice actual (base 0) en la iteración</td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <h3>Contexto de data-repeat-action</h3>
+                <p>Cuando usas <code>data-repeat-action</code> en items repetidos, tu manejador de acción recibe propiedades adicionales de contexto:</p>
+                
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">repeat-action-context.js</span>
+                        <div class="editor-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+// Firma de acción para items repetidos
+actions: {
+    handleItem: ({ 
+        state,     // Estado del componente
+        event,     // Evento DOM original
+        item,      // Objeto item actual del array
+        index      // Índice actual en el array
+    }) => {
+        // Lógica de la acción aquí
+    }
+}
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <h4>Referencia de Propiedades de Contexto</h4>
+                <table class="context-table">
+                    <thead>
+                        <tr>
+                            <th>Propiedad</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo de Uso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>state</code></td>
+                            <td>Objeto</td>
+                            <td>Objeto de estado del componente (lectura/escritura)</td>
+                            <td><code>state.items.push(newItem)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>event</code></td>
+                            <td>Evento DOM</td>
+                            <td>Evento original que disparó la acción</td>
+                            <td><code>event.preventDefault()</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>item</code></td>
+                            <td>Objeto</td>
+                            <td>Item actual del array repetido</td>
+                            <td><code>console.log(item.id)</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>index</code></td>
+                            <td>Número</td>
+                            <td>Índice actual en el array (base 0)</td>
+                            <td><code>state.items.splice(index, 1)</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h4>Patrones Comunes</h4>
+                <div class="patterns">
+                    <div class="pattern">
+                        <h5>Eliminar Item por ID</h5>
+                        <pre><code class="language-javascript">
+removeItem: ({ state, item }) => {
+    state.items = state.items.filter(i => i.id !== item.id);
+}
+                        </code></pre>
+                    </div>
+                    
+                    <div class="pattern">
+                        <h5>Actualizar Item Específico</h5>
+                        <pre><code class="language-javascript">
+updateItem: ({ state, item, index }) => {
+    state.items[index] = { ...item, updated: true };
+    state.items = [...state.items]; // Activar reactividad
+}
+                        </code></pre>
+                    </div>
+                    
+                    <div class="pattern">
+                        <h5>Manejo de Eventos con Contexto</h5>
+                        <pre><code class="language-javascript">
+handleClick: ({ event, item }) => {
+    event.stopPropagation();
+    console.log('Item clickeado:', item.name);
+}
+                        </code></pre>
+                    </div>
+                </div>
+                
+                <div class="important-note">
+                    <h4>Notas Importantes</h4>
+                    <ul>
+                        <li>Siempre usa <code>event.preventDefault()</code> para envíos de formularios o clicks en enlaces</li>
+                        <li>Para mutaciones de array, siempre crea nuevas referencias para activar la reactividad:
+                            <pre><code class="language-javascript">
+// Bien - activa actualización
+state.items = state.items.filter(...);
+
+// Mal - no activa actualización reactiva
+state.items.splice(index, 1);
+                            </code></pre>
+                        </li>
+                        <li>La referencia <code>item</code> es el mismo objeto que en el array (no es una copia profunda)</li>
+                    </ul>
                 </div>
             </article>
         </section>
