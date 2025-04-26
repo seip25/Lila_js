@@ -79,11 +79,26 @@
             </div>
             <div class="mt-4" data-if="items.length >3 ">
                 <p>Hay más de 3 items.</p>
-            </div>
-            <div class="mt-4" data-if="items.length>0">
-                <span data-bind="items"></span>
-            </div>
 
+            </div>
+            
+            <div data-repeat="items">
+                <article class="mt-4 flex between gap-2" data-repeated-item="" secondary>
+                    <span class="flex between gap-1">
+                        <span>Index:</span>
+                        <span data-repeat-bind="index"></span>
+                    </span>
+                    <span data-repeat-bind="item.id"></span>
+                    
+                    <span data-repeat-bind="item.name"></span>
+
+                    <button data-repeat-action="removeItemId"  class="btn-error">
+                        <i class="icon-delete"></i>
+                        <span data-repeat-bind="'Remove ' + item.name"></span>
+                    </button>
+                </article>
+            </div>
+        
         </article>
 
 
@@ -141,7 +156,12 @@
             }),
             actions: {
                 addItem: ({ state }) => {
-                    state.items = [...state.items, ` Item ${state.items.length + 1}`];
+                    let item = {
+                        name: 'Item ' + (state.items.length + 1),
+                        id: state.items.length + 1
+                    };
+                    console.log('Adding item:', item);
+                    state.items = [...state.items, item ];
 
                 },
                 removeItem: ({ state }, index) => {
@@ -149,13 +169,26 @@
                     item.splice(index, 1);
                     state.items = [...item];
                 },
+                removeItemId: ({ state,event,item,index }) => {
+                    event.preventDefault();
+                    console.log(state.items);
+                    let items=state.items;
+                    items=items.filter((i) => i.id !== item.id);
+                    state.items = [...items];
+                    console.log('Removing item:', item);
+                }
             },
             onMount: (state) => {
+    
                 console.log('About component mounted');
-                state.items = ['Item 1', 'Item 2', 'Item 3'];
+                state.items = [
+                    { name: 'Item 1', id: 1 },
+                    { name: 'Item 2', id: 2 },
+                    { name: 'Item 3', id: 3 },
+                ];
             },
         });
-       
+
 
         const incrementCounter = ({ state }) => { state.count++ };
 
