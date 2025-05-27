@@ -17,9 +17,9 @@
 <body>
     <header class="container">
         <nav>
-            <a href="/" class="underline-none" data-link>Inicio</a>
-            <a href="/about" class="underline-none" data-link>Acerca de</a>
-            <a href="/counter" class="underline-none" data-link>Contador</a>
+            <a href="/" data-link>Inicio</a>
+            <a href="/about" data-link>Acerca de</a>
+            <a href="/counter" data-link>Contador</a>
         </nav>
     </header>
 
@@ -81,7 +81,7 @@
                 <p>Hay más de 3 items.</p>
 
             </div>
-            
+
             <div data-repeat="items">
                 <article class="mt-4 flex between gap-2" data-repeated-item="" secondary>
                     <span class="flex between gap-1">
@@ -89,16 +89,16 @@
                         <span data-repeat-bind="index"></span>
                     </span>
                     <span data-repeat-bind="item.id"></span>
-                    
+
                     <span data-repeat-bind="item.name"></span>
 
-                    <button data-repeat-action="removeItemId"  class="btn-error">
+                    <button data-repeat-action="removeItemId" class="btn-error">
                         <i class="icon-delete"></i>
                         <span data-repeat-bind="'Remove ' + item.name"></span>
                     </button>
                 </article>
             </div>
-        
+
         </article>
 
 
@@ -161,7 +161,7 @@
                         id: state.items.length + 1
                     };
                     console.log('Adding item:', item);
-                    state.items = [...state.items, item ];
+                    state.items = [...state.items, item];
 
                 },
                 removeItem: ({ state }, index) => {
@@ -169,17 +169,17 @@
                     item.splice(index, 1);
                     state.items = [...item];
                 },
-                removeItemId: ({ state,event,item,index }) => {
+                removeItemId: ({ state, event, item, index }) => {
                     event.preventDefault();
                     console.log(state.items);
-                    let items=state.items;
-                    items=items.filter((i) => i.id !== item.id);
+                    let items = state.items;
+                    items = items.filter((i) => i.id !== item.id);
                     state.items = [...items];
                     console.log('Removing item:', item);
                 }
             },
             onMount: (state) => {
-    
+
                 console.log('About component mounted');
                 state.items = [
                     { name: 'Item 1', id: 1 },
@@ -188,7 +188,6 @@
                 ];
             },
         });
-
 
         const incrementCounter = ({ state }) => { state.count++ };
 
