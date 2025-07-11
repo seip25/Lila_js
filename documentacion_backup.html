@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -7,207 +7,150 @@
     <meta name="color-scheme" content="light dark">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="canonical" href="https://seip25.github.io/Lila_js" />
-    <title>Lila JS - Reactive JavaScript Micro-Framework</title>
+    <title>Lila JS - Micro framework Reactiva de JavaScript sin Dependencias</title>
     <meta name="description"
-        content="Lila JS is a lightweight reactive JavaScript Micro-Framework for building modern web applications with zero dependencies. Simple, fast, and powerful.">
-    <meta name="keywords" content="JavaScript, reactive framework, vanilla JS, web components, no dependencies">
-    <meta name="author" content="Lila JS Team">
+        content="Lila JS es un Micro framework ligera de JavaScript reactivo para construir aplicaciones web modernas sin dependencias. Simple, rápida y potente.">
+    <meta name="keywords" content="JavaScript, framework reactivo, vanilla JS, componentes web, sin dependencias">
+    <meta name="author" content="Equipo Lila JS">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="Lila JS - Zero Dependency Reactive JavaScript Micro-Framework">
+    <meta property="og:title" content="Lila JS - Micro framework Reactiva de JavaScript sin Dependencias">
     <meta property="og:description"
-        content="Build modern web apps with this lightweight reactive JavaScript Micro-Framework. No dependencies, just pure JS power.">
+        content="Construye aplicaciones web modernas con esta ligera Micro framework de JavaScript reactivo. Sin dependencias, solo el poder de JS puro.">
+
+    <meta property="og:url" content="https://seip25.github.io/Lila_js">
     <meta property="og:type" content="website">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Lila JS - Zero Dependency Reactive JavaScript Micro-Framework">
+    <meta name="twitter:title" content="Lila JS - Micro framework Reactiva de JavaScript sin Dependencias">
     <meta name="twitter:description"
-        content="The simplest way to build reactive web apps with vanilla JavaScript. No build step, no dependencies.">
-
+        content="La forma más simple de construir aplicaciones web reactivas con vanilla JavaScript. Sin pasos de compilación, sin dependencias.">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="lila.jpeg" alt="Lila JS Logo">
+    <link rel="icon" type="image/jpeg" href="lila.jpeg" alt="Logo de Lila JS">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/pico.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css">
     <link rel="stylesheet" href="css/atom-one-dark.min.css">
     <link rel="stylesheet" href="css/index.css">
 
     <!-- Highlight.js -->
     <script src="js/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="lila.js"></script>
 </head>
 
 <body>
     <header class="container">
         <nav>
-            <ul class="container">
-                <li><a href="/" data-link>Features</a></li>
-                <li><a href="/install" data-link>Install</a></li>
-                <li><a href="/examples" data-link>Examples</a></li>
-                <li><a href="documentacion.html"  >Español</a></li>
+            <ul>
+                <li>
+                    <a href="index.html" class="logo">
+                        <strong>Lila JS</strong>
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                <li><a href="index.html" class="secondary">English</a></li>
+                <li><a href="#features">Características</a></li>
+                <li><a href="#examples">Ejemplos</a></li>
                 <li><a href="https://github.com/seip25/lila_js" target="_blank">GitHub</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="container" id="app-lila">
-        <section class="flex center grid">
-            <div>
-                <h1 class="text-primary">Lila JS</h1>
-                <h3 class="text-secondary">JavaScript Micro-Framework</h3>
-            </div>
-            <div>
-                <small>Build <b>modern web applications</b> with a minimalist approach: full framework power
-                    in just <b>8kb</b></small>
-            </div>
+    <main class="container">
+        <section class="hero">
+            <hgroup>
+                <h1>Lila JS</h1>
+                <h2>El <strong>micro-framework JavaScript</strong> reactivo más eficiente</h2>
+                <p>Desarrolla <strong>aplicaciones web modernas</strong> con un enfoque minimalista: toda la potencia de un framework en solo <strong>9kb</strong></p>
+            </hgroup>
         </section>
-
+        
         <section id="features">
-            <h2>Key Advantages of <b>Lila JS</b> as a Micro-Framework</h2>
+            <h2>Ventajas clave de <strong>Lila JS</strong> como micro-framework</h2>
             <div class="grid">
                 <article>
-                    <h3>🚀 <b>Ultra-Compact Core</b></h3>
-                    <p>Complete reactive system, routing and components in <b>under 8kb</b>. No bloatware or
-                        hidden dependencies.</p>
+                    <h3>🚀 <strong>Núcleo Ultracompacto</strong></h3>
+                    <p>Todo el sistema reactivo, enrutamiento y componentes en <strong>menos de 9kb</strong>. Sin bloatware ni dependencias ocultas.</p>
+                </article>
+               <article>
+                    <h3>💡 <strong>Reactividad Precisa</strong></h3>
+                    <p>Sistema de <strong>actualización granular</strong> que solo modifica lo necesario en el DOM usando <strong>Proxy nativo</strong>.</p>
                 </article>
                 <article>
-                    <h3>💡 <b>Precise Reactivity</b></h3>
-                    <p><b>Granular update system</b> that only modifies what's needed in the DOM using
-                        <b>native Proxy</b>.
-                    </p>
-                </article>
-                <article>
-                    <h3>🧩 <b>Self-Contained Components</b></h3>
-                    <p>Each component manages its own <b>reactive state</b>, <b>lifecycle</b> and
-                        <b>scoped template</b>.
-                    </p>
+                    <h3>🧩 <strong>Componentes Autónomos</strong></h3>
+                    <p>Cada componente maneja su propio <strong>estado reactivo</strong>, <strong>ciclo de vida</strong> y <strong>template scoped</strong>.</p>
                 </article>
             </div>
             <div class="grid">
                 <article>
-                    <h3>🔄 <b>Declarative Binding</b></h3>
-                    <p>Bind data with <b>simple HTML attributes</b> (<code>data-bind</code>,
-                        <code>data-model</code>) without JSX.
-                    </p>
+                    <h3>🔄 <strong>Binding Declarativo</strong></h3>
+                    <p>Vincula datos con <strong>atributos HTML simples</strong> (<code>data-bind</code>, <code>data-model</code>) sin necesidad de JSX.</p>
                 </article>
                 <article>
-                    <h3>🧭 <b>Micro-Code Router</b></h3>
-                    <p>SPA navigation system with <b>under 200 bytes</b> of core code. Simple yet powerful.
-                    </p>
+                    <h3>🧭 <strong>Router de Microcódigo</strong></h3>
+                    <p>Sistema de navegación SPA con <strong>menos de 200 bytes</strong> de código central. Simple pero potente.</p>
                 </article>
                 <article>
-                    <h3>⚡ <b>Instant Boot</b></h3>
-                    <p>Runs immediately in browser with no build steps. <b>Perfect for rapid prototyping</b>.
-                    </p>
+                    <h3>⚡ <strong>Boot Instantáneo</strong></h3>
+                    <p>Ejecución inmediata en navegador sin pasos de build. <strong>Perfecto para prototipado rápido</strong>.</p>
                 </article>
             </div>
             <div class="grid">
                 <article>
-                    <h3>🔌 <b>UNIX Philosophy API</b></h3>
-                    <p><b>"Do one thing well"</b> principle. Concise and predictable methods.</p>
+                    <h3>🔌 <strong>API con Mentalidad UNIX</strong></h3>
+                    <p>Principio de <strong>"haz una cosa y hazla bien"</strong>. Métodos concisos y predecibles.</p>
                 </article>
                 <article>
-                    <h3>📱 <b>Progressive Evolution</b></h3>
-                    <p>Start with a traditional script and scale to <b>full PWA</b> as needed.</p>
+                    <h3>📱 <strong>Evolución Progresiva</strong></h3>
+                    <p>Comienza con un script tradicional y escala a <strong>PWA completa</strong> según tus necesidades.</p>
                 </article>
                 <article>
-                    <h3>🛠️ <b>Full Interoperability</b></h3>
-                    <p>Use only what you need and integrate with <b>any existing stack</b>.</p>
+                    <h3>🛠️ <strong>Interoperabilidad Total</strong></h3>
+                    <p>Usa solo las partes que necesites e intégralo con <strong>cualquier stack existente</strong>.</p>
                 </article>
             </div>
         </section>
-    </main>
-
-    <footer class="container">
-        <small class="flex between gap-2">
-            © 2025 Lila JS - MIT License
-            <a href="https://github.com/seip25/lila_js" class="underline-none" target="_blank"><i
-                    class='icon-github'></i>GitHub</a>
-            <a href="documentacion.html" class="underline-none">📚Documentación en Español</a>
-        </small>
-    </footer>
-
-    <template data-template="features-template">
-        <div id="features">
-             <section>
-            <div>
-                <h1 class="flex center text-primary">Lila JS</h1>
-                <h3 class="flex center text-secondary">JavaScript Micro-Framework</h3>
+         
+        <section id="comparison"  >
+           <article>
+            <h2>¿Micro-framework vs Librería vs Framework Completo?</h2>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>Librerías Puras</h3>
+                    <ul>
+                        <li>✔️ Solo resuelven problemas específicos</li>
+                        <li>❌ No proveen arquitectura</li>
+                        <li><strong>Ejemplo:</strong> Lodash, Axios</li>
+                    </ul>
+                </div>
+                <div class="comparison-card highlight">
+                    <h3>Lila JS (Micro-Framework)</h3>
+                    <ul>
+                        <li>✔️ Arquitectura definida pero flexible</li>
+                        <li>✔️ Funcionalidades clave sin sobre-ingeniería</li>
+                        <li><strong>Ventaja:</strong> Balance perfecto</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <h3>Frameworks Completos</h3>
+                    <ul>
+                        <li>✔️ Soluciones todo-en-uno</li>
+                        <li>❌ Complejidad y overhead</li>
+                        <li><strong>Ejemplo:</strong> Angular, Ember</li>
+                    </ul>
+                </div>
             </div>
-            <div class="mt-2 flex center">
-                <small>Build <b>modern web applications</b> with a minimalist approach: full framework power
-                    in just <b>8kb</b></small>
-            </div>
+           </article>
         </section>
 
-        <section  class="mt-2">
-            <h3 class="text-secondary flex center ">Key Advantages of Lila JS as a Micro-Framework</h3>
-            <div class="grid">
-                <article>
-                    <h3>🚀 <b>Ultra-Compact Core</b></h3>
-                    <p>Complete reactive system, routing and components in <b>under 8kb</b>. No bloatware or
-                        hidden dependencies.</p>
-                </article>
-                <article>
-                    <h3>💡 <b>Precise Reactivity</b></h3>
-                    <p><b>Granular update system</b> that only modifies what's needed in the DOM using
-                        <b>native Proxy</b>.
-                    </p>
-                </article>
-                <article>
-                    <h3>🧩 <b>Self-Contained Components</b></h3>
-                    <p>Each component manages its own <b>reactive state</b>, <b>lifecycle</b> and
-                        <b>scoped template</b>.
-                    </p>
-                </article>
-            </div>
-            <div class="grid">
-                <article>
-                    <h3>🔄 <b>Declarative Binding</b></h3>
-                    <p>Bind data with <b>simple HTML attributes</b> (<code>data-bind</code>,
-                        <code>data-model</code>) without JSX.
-                    </p>
-                </article>
-                <article>
-                    <h3>🧭 <b>Micro-Code Router</b></h3>
-                    <p>SPA navigation system with <b>under 200 bytes</b> of core code. Simple yet powerful.
-                    </p>
-                </article>
-                <article>
-                    <h3>⚡ <b>Instant Boot</b></h3>
-                    <p>Runs immediately in browser with no build steps. <b>Perfect for rapid prototyping</b>.
-                    </p>
-                </article>
-            </div>
-            <div class="grid">
-                <article>
-                    <h3>🔌 <b>UNIX Philosophy API</b></h3>
-                    <p><b>"Do one thing well"</b> principle. Concise and predictable methods.</p>
-                </article>
-                <article>
-                    <h3>📱 <b>Progressive Evolution</b></h3>
-                    <p>Start with a traditional script and scale to <b>full PWA</b> as needed.</p>
-                </article>
-                <article>
-                    <h3>🛠️ <b>Full Interoperability</b></h3>
-                    <p>Use only what you need and integrate with <b>any existing stack</b>.</p>
-                </article>
-            </div>
-        </section>
-        </div>
-       
-    </template>
-
-    <template data-template="install-template">
         <section id="getting-started">
-            <h2>Getting Started</h2>
-            <article class="shadow">
-                <h3>1. Installation</h3>
-                <p>Just include the script in your HTML file:</p>
+            <h2>Empezando</h2>
+            <article>
+                <h3>1. Instalación</h3>
+                <p>Simplemente incluye el script en tu archivo HTML:</p>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">index.html</span>
@@ -220,17 +163,17 @@
                     <div class="editor-content">
                         <pre><code class="language-html">
 &lt;script src="lila.js"&gt;&lt;/script&gt;
- 
-&lt;script src="https://seip25.github.io/Lila_js/lila.js"&gt;&lt;/script&gt;
 
+
+&lt;script src="https://seip25.github.io/Lila_js/lila.js"&gt;&lt;/script&gt;
                         </code></pre>
                     </div>
                 </div>
             </article>
 
-            <article class="shadow">
-                <h3>2. Basic Structure</h3>
-                <p>Here's a minimal setup for a Lila JS application:</p>
+            <article>
+                <h3>2. Estructura Básica</h3>
+                <p>Aquí tienes una configuración mínima para una aplicación Lila JS:</p>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">index.html</span>
@@ -244,26 +187,26 @@
                         <pre><code class="language-html">
 &lt;body&gt;
   &lt;nav&gt;
-    &lt;a href="/" data-link&gt;Home&lt;/a&gt;
-    &lt;a href="/about" data-link&gt;About&lt;/a&gt;
+    &lt;a href="/" data-link&gt;Inicio&lt;/a&gt;
+    &lt;a href="/about" data-link&gt;Acerca de&lt;/a&gt;
   &lt;/nav&gt;
   
   &lt;main id="app-lila"&gt;&lt;/main&gt;
   
   &lt;template data-template="home-template"&gt;
-    &lt;h1&gt;Welcome&lt;/h1&gt;
+    &lt;h1&gt;Bienvenido&lt;/h1&gt;
     &lt;p data-bind="message"&gt;&lt;/p&gt;
   &lt;/template&gt;
   
     &lt;template data-template="about-template"&gt;
-    &lt;h1&gt;About&lt;/h1&gt;
-    &lt;p&gt;This is the about us page.&lt;/p&gt;
+    &lt;h1&gt;Acerca de&lt;/h1&gt;
+    &lt;p&gt;Esta es la página acerca de nosotros.&lt;/p&gt;
     &lt;/template&gt;
 
   &lt;script&gt;
     App.createComponent('Home', {
       template: 'home-template',
-      state: () => ({ message: 'Hello World!' })
+      state: () => ({ message: '¡Hola Mundo!' })
     });
     App.addRoute('/', 'Home');
 
@@ -273,9 +216,7 @@
     
     App.addRoute('/about', 'About');
 
-
-                            
-    handleRouting();
+     handleRouting();
   &lt;/script&gt;
 &lt;/body&gt;
                         </code></pre>
@@ -283,18 +224,15 @@
                 </div>
             </article>
         </section>
-    </template>
 
-    <template data-template="examples-template">
         <section id="examples">
-            <h2>Practical Examples</h2>
-
+            <h2>Ejemplos Prácticos</h2>
 
             <article id="counter">
-                <h2>Counter Component</h2>
-                <p>A simple counter with increment, decrement and reset functionality, plus auto-increment every second.
-                </p>
-                <h3>Template</h3>
+                <h2>Componente Contador</h2>
+                <p>Un contador simple con funcionalidad de incrementar, decrementar y reiniciar, más auto-incremento
+                    cada segundo.</p>
+                <h3>Plantilla</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">counter-template.html</span>
@@ -307,17 +245,17 @@
                     <div class="editor-content">
                         <pre><code class="language-html">
     &lt;template data-template="counter-template"&gt;
-        &lt;h1&gt;Counter&lt;/h1&gt;
-        &lt;p&gt;Current count: &lt;span data-bind="count"&gt;&lt;/span&gt;&lt;/p&gt;
-        &lt;button data-action="increment"&gt;Increment&lt;/button&gt;
-        &lt;button data-action="decrement"&gt;Decrement&lt;/button&gt;
-        &lt;button data-action="reset"&gt;Reset&lt;/button&gt;
+        &lt;h1&gt;Contador&lt;/h1&gt;
+        &lt;p&gt;Conteo actual: &lt;span data-bind="count"&gt;&lt;/span&gt;&lt;/p&gt;
+        &lt;button data-action="increment"&gt;Incrementar&lt;/button&gt;
+        &lt;button data-action="decrement"&gt;Decrementar&lt;/button&gt;
+        &lt;button data-action="reset"&gt;Reiniciar&lt;/button&gt;
     &lt;/template&gt;
                         </code></pre>
                     </div>
                 </div>
 
-                <h3>Component Definition</h3>
+                <h3>Definición del Componente</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">counter-component.js</span>
@@ -343,14 +281,14 @@
             reset: ({ state }) => { state.count = 0 }
         },
         onMount: (state) => {
-            console.log('Counter mounted');
+            console.log('Contador montado');
             state.interval = setInterval(() => {
-                console.log('Interval tick', state.count);
+                console.log('Intervalo tick', state.count);
                 state.count++;
             }, 1000);
         },
         onDestroy: (state) => {
-            console.log('Counter destroyed');
+            console.log('Contador destruido');
             if (state.interval) {
                 clearInterval(state.interval);
                 state.interval = null;
@@ -363,22 +301,23 @@
                     </div>
                 </div>
 
-                <h3>Features</h3>
+                <h3>Características</h3>
                 <ul>
-                    <li><b>Reactive State:</b> The count updates automatically in the UI when changed</li>
-                    <li><b>Lifecycle Methods:</b> <code>onMount</code> starts auto-incrementing,
-                        <code>onDestroy</code> cleans up
+                    <li><strong>Estado Reactivo:</strong> El conteo se actualiza automáticamente en la UI cuando cambia
                     </li>
-                    <li><b>Actions:</b> Three user-triggerable actions (increment, decrement, reset)</li>
-                    <li><b>Routing:</b> Accessible at <code>/counter</code> route</li>
+                    <li><strong>Métodos de Ciclo de Vida:</strong> <code>onMount</code> inicia el auto-incremento,
+                        <code>onDestroy</code> limpia</li>
+                    <li><strong>Acciones:</strong> Tres acciones activables por el usuario (incrementar, decrementar,
+                        reiniciar)</li>
+                    <li><strong>Enrutamiento:</strong> Accesible en la ruta <code>/counter</code></li>
                 </ul>
             </article>
 
             <article id="about">
-                <h2>About Component</h2>
-                <p>A simple static page component.</p>
+                <h2>Componente Acerca de</h2>
+                <p>Un componente de página estática simple.</p>
 
-                <h3>Template</h3>
+                <h3>Plantilla</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">about-template.html</span>
@@ -391,14 +330,14 @@
                     <div class="editor-content">
                         <pre><code class="language-html">
     &lt;template data-template="about-template"&gt;
-        &lt;h1&gt;About&lt;/h1&gt;
-        &lt;p&gt;This is the about us page.&lt;/p&gt;
+        &lt;h1&gt;Acerca de&lt;/h1&gt;
+        &lt;p&gt;Esta es la página acerca de nosotros.&lt;/p&gt;
     &lt;/template&gt;
                         </code></pre>
                     </div>
                 </div>
 
-                <h3>Component Definition</h3>
+                <h3>Definición del Componente</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">about-component.js</span>
@@ -421,10 +360,10 @@
             </article>
 
             <article id="not-found">
-                <h2>Not Found (404) Component</h2>
-                <p>A fallback component for unmatched routes with a button to return home.</p>
+                <h2>Componente No Encontrado (404)</h2>
+                <p>Un componente de respaldo para rutas no coincidentes con un botón para volver al inicio.</p>
 
-                <h3>Template</h3>
+                <h3>Plantilla</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">not-found-template.html</span>
@@ -437,15 +376,15 @@
                     <div class="editor-content">
                         <pre><code class="language-html">
     &lt;template data-template="not-found-template"&gt;
-        &lt;h1&gt;404 Not Found&lt;/h1&gt;
-        &lt;p&gt;The page you're looking for doesn't exist.&lt;/p&gt;
-        &lt;button data-action="goHome"&gt;Go Home&lt;/button&gt;
+        &lt;h1&gt;404 No Encontrado&lt;/h1&gt;
+        &lt;p&gt;La página que buscas no existe.&lt;/p&gt;
+        &lt;button data-action="goHome"&gt;Ir al Inicio&lt;/button&gt;
     &lt;/template&gt;
                         </code></pre>
                     </div>
                 </div>
 
-                <h3>Component Definition</h3>
+                <h3>Definición del Componente</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">not-found-component.js</span>
@@ -471,23 +410,23 @@
                     </div>
                 </div>
 
-                <h3>Features</h3>
+                <h3>Características</h3>
                 <ul>
-                    <li><b>Catch-all Route:</b> Matches any unmatched path (<code>*</code>)</li>
-                    <li><b>Navigation Action:</b> <code>goHome</code> action redirects to root</li>
-                    <li><b>Simple UI:</b> Clear 404 message with call to action</li>
+                    <li><strong>Ruta Comodín:</strong> Coincide con cualquier ruta no definida (<code>*</code>)</li>
+                    <li><strong>Acción de Navegación:</strong> La acción <code>goHome</code> redirige a la raíz</li>
+                    <li><strong>UI Simple:</strong> Mensaje claro de 404 con llamado a la acción</li>
                 </ul>
             </article>
-
         </section>
-        <section id="advanced-examples">
-            <h2>Advanced Examples</h2>
 
-            <article id="home-component">
-                <h2>Home Component with Form and Nested Components</h2>
-                <p>A complete home page with form handling, data binding, and nested components.</p>
+        <section id="ejemplos-avanzados">
+            <h2>Ejemplos Avanzados</h2>
 
-                <h3>Template</h3>
+            <article id="componente-home">
+                <h2>Componente Home con Formulario y Componentes Anidados</h2>
+                <p>Una página de inicio completa con manejo de formularios, enlace de datos y componentes anidados.</p>
+
+                <h3>Plantilla</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">home-template.html</span>
@@ -526,7 +465,7 @@
                     </div>
                 </div>
 
-                <h3>Component Definition</h3>
+                <h3>Definición del Componente</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">home-component.js</span>
@@ -553,7 +492,7 @@ App.createComponent('Home', {
         submit: ({ state, event }) => {
             event.preventDefault();
             const formData = Object.fromEntries(new FormData(event.target));
-            console.log('Form submitted:', formData);
+            console.log('Formulario enviado:', formData);
             alert(JSON.stringify(formData));
         }
     }
@@ -564,43 +503,47 @@ App.addRoute('/', 'Home');
                     </div>
                 </div>
 
-                <h3>Key Features Demonstrated</h3>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <h4>Form Handling</h4>
-                        <p>The <code>data-action="submit"</code> attribute binds the form submission to the component's
-                            submit action.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>Two-Way Data Binding</h4>
-                        <p><code>data-model="greet"</code> creates two-way binding between the input and state property.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>One-Way Data Binding</h4>
-                        <p><code>data-bind="greet"</code> displays the state value and updates when it changes.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>Nested Components</h4>
-                        <p><code>data-component="Counter"</code> embeds the Counter component within the Home component.
-                        </p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>Action Handling</h4>
-                        <p><code>data-action="changeGreeting"</code> binds the button click to the component action.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h4>Form Data Processing</h4>
-                        <p>The submit action uses <code>FormData</code> to easily process form inputs.</p>
-                    </div>
+                <h3>Características Clave</h3>
+                <div class="grid">
+                    <article class="shadow">
+                        <h4>Manejo de Formularios</h4>
+                        <p>El atributo <code>data-action="submit"</code> enlaza el envío del formulario con la acción
+                            submit del componente.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Enlace de Datos Bidireccional</h4>
+                        <p><code>data-model="greet"</code> crea un enlace bidireccional entre el input y la propiedad
+                            del estado.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Enlace de Datos Unidireccional</h4>
+                        <p><code>data-bind="greet"</code> muestra el valor del estado y se actualiza cuando cambia.</p>
+                    </article>
+                </div>
+                <div class="grid">
+                    <article class="shadow">
+                        <h4>Componentes Anidados</h4>
+                        <p><code>data-component="Counter"</code> incrusta el componente Counter dentro del componente
+                            Home.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Manejo de Acciones</h4>
+                        <p><code>data-action="changeGreeting"</code> enlaza el clic del botón con la acción del
+                            componente.</p>
+                    </article>
+                    <article class="shadow">
+                        <h4>Procesamiento de Formularios</h4>
+                        <p>La acción submit usa <code>FormData</code> para procesar fácilmente los inputs del
+                            formulario.</p>
+                    </article>
                 </div>
             </article>
 
-            <article id="complete-app-structure">
-                <h2>Complete Application Structure</h2>
-                <p>This example shows how all components work together in a complete application.</p>
+            <article id="estructura-completa">
+                <h2>Estructura Completa de la Aplicación</h2>
+                <p>Este ejemplo muestra cómo todos los componentes trabajan juntos en una aplicación completa.</p>
 
-                <h3>Main Application Structure</h3>
+                <h3>Estructura Principal</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">index.html</span>
@@ -624,12 +567,12 @@ App.addRoute('/', 'Home');
 
 &lt;footer&gt;&lt;/footer&gt;
 
-&lt;!-- All templates would be included here --&gt;
+&lt;!-- Todas las plantillas se incluirían aquí --&gt;
                         </code></pre>
                     </div>
                 </div>
 
-                <h3>Complete Routing Setup</h3>
+                <h3>Configuración de Rutas</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">app.js</span>
@@ -641,40 +584,42 @@ App.addRoute('/', 'Home');
                     </div>
                     <div class="editor-content">
                         <pre><code class="language-javascript">
-// Define all components first
+// Definir todos los componentes primero
 App.createComponent('Home', { /* ... */ });
 App.createComponent('About', { /* ... */ });
 App.createComponent('Counter', { /* ... */ });
 App.createComponent('NotFound', { /* ... */ });
 
-// Set up routes
+// Configurar rutas
 App.addRoute('/', 'Home');
 App.addRoute('/about', 'About');
 App.addRoute('/counter', 'Counter');
-App.addRoute('*', 'NotFound'); // Catch-all route
+App.addRoute('*', 'NotFound'); // Ruta comodín
 
-// Initialize routing
+// Inicializar el enrutamiento
 handleRouting();
                         </code></pre>
                     </div>
                 </div>
 
-                <h3>Key Patterns</h3>
+                <h3>Patrones Clave</h3>
                 <ul>
-                    <li><b>Modular Components:</b> Each feature is encapsulated in its own component</li>
-                    <li><b>Centralized Routing:</b> All routes are defined in one place for easy maintenance
-                    </li>
-                    <li><b>Error Handling:</b> The NotFound component catches all unmatched routes</li>
-                    <li><b>Consistent Structure:</b> All components follow the same pattern for predictability
-                    </li>
+                    <li><strong>Componentes Modulares:</strong> Cada característica está encapsulada en su propio
+                        componente</li>
+                    <li><strong>Enrutamiento Centralizado:</strong> Todas las rutas se definen en un lugar para fácil
+                        mantenimiento</li>
+                    <li><strong>Manejo de Errores:</strong> El componente NotFound captura todas las rutas no
+                        coincidentes</li>
+                    <li><strong>Estructura Consistente:</strong> Todos los componentes siguen el mismo patrón para
+                        predictibilidad</li>
                 </ul>
             </article>
 
             <article id="conditional-rendering">
-                <h2>Conditional Rendering with data-if</h2>
-                <p>Show or hide elements based on conditions in your component state.</p>
-
-                <h3>Template Example</h3>
+                <h2>Renderizado Condicional con data-if</h2>
+                <p>Muestra u oculta elementos basado en condiciones del estado de tu componente.</p>
+                
+                <h3>Ejemplo de Plantilla</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">about-template.html</span>
@@ -686,23 +631,23 @@ handleRouting();
                     </div>
                     <div class="editor-content">
                         <pre><code class="language-html">
-            &lt;template data-template="about-template"&gt;
-                &lt;h1&gt;Acerca de&lt;/h1&gt;
-                &lt;div data-if="items.length === 0"&gt;
-                    &lt;p&gt;No hay items.&lt;/p&gt;
-                &lt;/div&gt;
-                &lt;div data-if="items.length > 3"&gt;
-                    &lt;p&gt;Hay más de 3 items.&lt;/p&gt;
-                &lt;/div&gt;
-                &lt;div data-if="items.length > 0"&gt;
-                    &lt;span data-bind="items"&gt;&lt;/span&gt;
-                &lt;/div&gt;
-            &lt;/template&gt;
+&lt;template data-template="about-template"&gt;
+    &lt;h1&gt;Acerca de&lt;/h1&gt;
+    &lt;div data-if="items.length === 0"&gt;
+        &lt;p&gt;No hay items.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div data-if="items.length > 3"&gt;
+        &lt;p&gt;Hay más de 3 items.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div data-if="items.length > 0"&gt;
+        &lt;span data-bind="items"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
                         </code></pre>
                     </div>
                 </div>
-
-                <h3>Component Definition</h3>
+            
+                <h3>Definición del Componente</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">about-component.js</span>
@@ -714,83 +659,79 @@ handleRouting();
                     </div>
                     <div class="editor-content">
                         <pre><code class="language-javascript">
-            App.createComponent('About', {
-                template: 'about-template',
-                state: () => ({
-                    items: []
-                }),
-                actions: {
-                    addItem: ({ state }) => {
-                        state.items = [...state.items, `Item $ {state.items.length + 1}`];
-                    },
-                    removeItem: ({ state }) => {
-                        state.items.pop();
-                    }
-                },
-                onMount: (state) => {
-                    state.items = ['Item 1', 'Item 2', 'Item 3'];
-                }
-            });
+App.createComponent('About', {
+    template: 'about-template',
+    state: () => ({
+        items: []
+    }),
+    actions: {
+        addItem: ({ state }) => {
+            state.items = [...state.items, `Item ${state.items.length + 1}`];
+        },
+        removeItem: ({ state }) => {
+            state.items.pop();
+        }
+    },
+    onMount: (state) => {
+        state.items = ['Item 1', 'Item 2', 'Item 3'];
+    }
+});
                         </code></pre>
                     </div>
                 </div>
-
-                <h3>Features</h3>
+            
+                <h3>Características</h3>
                 <ul>
-                    <li><b>Conditional Display:</b> Elements are shown/hidden based on JavaScript expressions
-                    </li>
-                    <li><b>Reactive:</b> Automatically updates when state changes</li>
-                    <li><b>Flexible Conditions:</b> Supports any valid JavaScript expression</li>
-                    <li><b>CSS-Based:</b> Uses <code>display: none</code> to hide elements (preserves DOM
-                        position)</li>
+                    <li><strong>Visualización Condicional:</strong> Los elementos se muestran/ocultan basados en expresiones JavaScript</li>
+                    <li><strong>Reactivo:</strong> Se actualiza automáticamente cuando cambia el estado</li>
+                    <li><strong>Condiciones Flexibles:</strong> Soporta cualquier expresión JavaScript válida</li>
+                    <li><strong>Basado en CSS:</strong> Usa <code>display: none</code> para ocultar elementos (mantiene la posición en el DOM)</li>
                 </ul>
-
-                <h3>Directive Reference</h3>
+            
+                <h3>Referencia de Directivas</h3>
                 <table class="directive-table">
                     <thead>
                         <tr>
-                            <th>Directive</th>
-                            <th>Description</th>
-                            <th>Example</th>
+                            <th>Directiva</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><code>data-if</code></td>
-                            <td>Conditionally shows/hides element based on expression</td>
+                            <td>Muestra/oculta elementos condicionalmente basado en una expresión</td>
                             <td><code>&lt;div data-if="items.length > 0"&gt;...&lt;/div&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-bind</code></td>
-                            <td>Binds element content to state property</td>
+                            <td>Vincula el contenido del elemento a una propiedad del estado</td>
                             <td><code>&lt;span data-bind="count"&gt;&lt;/span&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-action</code></td>
-                            <td>Binds DOM events to component actions</td>
+                            <td>Vincula eventos del DOM a acciones del componente</td>
                             <td><code>&lt;button data-action="increment"&gt;&lt;/button&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-link</code></td>
-                            <td>Router link navigation</td>
+                            <td>Navegación mediante enrutador</td>
                             <td><code>&lt;a href="/about" data-link&gt;&lt;/a&gt;</code></td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h3>Best Practices</h3>
+            
+                <h3>Mejores Prácticas</h3>
                 <div class="tips">
                     <div class="tip">
-                        <h4>Keep Conditions Simple</h4>
-                        <p>Use simple boolean expressions in <code>data-if</code> for better performance.</p>
-                        <p><b>Recommended:</b> <code>data-if="isActive"</code></p>
-                        <p><b>Avoid:</b>
-                            <code>data-if="user.roles.includes('admin') && items.length > 5"</code>
-                        </p>
+                        <h4>Mantén las condiciones simples</h4>
+                        <p>Usa expresiones booleanas simples en <code>data-if</code> para mejor rendimiento.</p>
+                        <p><strong>Recomendado:</strong> <code>data-if="isActive"</code></p>
+                        <p><strong>Evitar:</strong> <code>data-if="user.roles.includes('admin') && items.length > 5"</code></p>
                     </div>
                     <div class="tip">
-                        <h4>Combine with data-bind</h4>
-                        <p>Use <code>data-bind</code> inside conditional blocks to display dynamic content.</p>
+                        <h4>Combina con data-bind</h4>
+                        <p>Usa <code>data-bind</code> dentro de bloques condicionales para mostrar contenido dinámico.</p>
                         <pre><code class="language-html">
             &lt;div data-if="hasItems"&gt;
                 &lt;span data-bind="itemCount"&gt;&lt;/span&gt; items
@@ -798,21 +739,22 @@ handleRouting();
                         </code></pre>
                     </div>
                     <div class="tip">
-                        <h4>Mutually Exclusive Sections</h4>
-                        <p>For toggle between views, use complementary conditions.</p>
+                        <h4>Secciones mutuamente excluyentes</h4>
+                        <p>Para alternar entre vistas, usa condiciones complementarias.</p>
                         <pre><code class="language-html">
-            &lt;div data-if="isEditing"&gt;Edit Mode&lt;/div&gt;
-            &lt;div data-if="!isEditing"&gt;View Mode&lt;/div&gt;
+            &lt;div data-if="isEditing"&gt;Modo Edición&lt;/div&gt;
+            &lt;div data-if="!isEditing"&gt;Modo Visualización&lt;/div&gt;
                         </code></pre>
                     </div>
                 </div>
             </article>
 
-            <article id="data-repeat">
-                <h2>List Rendering with data-repeat</h2>
-                <p>Render dynamic lists from your component state with automatic updates.</p>
 
-                <h3>Template Example</h3>
+            <article id="data-repeat">
+                <h2>Renderizado de Listas con data-repeat</h2>
+                <p>Renderiza listas dinámicas desde el estado de tu componente con actualizaciones automáticas.</p>
+                
+                <h3>Ejemplo de Plantilla</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">about-template.html</span>
@@ -833,14 +775,14 @@ handleRouting();
     &lt;div data-repeat="items"&gt;
         &lt;article class="mt-4 flex between gap-2" data-repeated-item="" secondary&gt;
             &lt;span class="flex between gap-1"&gt;
-                &lt;span&gt;Index:&lt;/span&gt;
+                &lt;span&gt;Índice:&lt;/span&gt;
                 &lt;span data-repeat-bind="index"&gt;&lt;/span&gt;
             &lt;/span&gt;
             &lt;span data-repeat-bind="item.id"&gt;&lt;/span&gt;
             &lt;span data-repeat-bind="item.name"&gt;&lt;/span&gt;
             &lt;button data-repeat-action="removeItemId" class="btn-error"&gt;
                 &lt;i class="icon-delete"&gt;&lt;/i&gt;
-                &lt;span data-repeat-bind="'Remove ' + item.name"&gt;&lt;/span&gt;
+                &lt;span data-repeat-bind="'Eliminar ' + item.name"&gt;&lt;/span&gt;
             &lt;/button&gt;
         &lt;/article&gt;
     &lt;/div&gt;
@@ -848,8 +790,8 @@ handleRouting();
                         </code></pre>
                     </div>
                 </div>
-
-                <h3>Component Definition</h3>
+            
+                <h3>Definición del Componente</h3>
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">about-component.js</span>
@@ -895,109 +837,106 @@ App.createComponent('About', {
                         </code></pre>
                     </div>
                 </div>
-
-                <h3>Features</h3>
+            
+                <h3>Características</h3>
                 <ul>
-                    <li><b>Automatic List Rendering:</b> Creates DOM elements for each item in your array</li>
-                    <li><b>Reactive Updates:</b> Automatically updates when the array changes</li>
-                    <li><b>Item Binding:</b> Access current item with <code>item</code> and index with
-                        <code>index</code>
-                    </li>
-                    <li><b>Scoped Actions:</b> Bind actions to each item with item context</li>
-                    <li><b>Flexible Content:</b> Supports any HTML structure inside the repeated element</li>
+                    <li><strong>Renderizado Automático:</strong> Crea elementos DOM por cada item en tu array</li>
+                    <li><strong>Actualizaciones Reactivas:</strong> Se actualiza automáticamente cuando el array cambia</li>
+                    <li><strong>Vinculación de Items:</strong> Accede al item actual con <code>item</code> y al índice con <code>index</code></li>
+                    <li><strong>Acciones con Contexto:</strong> Vincula acciones a cada item con su contexto</li>
+                    <li><strong>Contenido Flexible:</strong> Soporta cualquier estructura HTML dentro del elemento repetido</li>
                 </ul>
-
-                <h3>Directive Reference</h3>
+            
+                <h3>Referencia de Directivas</h3>
                 <table class="directive-table">
                     <thead>
                         <tr>
-                            <th>Directive</th>
-                            <th>Description</th>
-                            <th>Example</th>
+                            <th>Directiva</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><code>data-repeat</code></td>
-                            <td>Repeats element for each item in array</td>
+                            <td>Repite el elemento por cada item en el array</td>
                             <td><code>&lt;div data-repeat="items"&gt;...&lt;/div&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-repeat-bind</code></td>
-                            <td>Binds content to current item properties</td>
+                            <td>Vincula contenido a propiedades del item actual</td>
                             <td><code>&lt;span data-repeat-bind="item.name"&gt;&lt;/span&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-repeat-action</code></td>
-                            <td>Binds action with item context</td>
+                            <td>Vincula una acción con contexto del item</td>
                             <td><code>&lt;button data-repeat-action="removeItem"&gt;&lt;/button&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-repeated-item</code></td>
-                            <td>Marker attribute for repeated items (auto-added)</td>
+                            <td>Atributo marcador para items repetidos (se añade automáticamente)</td>
                             <td><code>&lt;div data-repeated-item&gt;&lt;/div&gt;</code></td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h3>Best Practices</h3>
+            
+                <h3>Mejores Prácticas</h3>
                 <div class="tips">
                     <div class="tip">
-                        <h4>Use Keys for Dynamic Lists</h4>
-                        <p>Include unique identifiers in your items for better performance with dynamic lists.</p>
+                        <h4>Usa Claves Únicas</h4>
+                        <p>Incluye identificadores únicos en tus items para mejor rendimiento con listas dinámicas.</p>
                         <pre><code class="language-javascript">
 state.items = [
-    { id: 1, name: 'Item 1' },  // Good - has unique id
+    { id: 1, name: 'Item 1' },  // Bien - tiene ID único
     { id: 2, name: 'Item 2' }
 ];
                         </code></pre>
                     </div>
                     <div class="tip">
-                        <h4>Combine with Conditional Rendering</h4>
-                        <p>Use <code>data-if</code> to show empty state messages.</p>
+                        <h4>Combina con Renderizado Condicional</h4>
+                        <p>Usa <code>data-if</code> para mostrar mensajes cuando la lista está vacía.</p>
                         <pre><code class="language-html">
 &lt;div data-if="items.length === 0"&gt;
-    &lt;p&gt;No items found&lt;/p&gt;
+    &lt;p&gt;No se encontraron items&lt;/p&gt;
 &lt;/div&gt;
 &lt;div data-repeat="items"&gt;...&lt;/div&gt;
                         </code></pre>
                     </div>
                     <div class="tip">
-                        <h4>Access Item Properties Safely</h4>
-                        <p>Check for property existence when binding to avoid errors.</p>
+                        <h4>Acceso Seguro a Propiedades</h4>
+                        <p>Verifica la existencia de propiedades al vincular para evitar errores.</p>
                         <pre><code class="language-html">
-            &lt;span data-repeat-bind="item.name || 'Unnamed'"&gt;&lt;/span&gt;
+            &lt;span data-repeat-bind="item.name || 'Sin nombre'"&gt;&lt;/span&gt;
                         </code></pre>
                     </div>
                 </div>
-
-                <h3>Special Variables</h3>
+            
+                <h3>Variables Especiales</h3>
                 <table class="variables-table">
                     <thead>
                         <tr>
                             <th>Variable</th>
-                            <th>Available In</th>
-                            <th>Description</th>
+                            <th>Disponible En</th>
+                            <th>Descripción</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><code>item</code></td>
                             <td><code>data-repeat-bind</code>, <code>data-repeat-action</code></td>
-                            <td>Current item in the iteration</td>
+                            <td>Item actual en la iteración</td>
                         </tr>
                         <tr>
                             <td><code>index</code></td>
                             <td><code>data-repeat-bind</code>, <code>data-repeat-action</code></td>
-                            <td>Current index (0-based) in the iteration</td>
+                            <td>Índice actual (base 0) en la iteración</td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h3>data-repeat-action Context</h3>
-                <p>When using <code>data-repeat-action</code> in repeated items, your action handler receives additional
-                    context properties:</p>
-
+            
+                <h3>Contexto de data-repeat-action</h3>
+                <p>Cuando usas <code>data-repeat-action</code> en items repetidos, tu manejador de acción recibe propiedades adicionales de contexto:</p>
+                
                 <div class="code-editor">
                     <div class="editor-header">
                         <span class="editor-title">repeat-action-context.js</span>
@@ -1009,118 +948,118 @@ state.items = [
                     </div>
                     <div class="editor-content">
                         <pre><code class="language-javascript">
-// Action signature for repeated items
+// Firma de acción para items repetidos
 actions: {
     handleItem: ({ 
-        state,     // Component state
-        event,     // Original DOM event
-        item,      // Current item object from the array
-        index      // Current index in the array
+        state,     // Estado del componente
+        event,     // Evento DOM original
+        item,      // Objeto item actual del array
+        index      // Índice actual en el array
     }) => {
-        // Action logic here
+        // Lógica de la acción aquí
     }
 }
                         </code></pre>
                     </div>
                 </div>
-
-                <h4>Context Properties Reference</h4>
+                
+                <h4>Referencia de Propiedades de Contexto</h4>
                 <table class="context-table">
                     <thead>
                         <tr>
-                            <th>Property</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Example Usage</th>
+                            <th>Propiedad</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo de Uso</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><code>state</code></td>
-                            <td>Object</td>
-                            <td>Component state object (read/write)</td>
+                            <td>Objeto</td>
+                            <td>Objeto de estado del componente (lectura/escritura)</td>
                             <td><code>state.items.push(newItem)</code></td>
                         </tr>
                         <tr>
                             <td><code>event</code></td>
-                            <td>DOM Event</td>
-                            <td>Original event that triggered the action</td>
+                            <td>Evento DOM</td>
+                            <td>Evento original que disparó la acción</td>
                             <td><code>event.preventDefault()</code></td>
                         </tr>
                         <tr>
                             <td><code>item</code></td>
-                            <td>Object</td>
-                            <td>Current item from the repeated array</td>
+                            <td>Objeto</td>
+                            <td>Item actual del array repetido</td>
                             <td><code>console.log(item.id)</code></td>
                         </tr>
                         <tr>
                             <td><code>index</code></td>
-                            <td>Number</td>
-                            <td>Current index in the array (0-based)</td>
+                            <td>Número</td>
+                            <td>Índice actual en el array (base 0)</td>
                             <td><code>state.items.splice(index, 1)</code></td>
                         </tr>
                     </tbody>
                 </table>
-
-                <h4>Common Patterns</h4>
+                
+                <h4>Patrones Comunes</h4>
                 <div class="patterns">
                     <div class="pattern">
-                        <h5>Remove Item by ID</h5>
+                        <h5>Eliminar Item por ID</h5>
                         <pre><code class="language-javascript">
 removeItem: ({ state, item }) => {
     state.items = state.items.filter(i => i.id !== item.id);
 }
                         </code></pre>
                     </div>
-
+                    
                     <div class="pattern">
-                        <h5>Update Specific Item</h5>
+                        <h5>Actualizar Item Específico</h5>
                         <pre><code class="language-javascript">
 updateItem: ({ state, item, index }) => {
     state.items[index] = { ...item, updated: true };
-    state.items = [...state.items]; // Trigger reactivity
+    state.items = [...state.items]; // Activar reactividad
 }
                         </code></pre>
                     </div>
-
+                    
                     <div class="pattern">
-                        <h5>Event Handling with Item Context</h5>
+                        <h5>Manejo de Eventos con Contexto</h5>
                         <pre><code class="language-javascript">
 handleClick: ({ event, item }) => {
     event.stopPropagation();
-    console.log('Clicked item:', item.name);
+    console.log('Item clickeado:', item.name);
 }
                         </code></pre>
                     </div>
                 </div>
-
+                
                 <div class="important-note">
-                    <h4>Important Notes</h4>
+                    <h4>Notas Importantes</h4>
                     <ul>
-                        <li>Always use <code>event.preventDefault()</code> for form submissions or anchor clicks</li>
-                        <li>For array mutations, always create new references to trigger reactivity:
+                        <li>Siempre usa <code>event.preventDefault()</code> para envíos de formularios o clicks en enlaces</li>
+                        <li>Para mutaciones de array, siempre crea nuevas referencias para activar la reactividad:
                             <pre><code class="language-javascript">
-// Good - triggers update
+// Bien - activa actualización
 state.items = state.items.filter(...);
 
-// Bad - won't trigger reactive update
+// Mal - no activa actualización reactiva
 state.items.splice(index, 1);
                             </code></pre>
                         </li>
-                        <li>The <code>item</code> reference is the same object as in the array (not a deep clone)</li>
+                        <li>La referencia <code>item</code> es el mismo objeto que en el array (no es una copia profunda)</li>
                     </ul>
                 </div>
             </article>
-
         </section>
-        <section id="api-reference">
-            <h2>API Reference</h2>
 
-            <article class="shadow">
-                <h3>Core Methods</h3>
+        <section id="api-reference">
+            <h2>Referencia de API</h2>
+
+            <article>
+                <h3>Métodos Principales</h3>
                 <div class="code-editor">
                     <div class="editor-header">
-                        <span class="editor-title">API Reference</span>
+                        <span class="editor-title">Referencia de API</span>
                         <div class="editor-controls">
                             <div class="control close"></div>
                             <div class="control minimize"></div>
@@ -1129,91 +1068,90 @@ state.items.splice(index, 1);
                     </div>
                     <div class="editor-content">
                         <pre><code class="language-javascript">
-// Create a reactive state object
+// Crea un objeto de estado reactivo
 const state = App.reactive({ 
   count: 0 
 });
 
-// Create a component
-App.createComponent('ComponentName', {
-  template: 'template-id',  // ID of the template element
-  state: () => ({ ... }),  // Initial state function
-  actions: {               // Component methods
-    actionName: ({ state, event }, ...args) => { ... }
+// Crea un componente
+App.createComponent('NombreComponente', {
+  template: 'id-plantilla',  // ID del elemento template
+  state: () => ({ ... }),  // Función de estado inicial
+  actions: {               // Métodos del componente
+    nombreAccion: ({ state, event }, ...args) => { ... }
   },
-  onMount: (state) => {    // Called when component mounts
-    console.log('Mounted');
+  onMount: (state) => {    // Se llama cuando el componente se monta
+    console.log('Montado');
   },
-  onDestroy: (state) => {  // Called when component unmounts
-    console.log('Destroyed');
+  onDestroy: (state) => {  // Se llama cuando el componente se desmonta
+    console.log('Desmontado');
   }
 });
 
-// Routing
-App.addRoute('/path', 'ComponentName');
-App.navigateTo('/path');   // Programmatic navigation
+// Enrutamiento
+App.addRoute('/ruta', 'NombreComponente');
+App.navigateTo('/ruta');   // Navegación programática
 
-
-        handleRouting();//Execute routes
+ handleRouting();// Enlazar las rutas 
                         </code></pre>
                     </div>
                 </div>
             </article>
 
-            <article class="shadow">
-                <h3>Template Directives</h3>
+            <article>
+                <h3>Directivas de Plantilla</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>Directive</th>
-                            <th>Description</th>
-                            <th>Example</th>
+                            <th>Directiva</th>
+                            <th>Descripción</th>
+                            <th>Ejemplo</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><code>data-bind</code></td>
-                            <td>One-way data binding</td>
-                            <td><code>&lt;span data-bind="message"&gt;&lt;/span&gt;</code></td>
+                            <td>Enlace de datos unidireccional</td>
+                            <td><code>&lt;span data-bind="mensaje"&gt;&lt;/span&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-model</code></td>
-                            <td>Two-way data binding for form inputs</td>
-                            <td><code>&lt;input data-model="username"&gt;</code></td>
+                            <td>Enlace de datos bidireccional para inputs de formulario</td>
+                            <td><code>&lt;input data-model="usuario"&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-action</code></td>
-                            <td>Bind component method to DOM events</td>
-                            <td><code>&lt;button data-action="submit"&gt;&lt;/button&gt;</code></td>
+                            <td>Vincula un método del componente a eventos del DOM</td>
+                            <td><code>&lt;button data-action="enviar"&gt;&lt;/button&gt;</code></td>
                         </tr>
-
-
                         <tr>
                             <td><code>data-component</code></td>
-                            <td>Nested components</td>
-                            <td><code>&lt;div data-component="Child"&gt;&lt;/div&gt;</code></td>
+                            <td>Componentes anidados</td>
+                            <td><code>&lt;div data-component="Hijo"&gt;&lt;/div&gt;</code></td>
                         </tr>
                         <tr>
                             <td><code>data-link</code></td>
-                            <td>Router link</td>
+                            <td>Enlace del enrutador</td>
                             <td><code>&lt;a href="/about" data-link&gt;&lt;/a&gt;</code></td>
                         </tr>
-
                         <tr>
                             <td><code>data-if</code></td>
-                            <td>Conditional</td>
+                            <td>Condicional</td>
                             <td><code>&lt;div data-if="items.length >0"&gt;&lt;/div&gt;</code></td>
                         </tr>
-
-
-
                     </tbody>
                 </table>
             </article>
         </section>
-    </template>
+    </main>
 
-    <script src="js/app.js"> </script>
+    <footer class="container">
+        <small>
+            © 2025 Lila JS - Licencia MIT |
+            <a href="https://github.com/seip25/lila_js" target="_blank"><i class='icon-github'></i>GitHub</a> |
+            <a href="index.html">📚Documentation</a>
+        </small>
+    </footer>
 </body>
 
 </html>

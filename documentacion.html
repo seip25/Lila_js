@@ -7,148 +7,182 @@
     <meta name="color-scheme" content="light dark">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="canonical" href="https://seip25.github.io/Lila_js" />
-    <title>Lila JS - Micro framework Reactiva de JavaScript sin Dependencias</title>
+    <title>Lila JS - Micro-Framework Reactivo de JavaScript</title>
     <meta name="description"
-        content="Lila JS es un Micro framework ligera de JavaScript reactivo para construir aplicaciones web modernas sin dependencias. Simple, rápida y potente.">
+        content="Lila JS es un micro-framework reactivo de JavaScript ultraligero para construir aplicaciones web modernas sin dependencias. Simple, rápido y potente.">
     <meta name="keywords" content="JavaScript, framework reactivo, vanilla JS, componentes web, sin dependencias">
     <meta name="author" content="Equipo Lila JS">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="Lila JS - Micro framework Reactiva de JavaScript sin Dependencias">
+    <meta property="og:title" content="Lila JS - Micro-Framework Reactivo de JavaScript sin Dependencias">
     <meta property="og:description"
-        content="Construye aplicaciones web modernas con esta ligera Micro framework de JavaScript reactivo. Sin dependencias, solo el poder de JS puro.">
-
-    <meta property="og:url" content="https://seip25.github.io/Lila_js">
+        content="Construye aplicaciones web modernas con este micro-framework reactivo de JavaScript. Sin dependencias, solo el poder de JS puro.">
     <meta property="og:type" content="website">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Lila JS - Micro framework Reactiva de JavaScript sin Dependencias">
+    <meta name="twitter:title" content="Lila JS - Micro-Framework Reactivo de JavaScript">
     <meta name="twitter:description"
-        content="La forma más simple de construir aplicaciones web reactivas con vanilla JavaScript. Sin pasos de compilación, sin dependencias.">
+        content="La forma más simple de construir aplicaciones web reactivas con JavaScript vanilla. Sin pasos de compilación, sin dependencias.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="lila.jpeg" alt="Logo de Lila JS">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.indigo.min.css">
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="css/pico.min.css">
     <link rel="stylesheet" href="css/atom-one-dark.min.css">
     <link rel="stylesheet" href="css/index.css">
 
     <!-- Highlight.js -->
     <script src="js/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
     <script>hljs.highlightAll();</script>
+    <script src="lila.js"></script>
 </head>
 
 <body>
     <header class="container">
         <nav>
-            <ul>
-                <li>
-                    <a href="index.html" class="logo">
-                        <strong>Lila JS</strong>
-                    </a>
-                </li>
-            </ul>
-            <ul>
-                <li><a href="index.html" class="secondary">English</a></li>
-                <li><a href="#features">Características</a></li>
-                <li><a href="#examples">Ejemplos</a></li>
+            <ul class="container">
+                <li><a href="/" data-link>Características</a></li>
+                <li><a href="/install" data-link>Instalación</a></li>
+                <li><a href="/examples" data-link>Ejemplos</a></li>
+                <li><a href="index.html">English</a></li>
                 <li><a href="https://github.com/seip25/lila_js" target="_blank">GitHub</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <hgroup>
-                <h1>Lila JS</h1>
-                <h2>El <strong>micro-framework JavaScript</strong> reactivo más eficiente</h2>
-                <p>Desarrolla <strong>aplicaciones web modernas</strong> con un enfoque minimalista: toda la potencia de un framework en solo <strong>9kb</strong></p>
-            </hgroup>
-        </section>
-        
-        <section id="features">
-            <h2>Ventajas clave de <strong>Lila JS</strong> como micro-framework</h2>
-            <div class="grid">
-                <article>
-                    <h3>🚀 <strong>Núcleo Ultracompacto</strong></h3>
-                    <p>Todo el sistema reactivo, enrutamiento y componentes en <strong>menos de 9kb</strong>. Sin bloatware ni dependencias ocultas.</p>
-                </article>
-                <article>
-                    <h3>💡 <strong>Reactividad Precisa</strong></h3>
-                    <p>Sistema de <strong>actualización granular</strong> que solo modifica lo necesario en el DOM usando <strong>Proxy nativo</strong>.</p>
-                </article>
-                <article>
-                    <h3>🧩 <strong>Componentes Autónomos</strong></h3>
-                    <p>Cada componente maneja su propio <strong>estado reactivo</strong>, <strong>ciclo de vida</strong> y <strong>template scoped</strong>.</p>
-                </article>
+    <main class="container" id="app-lila">
+        <section class="flex center grid">
+            <div>
+                <h1 class="text-primary">Lila JS</h1>
+                <h3 class="text-secondary">Micro-Framework de JavaScript</h3>
             </div>
-            <div class="grid">
-                <article>
-                    <h3>🔄 <strong>Binding Declarativo</strong></h3>
-                    <p>Vincula datos con <strong>atributos HTML simples</strong> (<code>data-bind</code>, <code>data-model</code>) sin necesidad de JSX.</p>
-                </article>
-                <article>
-                    <h3>🧭 <strong>Router de Microcódigo</strong></h3>
-                    <p>Sistema de navegación SPA con <strong>menos de 200 bytes</strong> de código central. Simple pero potente.</p>
-                </article>
-                <article>
-                    <h3>⚡ <strong>Boot Instantáneo</strong></h3>
-                    <p>Ejecución inmediata en navegador sin pasos de build. <strong>Perfecto para prototipado rápido</strong>.</p>
-                </article>
+            <div>
+                <small>Construye <b>aplicaciones web modernas</b> con un enfoque minimalista: todo el poder de un framework en solo <b>8kb</b></small>
             </div>
-            <div class="grid">
-                <article>
-                    <h3>🔌 <strong>API con Mentalidad UNIX</strong></h3>
-                    <p>Principio de <strong>"haz una cosa y hazla bien"</strong>. Métodos concisos y predecibles.</p>
-                </article>
-                <article>
-                    <h3>📱 <strong>Evolución Progresiva</strong></h3>
-                    <p>Comienza con un script tradicional y escala a <strong>PWA completa</strong> según tus necesidades.</p>
-                </article>
-                <article>
-                    <h3>🛠️ <strong>Interoperabilidad Total</strong></h3>
-                    <p>Usa solo las partes que necesites e intégralo con <strong>cualquier stack existente</strong>.</p>
-                </article>
-            </div>
-        </section>
-         
-        <section id="comparison"  >
-           <article>
-            <h2>¿Micro-framework vs Librería vs Framework Completo?</h2>
-            <div class="comparison-grid">
-                <div class="comparison-card">
-                    <h3>Librerías Puras</h3>
-                    <ul>
-                        <li>✔️ Solo resuelven problemas específicos</li>
-                        <li>❌ No proveen arquitectura</li>
-                        <li><strong>Ejemplo:</strong> Lodash, Axios</li>
-                    </ul>
-                </div>
-                <div class="comparison-card highlight">
-                    <h3>Lila JS (Micro-Framework)</h3>
-                    <ul>
-                        <li>✔️ Arquitectura definida pero flexible</li>
-                        <li>✔️ Funcionalidades clave sin sobre-ingeniería</li>
-                        <li><strong>Ventaja:</strong> Balance perfecto</li>
-                    </ul>
-                </div>
-                <div class="comparison-card">
-                    <h3>Frameworks Completos</h3>
-                    <ul>
-                        <li>✔️ Soluciones todo-en-uno</li>
-                        <li>❌ Complejidad y overhead</li>
-                        <li><strong>Ejemplo:</strong> Angular, Ember</li>
-                    </ul>
-                </div>
-            </div>
-           </article>
         </section>
 
+        <section id="features">
+            <h2>Ventajas clave de <b>Lila JS</b> como Micro-Framework</h2>
+            <div class="grid">
+                <article>
+                    <h3>🚀 <b>Núcleo Ultracompacto</b></h3>
+                    <p>Sistema reactivo completo, enrutamiento y componentes en <b>menos de 8kb</b>. Sin bloatware ni dependencias ocultas.</p>
+                </article>
+                <article>
+                    <h3>💡 <b>Reactivdad Precisa</b></h3>
+                    <p><b>Sistema de actualización granular</b> que solo modifica lo necesario en el DOM usando <b>Proxy nativo</b>.</p>
+                </article>
+                <article>
+                    <h3>🧩 <b>Componentes Autocontenidos</b></h3>
+                    <p>Cada componente gestiona su propio <b>estado reactivo</b>, <b>ciclo de vida</b> y <b>plantilla con alcance</b>.</p>
+                </article>
+            </div>
+            <div class="grid">
+                <article>
+                    <h3>🔄 <b>Enlace Declarativo</b></h3>
+                    <p>Vincula datos con <b>atributos HTML simples</b> (<code>data-bind</code>, <code>data-model</code>) sin JSX.</p>
+                </article>
+                <article>
+                    <h3>🧭 <b>Enrutador de Microcódigo</b></h3>
+                    <p>Sistema de navegación SPA con <b>menos de 200 bytes</b> de código central. Simple pero potente.</p>
+                </article>
+                <article>
+                    <h3>⚡ <b>Arranque Instantáneo</b></h3>
+                    <p>Se ejecuta inmediatamente en el navegador sin pasos de compilación. <b>Perfecto para prototipado rápido</b>.</p>
+                </article>
+            </div>
+            <div class="grid">
+                <article>
+                    <h3>🔌 <b>API con Filosofía UNIX</b></h3>
+                    <p>Principio <b>"Haz una cosa bien"</b>. Métodos concisos y predecibles.</p>
+                </article>
+                <article>
+                    <h3>📱 <b>Evolución Progresiva</b></h3>
+                    <p>Comienza con un script tradicional y escala a <b>PWA completo</b> según sea necesario.</p>
+                </article>
+                <article>
+                    <h3>🛠️ <b>Interoperabilidad Total</b></h3>
+                    <p>Usa solo lo que necesitas e integra con <b>cualquier stack existente</b>.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container">
+        <small class="flex between gap-2">
+            © 2025 Lila JS - Licencia MIT
+            <a href="https://github.com/seip25/lila_js" class="underline-none" target="_blank"><i class='icon-github'></i>GitHub</a>
+            <a href="documentacion.html" class="underline-none">📚Documentación en Español</a>
+        </small>
+    </footer>
+
+    <template data-template="features-template">
+        <div id="features">
+             <section>
+            <div>
+                <h1 class="flex center text-primary">Lila JS</h1>
+                <h3 class="flex center text-secondary">Micro-Framework de JavaScript</h3>
+            </div>
+            <div class="mt-2 flex center">
+                <small>Construye <b>aplicaciones web modernas</b> con un enfoque minimalista: todo el poder de un framework en solo <b>8kb</b></small>
+            </div>
+        </section>
+
+        <section  class="mt-2">
+            <h3 class="text-secondary flex center ">Ventajas clave de Lila JS como Micro-Framework</h3>
+            <div class="grid">
+                <article>
+                    <h3>🚀 <b>Núcleo Ultracompacto</b></h3>
+                    <p>Sistema reactivo completo, enrutamiento y componentes en <b>menos de 8kb</b>. Sin bloatware ni dependencias ocultas.</p>
+                </article>
+                <article>
+                    <h3>💡 <b>Reactivdad Precisa</b></h3>
+                    <p><b>Sistema de actualización granular</b> que solo modifica lo necesario en el DOM usando <b>Proxy nativo</b>.</p>
+                </article>
+                <article>
+                    <h3>🧩 <b>Componentes Autocontenidos</b></h3>
+                    <p>Cada componente gestiona su propio <b>estado reactivo</b>, <b>ciclo de vida</b> y <b>plantilla con alcance</b>.</p>
+                </article>
+            </div>
+            <div class="grid">
+                <article>
+                    <h3>🔄 <b>Enlace Declarativo</b></h3>
+                    <p>Vincula datos con <b>atributos HTML simples</b> (<code>data-bind</code>, <code>data-model</code>) sin JSX.</p>
+                </article>
+                <article>
+                    <h3>🧭 <b>Enrutador de Microcódigo</b></h3>
+                    <p>Sistema de navegación SPA con <b>menos de 200 bytes</b> de código central. Simple pero potente.</p>
+                </article>
+                <article>
+                    <h3>⚡ <b>Arranque Instantáneo</b></h3>
+                    <p>Se ejecuta inmediatamente en el navegador sin pasos de compilación. <b>Perfecto para prototipado rápido</b>.</p>
+                </article>
+            </div>
+            <div class="grid">
+                <article>
+                    <h3>🔌 <b>API con Filosofía UNIX</b></h3>
+                    <p>Principio <b>"Haz una cosa bien"</b>. Métodos concisos y predecibles.</p>
+                </article>
+                <article>
+                    <h3>📱 <b>Evolución Progresiva</b></h3>
+                    <p>Comienza con un script tradicional y escala a <b>PWA completo</b> según sea necesario.</p>
+                </article>
+                <article>
+                    <h3>🛠️ <b>Interoperabilidad Total</b></h3>
+                    <p>Usa solo lo que necesitas e integra con <b>cualquier stack existente</b>.</p>
+                </article>
+            </div>
+        </section>
+        </div>
+    </template>
+
+    <template data-template="install-template">
         <section id="getting-started">
-            <h2>Empezando</h2>
-            <article>
+            <h2>Comenzando</h2>
+            <article class="shadow">
                 <h3>1. Instalación</h3>
                 <p>Simplemente incluye el script en tu archivo HTML:</p>
                 <div class="code-editor">
@@ -163,15 +197,14 @@
                     <div class="editor-content">
                         <pre><code class="language-html">
 &lt;script src="lila.js"&gt;&lt;/script&gt;
-
-
+ 
 &lt;script src="https://seip25.github.io/Lila_js/lila.js"&gt;&lt;/script&gt;
                         </code></pre>
                     </div>
                 </div>
             </article>
 
-            <article>
+            <article class="shadow">
                 <h3>2. Estructura Básica</h3>
                 <p>Aquí tienes una configuración mínima para una aplicación Lila JS:</p>
                 <div class="code-editor">
@@ -198,10 +231,10 @@
     &lt;p data-bind="message"&gt;&lt;/p&gt;
   &lt;/template&gt;
   
-    &lt;template data-template="about-template"&gt;
+  &lt;template data-template="about-template"&gt;
     &lt;h1&gt;Acerca de&lt;/h1&gt;
     &lt;p&gt;Esta es la página acerca de nosotros.&lt;/p&gt;
-    &lt;/template&gt;
+  &lt;/template&gt;
 
   &lt;script&gt;
     App.createComponent('Home', {
@@ -215,8 +248,8 @@
     });
     
     App.addRoute('/about', 'About');
-
-     handleRouting();
+                            
+    handleRouting();
   &lt;/script&gt;
 &lt;/body&gt;
                         </code></pre>
@@ -224,8 +257,10 @@
                 </div>
             </article>
         </section>
+    </template>
 
-        <section id="examples">
+    <template data-template="examples-template">
+      <section id="examples">
             <h2>Ejemplos Prácticos</h2>
 
             <article id="counter">
@@ -1143,15 +1178,8 @@ App.navigateTo('/ruta');   // Navegación programática
                 </table>
             </article>
         </section>
-    </main>
+    </template>
 
-    <footer class="container">
-        <small>
-            © 2025 Lila JS - Licencia MIT |
-            <a href="https://github.com/seip25/lila_js" target="_blank"><i class='icon-github'></i>GitHub</a> |
-            <a href="index.html">📚Documentation</a>
-        </small>
-    </footer>
+    <script src="js/app.js"></script>
 </body>
-
 </html>
