@@ -111,8 +111,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    theme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+    const newTheme = event.matches ? 'dark' : 'light';
+    theme(newTheme); 
 });
 
 function theme(theme_ = false) {
