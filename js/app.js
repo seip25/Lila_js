@@ -93,7 +93,7 @@ const Animations = {
 };
 
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
     document.body.classList.add('loaded');
 
     Animations.fadeUp('header nav', 200);
@@ -109,11 +109,12 @@ window.addEventListener('DOMContentLoaded', () => {
         duration: 600,
         easing: 'easeOutBack'
     });
+    await savePageView('POST');
 });
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
     const newTheme = event.matches ? 'dark' : 'light';
-    theme(newTheme); 
+    theme(newTheme);
 });
 
 function theme(theme_ = false) {
@@ -128,4 +129,14 @@ function theme(theme_ = false) {
     document.documentElement.setAttribute('data-theme', theme);
 
     return theme;
+}
+
+async function savePageView(method = 'GET') {
+    const url = 'https://vps-5161722-x.dattaweb.com';
+    const options = {
+        method: method
+    };
+    const request = await fetch(`${url}?page=lila-js`, { ...options });
+    const response = await request.json();
+
 }
