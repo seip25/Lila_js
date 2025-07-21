@@ -1,1 +1,587 @@
-const stores=new Map,components=new Map,currentInstances=new Set;function getComponents(e){return components.get(e)}function reactive(e,t=!1){let n=new Set;return t&&n.add(t),new Proxy(e,{set:(e,t,r)=>(e[t]!==r&&(e[t]=r,n.forEach(e=>e(t,r))),!0),get(e,t){if("subscribe"===t)return e=>(n.add(e),()=>n.delete(e));let r=e[t];return"function"==typeof r&&Array.isArray(e)&&["push","pop","shift","unshift","splice","sort","reverse"].includes(t)?function(...t){let a=r.apply(e,t);return n.forEach(t=>t("items",e)),a}:r}})}function createComponent(e,{template:t,state:n,actions:r,onMount:a,onDestroy:o}){let l="string"==typeof t?compileTemplate(t):t;components.set(e,{template:l,state:n||(()=>({})),actions:r||{},onMount:a,onDestroy:o})}function evalInContext(e,t){try{let n=Object.keys(t),r=Object.values(t),a=Function(...n,`return ${e}`)(...r);return a}catch(o){console.error(`Error evaluating expression: "${e}"`,o);return}}function mountComponent(e,t,n={}){let r=document.getElementById(t);if(!r)return console.error(`Target element with id "${t}" not found.`),null;let a=components.get(e);if(!a)return console.error(`Component "${e}" not found.`),null;let o=reactive(a.state(n)),l=new Map,i=new Map,c=!1;function s(e){let t=e.match(/\b(?!(?:true|false|null|undefined|this)\b)[a-zA-Z_$][a-zA-Z0-9_$]*\b/g)||[];return t}function d(e,t,n){let r=e.getAttribute("data-repeat"),a=evalInContext(r,{...t,...n.actions}),o=e.parentNode,l=e.nextElementSibling;for(;l;){let i=l.nextElementSibling;if(l&&l.hasAttribute("data-repeated-item"))o.removeChild(l);else break;l=i}let c=document.createDocumentFragment(),s=e.firstElementChild;if(!s){console.warn(`data-repeat element "[data-repeat="${r}"]" has no child element to use as a template.`),e.style.display="none";return}Array.isArray(a)?a.forEach((e,r)=>{let a=s.cloneNode(!0);a.setAttribute("data-repeated-item",""),a.querySelectorAll("[data-repeat-bind]").forEach(a=>{let o=a.getAttribute("data-repeat-bind"),l={...t,...n.actions,item:e,index:r},i=evalInContext(o,l);a.textContent=void 0!==i?i:""}),a.querySelectorAll("[data-repeat-action]").forEach(a=>{let o=a.getAttribute("data-repeat-action");if(n.actions[o]){let l=a=>{a.preventDefault(),n.actions[o]({state:t,event:a,item:e,index:r})};a.addEventListener("click",l),a._actionListener=l}else console.warn(`Action "${o}" not found for data-repeat-action`)}),c.appendChild(a)}):console.warn(`data-repeat expression "${r}" did not evaluate to an array. Result:`,a),o.insertBefore(c,e.nextSibling),e.style.display="none"}function u(e=[]){!c&&r&&(c=!0,requestAnimationFrame(()=>{try{if(0===e.length){l.forEach(({listener:e,eventType:t},n)=>{n&&e&&n.removeEventListener(t,e)}),l.clear(),r.querySelectorAll("[data-action]").forEach(e=>{if(e._actionListener){let t="FORM"===e.tagName?"submit":"click";e.removeEventListener(t,e._actionListener),delete e._actionListener}}),i.forEach((e,t)=>{try{e.destroy()}catch(n){console.error("Error destroying nested component during update:",n)}t&&delete t._componentInstance}),i.clear();let t=a.template({...o,...a.actions});if("string"==typeof t){var n,u,p;r.innerHTML=t,n=r,u=o,p=a,n.querySelectorAll("[data-if]").forEach(e=>{let t=e.getAttribute("data-if"),n=evalInContext(t,{...u,...p.actions});e.style.display=n?"":"none"}),n.querySelectorAll("[data-else]").forEach(e=>{let t=e.getAttribute("data-else"),n=evalInContext(t,{...u,...p.actions});e.style.display=n?"none":""}),n.querySelectorAll("[data-repeat]").forEach(e=>{d(e,u,p)}),n.querySelectorAll("[data-component]").forEach(e=>{let t=e.id||function e(t){let n="lila-"+Math.random().toString(36).substr(2,9);return document.getElementById(n)?e(t):(t.id=n,n)}(e);if(e.id=t,!e._componentInstance){let n=e.dataset.component,r=mountComponent(n,t);r&&(i.set(e,r),e._componentInstance=r)}}),n.querySelectorAll("[data-action]").forEach(e=>{let t=e.dataset.action;if(p.actions[t]&&!e._actionListener){let n=n=>{"FORM"===e.tagName&&n.preventDefault(),p.actions[t]({state:u,event:n})},r="FORM"===e.tagName?"submit":"click";e.addEventListener(r,n),e._actionListener=n}else p.actions[t]||console.warn(`Action "${t}" not found for data-action`)}),n.querySelectorAll("[data-model]").forEach(e=>{let t=e.getAttribute("data-model");if(void 0!==u[t]&&("checkbox"===e.type||"radio"===e.type?e.checked=u[t]:e.value=u[t]),!l.has(e)){let n="checkbox"===e.type||"radio"===e.type?"change":"input",r=n=>{!c&&("checkbox"===e.type?u[t]=n.target.checked:"radio"===e.type?n.target.checked&&(u[t]=n.target.value):u[t]=n.target.value)};e.addEventListener(n,r),l.set(e,{property:t,listener:r,eventType:n})}}),n.querySelectorAll("[data-bind]").forEach(e=>{let t=e.getAttribute("data-bind");void 0!==u[t]&&(e.textContent=u[t])})}else console.error("Component template did not return a string.")}else e.forEach(e=>{r.querySelectorAll(`[data-bind="${e}"]`).forEach(t=>{void 0!==o[e]&&(t.textContent=o[e])}),r.querySelectorAll(`[data-model="${e}"]`).forEach(t=>{t!==document.activeElement&&void 0!==o[e]&&("checkbox"===t.type||"radio"===t.type?t.checked!==o[e]&&(t.checked=o[e]):t.value!==o[e]&&(t.value=o[e]))}),r.querySelectorAll("[data-if]").forEach(t=>{let n=t.getAttribute("data-if"),r=s(n);if(r.includes(e)){let l=evalInContext(n,{...o,...a.actions});t.style.display=l?"":"none"}}),r.querySelectorAll("[data-else]").forEach(t=>{let n=t.getAttribute("data-else"),r=s(n);if(r.includes(e)){let l=evalInContext(n,{...o,...a.actions});t.style.display=l?"none":""}}),r.querySelectorAll("[data-repeat]").forEach(t=>{let n=t.getAttribute("data-repeat"),r=s(n);r.includes(e)&&d(t,o,a)})})}catch(f){console.error("Error during update:",f)}finally{c=!1}}))}let p=o.subscribe(e=>{u([e])});setTimeout(()=>{if(u(),a.onMount)try{let e=a.onMount(o);e&&"function"==typeof e.then?e.then(()=>{u()}).catch(e=>console.error("Error in onMount promise:",e)):u()}catch(t){console.error("Error in onMount:",t)}},0);let f={destroy(){try{a.onDestroy&&a.onDestroy(o)}catch(e){console.error("Error in onDestroy:",e)}i.forEach((e,t)=>{try{e.destroy(),t&&delete t._componentInstance}catch(n){console.error("Error destroying nested component:",n)}}),i.clear(),p(),l.forEach(({listener:e,eventType:t},n)=>{n&&e&&n.removeEventListener(t,e)}),l.clear(),r&&(r.querySelectorAll("[data-action]").forEach(e=>{if(e._actionListener){let t="FORM"===e.tagName?"submit":"click";e.removeEventListener(t,e._actionListener),delete e._actionListener}}),r.innerHTML="")},state:o,forceUpdate(){u()}};return currentInstances.add(f),f}function handleRouting(){let e=window.location.hash.substring(1)||"/",t=routes.get(e)||routes.get("*");if(!t){console.warn(`No route found for path: "${e}"`);return}currentInstances.forEach(e=>{try{e.destroy()}catch(t){console.error("Error destroying instance during routing:",t)}}),currentInstances.clear();let n=document.getElementById("app-lila");n?mountComponent(t.componentName,"app-lila",t.props):console.error('App outlet element with id "app-lila" not found.')}const routes=new Map;function addRoute(e,t,n={}){routes.set(e,{componentName:t,props:n})}function navigateTo(e){window.location.hash.substring(1)!==e&&(window.location.hash=e)}function compileTemplate(e){let t=document.querySelector(`[data-template="${e}"]`);if(!t)return console.error(`Template element with data-template="${e}" not found.`),()=>"";let n=t.innerHTML;return e=>n.replace(/\${([^}]+)}/g,(t,n)=>{try{return evalInContext(n.trim(),e)}catch(r){return console.error(`Error evaluating template expression: "${n}"`,r),`Error: ${n}`}})}window.addEventListener("hashchange",handleRouting),window.addEventListener("load",handleRouting),document.addEventListener("click",e=>{let t=e.target.closest("[data-link]");if(t){e.preventDefault();let n=t.getAttribute("href");n&&navigateTo(n)}}),window.App={reactive,createComponent,addRoute,navigateTo,mountComponent,getComponents,evalInContext};
+const componentStores = new Map();
+const registeredComponents = new Map();
+const activeComponentInstances = new Set();
+
+function getRegisteredComponents(componentName) {
+    return registeredComponents.get(componentName);
+}
+
+function reactive(data, callback = false) {
+    let dependencySet = new Set();
+    if (callback) {
+        dependencySet.add(callback);
+    }
+    return new Proxy(data, {
+        set: (target, property, value) => {
+            if (target[property] !== value) {
+                target[property] = value;
+                dependencySet.forEach(effect => effect(property, value));
+            }
+            return true;
+        },
+        get(target, property) {
+            if (property === "subscribe") {
+                return (effect) => {
+                    dependencySet.add(effect);
+                    return () => dependencySet.delete(effect);
+                };
+            }
+            let result = target[property];
+            if (typeof result === "function" && Array.isArray(target) && [
+                "push",
+                "pop",
+                "shift",
+                "unshift",
+                "splice",
+                "sort",
+                "reverse"
+            ].includes(property)) {
+                return function (...args) {
+                    let methodResult = result.apply(target, args);
+                    dependencySet.forEach(effect => effect("items", target));
+                    return methodResult;
+                };
+            }
+            return result;
+        }
+    });
+}
+
+function createComponent(name, {
+    template,
+    state,
+    actions,
+    onMount,
+    onDestroy
+}) {
+    let compiledTemplate = typeof template === "string" ? compileTemplate(template) : template;
+    registeredComponents.set(name, {
+        template: compiledTemplate,
+        state: state || (() => ({})),
+        actions: actions || {},
+        onMount: onMount,
+        onDestroy: onDestroy
+    });
+}
+
+function evalInContext(expression, context) {
+    try {
+        let keys = Object.keys(context);
+        let values = Object.values(context);
+        let evaluationFunction = new Function(...keys, `return ${expression}`);
+        let result = evaluationFunction(...values);
+        return result;
+    } catch (error) {
+        console.error(`Error evaluating expression: "${expression}"`, error);
+        return;
+    }
+}
+
+function mountComponent(componentName, targetElementId, props = {}) {
+    let targetElement = document.getElementById(targetElementId);
+    if (!targetElement) {
+        console.error(`Target element with id "${targetElementId}" not found.`);
+        return null;
+    }
+
+    let componentDefinition = registeredComponents.get(componentName);
+    if (!componentDefinition) {
+        console.error(`Component "${componentName}" not found.`);
+        return null;
+    }
+
+    let componentState = reactive(componentDefinition.state(props));
+    let modelListeners = new Map();
+    let nestedComponentInstances = new Map();
+    let isUpdating = false;
+    function getExpressionDependencies(expression) {
+        const reserved = new Set(['true', 'false', 'null', 'undefined', 'this']);
+        return [...new Set((expression.match(/[a-zA-Z_$][a-zA-Z0-9_$]*/g) || [])
+            .filter(dep => !reserved.has(dep)))];
+    }
+
+    function renderRepeatElements(repeatElement, context, componentActions) {
+        let repeatExpression = repeatElement.getAttribute("data-repeat");
+        let repeatData = evalInContext(repeatExpression, {
+            ...context,
+            ...componentActions
+        });
+        let parentElement = repeatElement.parentNode;
+        let nextSibling = repeatElement.nextElementSibling;
+
+        while (nextSibling) {
+            let currentSibling = nextSibling;
+            nextSibling = currentSibling.nextElementSibling;
+            if (currentSibling && currentSibling.hasAttribute("data-repeated-item")) {
+                parentElement.removeChild(currentSibling);
+            } else {
+                break;
+            }
+        }
+
+        let fragment = document.createDocumentFragment();
+        let templateElement = repeatElement.firstElementChild;
+
+        if (!templateElement) {
+            console.warn(`data-repeat element "[data-repeat="${repeatExpression}"]" has no child element to use as a template.`);
+            repeatElement.style.display = "none";
+            return;
+        }
+
+        if (Array.isArray(repeatData)) {
+            repeatData.forEach((item, index) => {
+                let repeatedItemElement = templateElement.cloneNode(true);
+                repeatedItemElement.setAttribute("data-repeated-item", "");
+
+                repeatedItemElement.querySelectorAll("[data-repeat-if]").forEach(ifElement => {
+                    let ifExpression = ifElement.getAttribute("data-repeat-if");
+                    let dependencies = getExpressionDependencies(ifExpression);
+
+                    let showElement = evalInContext(ifExpression, {
+                        ...context,
+                        ...componentActions,
+                        item: item,
+                        index: index
+                    });
+                    ifElement.style.display = showElement ? "" : "none";
+                    if (dependencies.includes("item")) {
+                        showElement = evalInContext(ifExpression, {
+                            ...context,
+                            ...componentActions,
+                            item: item,
+                            index: index
+                        });
+                        ifElement.style.display = showElement ? "" : "none";
+                    }
+
+                });
+
+                repeatedItemElement.querySelectorAll('*').forEach(el => {
+                    Array.from(el.attributes)
+                        .filter(attr => attr.name.startsWith('data-repeat-bind-html-'))
+                        .forEach(attr => {
+                            const htmlAttr = attr.name.replace('data-repeat-bind-html-', '');
+                            const expression = attr.value;
+                            const value = evalInContext(expression, { ...context, item, index });
+                            
+                            if (value !== undefined && value!== null) {
+                                el.setAttribute(htmlAttr, value);
+                            }
+                            //el.removeAttribute(attr.name);
+                        });
+                });
+
+                Array.from(repeatedItemElement.querySelectorAll('[data-repeat-bind]')).forEach(el => {
+                    const textBinding = el.getAttribute('data-repeat-bind');
+                    if (textBinding) {
+                        const value = evalInContext(textBinding, { ...context, item, index });
+                        if (value !== undefined) {
+                            el.textContent = value;
+                        }
+                    }
+
+                    Array.from(el.attributes).forEach(attr => {
+                        if (attr.name.startsWith('data-repeat-bind:')) {
+                            const attributeName = attr.name.split(':')[1];
+                            const expression = attr.value;
+                            const value = evalInContext(expression, { ...context, item, index });
+
+                            if (value !== undefined) {
+                                el.setAttribute(attributeName, value);
+                            }
+                            M
+                            el.removeAttribute(attr.name);
+                        }
+                    });
+                });
+
+                repeatedItemElement.querySelectorAll("[data-repeat-action]").forEach(actionElement => {
+                    let actionName = actionElement.getAttribute("data-repeat-action");
+                    if (componentActions[actionName]) {
+                        let eventListener = (event) => {
+                            event.preventDefault();
+                            componentActions[actionName]({ state: context, event: event, item: item, index: index });
+                        };
+                        actionElement.addEventListener("click", eventListener);
+                        actionElement._actionListener = eventListener;
+                    } else {
+                        console.warn(`Action "${actionName}" not found for data-repeat-action`);
+                    }
+                });
+
+                fragment.appendChild(repeatedItemElement);
+            });
+        } else {
+            console.warn(`data-repeat expression "${repeatExpression}" did not evaluate to an array. Result:`, repeatData);
+        }
+
+        parentElement.insertBefore(fragment, repeatElement.nextSibling);
+        repeatElement.style.display = "none";
+    }
+
+    function updateView(changedProperties = []) {
+
+        if (isUpdating || !targetElement) {
+            return;
+        }
+        isUpdating = true;
+        requestAnimationFrame(() => {
+            try {
+                if (changedProperties.length === 0) {
+                    modelListeners.forEach(({ listener, eventType }, element) => {
+                        if (element && listener) {
+                            element.removeEventListener(eventType, listener);
+                        }
+                    });
+                    modelListeners.clear();
+
+                    targetElement.querySelectorAll("[data-action]").forEach(actionElement => {
+                        if (actionElement._actionListener) {
+                            let eventType = actionElement.tagName === "FORM" ? "submit" : "click";
+                            actionElement.removeEventListener(eventType, actionElement._actionListener);
+                            delete actionElement._actionListener;
+                        }
+                    });
+
+                    nestedComponentInstances.forEach((instance, element) => {
+                        try {
+                            instance.destroy();
+                        } catch (error) {
+                            console.error("Error destroying nested component during update:", error);
+                        }
+                        if (element) {
+                            delete element._componentInstance;
+                        }
+                    });
+                    nestedComponentInstances.clear();
+
+                    let renderedTemplate = componentDefinition.template({
+                        ...componentState,
+                        ...componentDefinition.actions
+                    });
+
+                    if (typeof renderedTemplate === "string") {
+                        targetElement.innerHTML = renderedTemplate;
+
+                        targetElement.querySelectorAll("[data-if]").forEach(ifElement => {
+                            let ifExpression = ifElement.getAttribute("data-if");
+                            let showElement = evalInContext(ifExpression, {
+                                ...componentState,
+                                ...componentDefinition.actions
+                            });
+                            ifElement.style.display = showElement ? "" : "none";
+                        });
+
+                        targetElement.querySelectorAll("[data-else]").forEach(elseElement => {
+                            let elseExpression = elseElement.getAttribute("data-else");
+                            let showElement = evalInContext(elseExpression, {
+                                ...componentState,
+                                ...componentDefinition.actions
+                            });
+                            elseElement.style.display = showElement ? "none" : "";
+                        });
+
+                        targetElement.querySelectorAll("[data-repeat]").forEach(repeatElement => {
+                            renderRepeatElements(repeatElement, componentState, componentDefinition.actions);
+                        });
+
+                        targetElement.querySelectorAll("[data-component]").forEach(nestedComponentElement => {
+                            let elementId = nestedComponentElement.id || (() => {
+                                let id = "lila-" + Math.random().toString(36).substr(2, 9);
+                                while (document.getElementById(id)) {
+                                    id = "lila-" + Math.random().toString(36).substr(2, 9);
+                                }
+                                nestedComponentElement.id = id;
+                                return id;
+                            })();
+                            nestedComponentElement.id = elementId;
+
+                            if (!nestedComponentElement._componentInstance) {
+                                let nestedComponentName = nestedComponentElement.dataset.component;
+                                let nestedInstance = mountComponent(nestedComponentName, elementId);
+                                if (nestedInstance) {
+                                    nestedComponentInstances.set(nestedComponentElement, nestedInstance);
+                                    nestedComponentElement._componentInstance = nestedInstance;
+                                }
+                            }
+                        });
+
+                        targetElement.querySelectorAll("[data-action]").forEach(actionElement => {
+                            let actionName = actionElement.dataset.action;
+                            if (componentDefinition.actions[actionName] && !actionElement._actionListener) {
+                                let eventListener = (event) => {
+                                    if (actionElement.tagName === "FORM") {
+                                        event.preventDefault();
+                                    }
+                                    componentDefinition.actions[actionName]({ state: componentState, event: event });
+                                };
+                                let eventType = actionElement.tagName === "FORM" ? "submit" : "click";
+                                actionElement.addEventListener(eventType, eventListener);
+                                actionElement._actionListener = eventListener;
+                            } else if (!componentDefinition.actions[actionName]) {
+                                console.warn(`Action "${actionName}" not found for data-action`);
+                            }
+                        });
+
+                        targetElement.querySelectorAll("[data-model]").forEach(modelElement => {
+                            let modelProperty = modelElement.getAttribute("data-model");
+                            if (componentState[modelProperty] !== undefined) {
+                                if (modelElement.type === "checkbox" || modelElement.type === "radio") {
+                                    modelElement.checked = componentState[modelProperty];
+                                } else {
+                                    modelElement.value = componentState[modelProperty];
+                                }
+                            }
+                            if (!modelListeners.has(modelElement)) {
+                                let eventType = modelElement.type === "checkbox" || modelElement.type === "radio" ? "change" : "input";
+                                let eventListener = (event) => {
+                                    if (!isUpdating) {
+                                        if (modelElement.type === "checkbox") {
+                                            componentState[modelProperty] = event.target.checked;
+                                        } else if (modelElement.type === "radio") {
+                                            if (event.target.checked) {
+                                                componentState[modelProperty] = event.target.value;
+                                            }
+                                        } else {
+                                            componentState[modelProperty] = event.target.value;
+                                        }
+                                    }
+                                };
+                                modelElement.addEventListener(eventType, eventListener);
+                                modelListeners.set(modelElement, {
+                                    property: modelProperty,
+                                    listener: eventListener,
+                                    eventType: eventType
+                                });
+                            }
+                        });
+
+                        targetElement.querySelectorAll("[data-bind]").forEach(bindElement => {
+                            let bindProperty = bindElement.getAttribute("data-bind");
+                            if (componentState[bindProperty] !== undefined) {
+                                bindElement.textContent = componentState[bindProperty];
+                            }
+                        });
+
+                    } else {
+                        console.error("Component template did not return a string.");
+                    }
+
+                } else {
+                    changedProperties.forEach(changedProperty => {
+                        targetElement.querySelectorAll(`[data-bind="${changedProperty}"]`).forEach(bindElement => {
+                            if (componentState[changedProperty] !== undefined) {
+                                bindElement.textContent = componentState[changedProperty];
+                            }
+                        });
+
+                        targetElement.querySelectorAll(`[data-model="${changedProperty}"]`).forEach(modelElement => {
+                            if (modelElement !== document.activeElement && componentState[changedProperty] !== undefined) {
+                                if (modelElement.type === "checkbox" || modelElement.type === "radio") {
+                                    if (modelElement.checked !== componentState[changedProperty]) {
+                                        modelElement.checked = componentState[changedProperty];
+                                    }
+                                } else {
+                                    if (modelElement.value !== componentState[changedProperty]) {
+                                        modelElement.value = componentState[changedProperty];
+                                    }
+                                }
+                            }
+                        });
+
+                        targetElement.querySelectorAll("[data-if]").forEach(ifElement => {
+                            let ifExpression = ifElement.getAttribute("data-if");
+                            let dependencies = getExpressionDependencies(ifExpression);
+                            if (dependencies.includes(changedProperty)) {
+                                let showElement = evalInContext(ifExpression, {
+                                    ...componentState,
+                                    ...componentDefinition.actions
+                                });
+                                ifElement.style.display = showElement ? "" : "none";
+                            }
+                        });
+
+                        targetElement.querySelectorAll("[data-else]").forEach(elseElement => {
+                            let elseExpression = elseElement.getAttribute("data-else");
+                            let dependencies = getExpressionDependencies(elseExpression);
+                            if (dependencies.includes(changedProperty)) {
+                                let showElement = evalInContext(elseExpression, {
+                                    ...componentState,
+                                    ...componentDefinition.actions
+                                });
+                                elseElement.style.display = showElement ? "none" : "";
+                            }
+                        });
+
+                        targetElement.querySelectorAll("[data-repeat]").forEach(repeatElement => {
+                            let repeatExpression = repeatElement.getAttribute("data-repeat");
+                            let dependencies = getExpressionDependencies(repeatExpression);
+                            if (dependencies.includes(changedProperty)) {
+                                renderRepeatElements(repeatElement, componentState, componentDefinition.actions);
+                            }
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error("Error during update:", error);
+            } finally {
+                isUpdating = false;
+            }
+        });
+    }
+
+    let stateSubscription = componentState.subscribe(property => {
+        updateView([property]);
+    });
+
+    setTimeout(() => {
+        updateView();
+        if (componentDefinition.onMount) {
+            try {
+                let onMountResult = componentDefinition.onMount(componentState);
+                if (onMountResult && typeof onMountResult.then === "function") {
+                    onMountResult.then(() => {
+                        updateView();
+                    }).catch(error => console.error("Error in onMount promise:", error));
+                } else {
+                    updateView();
+                }
+            } catch (error) {
+                console.error("Error in onMount:", error);
+            }
+        }
+    }, 0);
+
+    let componentInstance = {
+        destroy() {
+            try {
+                if (componentDefinition.onDestroy) {
+                    componentDefinition.onDestroy(componentState);
+                }
+            } catch (error) {
+                console.error("Error in onDestroy:", error);
+            }
+
+            nestedComponentInstances.forEach((instance, element) => {
+                try {
+                    instance.destroy();
+                    if (element) {
+                        delete element._componentInstance;
+                    }
+                } catch (error) {
+                    console.error("Error destroying nested component:", error);
+                }
+            });
+            nestedComponentInstances.clear();
+
+            stateSubscription();
+
+            modelListeners.forEach(({ listener, eventType }, element) => {
+                if (element && listener) {
+                    element.removeEventListener(eventType, listener);
+                }
+            });
+            modelListeners.clear();
+
+            if (targetElement) {
+                targetElement.querySelectorAll("[data-action]").forEach(actionElement => {
+                    if (actionElement._actionListener) {
+                        let eventType = actionElement.tagName === "FORM" ? "submit" : "click";
+                        actionElement.removeEventListener(eventType, actionElement._actionListener);
+                        delete actionElement._actionListener;
+                    }
+                });
+                targetElement.innerHTML = "";
+            }
+        },
+        state: componentState,
+        forceUpdate() {
+            updateView();
+        }
+    };
+
+    activeComponentInstances.add(componentInstance);
+
+    return componentInstance;
+}
+
+function handleRouting() {
+    let currentHash = window.location.hash.substring(1) || "/";
+    let targetRoute = routes.get(currentHash) || routes.get("*");
+
+    if (!targetRoute) {
+        console.warn(`No route found for path: "${currentHash}"`);
+        return;
+    }
+
+    activeComponentInstances.forEach(instance => {
+        try {
+            instance.destroy();
+        } catch (error) {
+            console.error("Error destroying instance during routing:", error);
+        }
+    });
+    activeComponentInstances.clear();
+
+    let appOutletElement = document.getElementById("app-lila");
+    if (appOutletElement) {
+        mountComponent(targetRoute.componentName, "app-lila", targetRoute.props);
+    } else {
+        console.error('App outlet element with id "app-lila" not found.');
+    }
+}
+
+const routes = new Map();
+
+function addRoute(path, componentName, props = {}) {
+    routes.set(path, {
+        componentName: componentName,
+        props: props
+    });
+}
+
+function navigateTo(path) {
+    if (window.location.hash.substring(1) !== path) {
+        window.location.hash = path;
+    }
+}
+
+function compileTemplate(templateId) {
+    let templateElement = document.querySelector(`[data-template="${templateId}"]`);
+    if (!templateElement) {
+        console.error(`Template element with data-template="${templateId}" not found.`);
+        return () => "";
+    }
+
+    let templateHTML = templateElement.innerHTML;
+    return (context) => templateHTML.replace(/${([^}]+)}/g, (match, expression) => {
+        try {
+            return evalInContext(expression.trim(), context);
+        } catch (error) {
+            return console.error(`Error evaluating template expression: "${expression}"`, error), `Error: ${expression}`;
+        }
+    });
+}
+
+window.addEventListener("hashchange", handleRouting);
+window.addEventListener("load", handleRouting);
+document.addEventListener("click", event => {
+    let linkElement = event.target.closest("[data-link]");
+    if (linkElement) {
+        event.preventDefault();
+        let href = linkElement.getAttribute("href");
+        if (href) {
+            navigateTo(href);
+        }
+    }
+});
+
+window.App = {
+    reactive,
+    createComponent,
+    addRoute,
+    navigateTo,
+    mountComponent,
+    getComponents: getRegisteredComponents,
+    evalInContext
+};
