@@ -1,5 +1,5 @@
 ## Lila JS (ES) / Lila JS (EN)
-Una micro framework reactivo para construir aplicaciones web con JavaScript vanilla y HTML.
+Un micro framework reactivo para construir aplicaciones web con JavaScript vanilla y HTML.
 A minimalist reactive micro framework for building web applications with vanilla JavaScript and HTML.
 
 ### 📦 Instalación / Installation
