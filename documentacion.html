@@ -47,6 +47,7 @@
                 <li><a href="/" data-link>Características</a></li>
                 <li><a href="/install" data-link>Instalación</a></li>
                 <li><a href="/examples" data-link>Ejemplos</a></li>
+                <li><a href="/api" data-link>API</a></li>
                 <li><a href="index.html">English</a></li>
                 <li><a href="https://github.com/seip25/lila_js" target="_blank">GitHub</a></li>
             </ul>
@@ -281,11 +282,121 @@
         </section>
     </template>
 
+    <template data-template="api-template">
+        <section id="api-docs">
+            <h1>Referencia de la API</h1>
+            <p>Esta sección proporciona una referencia detallada de las funciones y conceptos básicos de Lila JS.</p>
+
+            <article id="api-app-reactive">
+                <h2>App.reactive(data, callback)</h2>
+                <p>Crea un objeto reactivo (un Proxy) que dispara actualizaciones automáticamente cuando sus propiedades cambian.</p>
+
+                <h4>Argumentos</h4>
+                <ul>
+                    <li><code>data</code> (Object): El objeto inicial para hacerlo reactivo.</li>
+                    <li><code>callback</code> (Function, opcional): Una función que se llamará cada vez que se establezca una propiedad. Recibe `(property, value)`.</li>
+                </ul>
+
+                <h4>Devuelve</h4>
+                <p>Un objeto envuelto en un Proxy que es completamente reactivo.</p>
+
+                <h4>Ejemplo de Uso</h4>
+                <pre><code class="language-javascript">
+const miEstado = App.reactive({
+    contador: 0,
+    mensaje: 'Hola'
+});
+
+// La interfaz de usuario se actualizará automáticamente cada vez que `contador` cambie.
+miEstado.contador = 1;
+                </code></pre>
+            </article>
+
+            <article id="api-app-createcomponent">
+                <h2>App.createComponent(name, definition)</h2>
+                <p>Registra un nuevo componente en la aplicación.</p>
+
+                <h4>Argumentos</h4>
+                <ul>
+                    <li><code>name</code> (String): El nombre único para el componente (p. ej., 'MiComponente').</li>
+                    <li><code>definition</code> (Object): Un objeto que define el comportamiento del componente.
+                        <ul>
+                            <li><code>template</code> (String): El ID de `data-template` de la plantilla a usar.</li>
+                            <li><code>state</code> (Function, opcional): Una función que devuelve el objeto de estado inicial para el componente. Puede recibir `props` de un padre.</li>
+                            <li><code>actions</code> (Object, opcional): Un objeto que contiene métodos que pueden ser llamados desde la plantilla del componente o desde otros componentes.</li>
+                            <li><code>onMount</code> (Function, opcional): Un hook de ciclo de vida que se llama después de que el componente se monta en el DOM.</li>
+                            <li><code>onDestroy</code> (Function, opcional): Un hook de ciclo de vida que se llama justo antes de que el componente se elimine del DOM.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>Ejemplo de Uso</h4>
+                <pre><code class="language-javascript">
+App.createComponent('Contador', {
+    template: 'contador-template',
+    state: () => ({ contador: 0 }),
+    actions: {
+        incrementar: ({ state }) => state.contador++
+    },
+    onMount: () => console.log('¡Contador montado!')
+});
+                </code></pre>
+            </article>
+
+            <article id="api-app-addroute">
+                <h2>App.addRoute(path, componentName, props)</h2>
+                <p>Mapea una ruta de URL a un componente, habilitando el enrutamiento.</p>
+
+                <h4>Argumentos</h4>
+                <ul>
+                    <li><code>path</code> (String): La ruta de la URL (p. ej., '/', '/acerca', '*'). La ruta '*' es un comodín que coincide con cualquier ruta no definida de otra manera.</li>
+                    <li><code>componentName</code> (String): El nombre del componente a renderizar para esta ruta.</li>
+                    <li><code>props</code> (Object, opcional): Un objeto de props para pasar al componente cuando se renderiza a través de esta ruta.</li>
+                </ul>
+            </article>
+
+            <article id="api-app-navigateto">
+                <h2>App.navigateTo(path)</h2>
+                <p>Navega programáticamente a una ruta diferente.</p>
+
+                <h4>Argumentos</h4>
+                <ul>
+                    <li><code>path</code> (String): La ruta a la que navegar.</li>
+                </ul>
+            </article>
+
+            <article id="api-app-mountcomponent">
+                <h2>App.mountComponent(componentName, targetElementId, props)</h2>
+                <p>Monta manualmente un componente en un elemento específico del DOM. Esto es menos común y generalmente es manejado automáticamente por el enrutador.</p>
+
+                <h4>Argumentos</h4>
+                <ul>
+                    <li><code>componentName</code> (String): El nombre del componente a montar.</li>
+                    <li><code>targetElementId</code> (String): El ID del elemento del DOM donde se renderizará el componente.</li>
+                    <li><code>props</code> (Object, opcional): Un objeto de props para pasar al componente.</li>
+                </ul>
+            </article>
+
+        </section>
+    </template>
+
     <template data-template="examples-template">
         <section id="examples">
             <h2>Ejemplos Prácticos</h2>
 
-            <article id="counter">
+            <div class="grid">
+                <a href="#counter-example" role="button" class="secondary outline">Contador</a>
+                <a href="#about-example" role="button" class="secondary outline">Acerca de</a>
+                <a href="#not-found-example" role="button" class="secondary outline">No Encontrado</a>
+                <a href="#home-component-example" role="button" class="secondary outline">Componente Home</a>
+                <a href="#complete-app-structure-example" role="button" class="secondary outline">Estructura Completa de App</a>
+                <a href="#conditional-rendering-example" role="button" class="secondary outline">Renderizado Condicional</a>
+                <a href="#data-repeat-example" role="button" class="secondary outline">Renderizado de Listas</a>
+                <a href="#component-slots-example" role="button" class="secondary outline">Slots de Componentes</a>
+                <a href="#parent-child-communication-example" role="button" class="secondary outline">Comunicación Padre-Hijo</a>
+            </div>
+
+            <article id="counter-example">
                 <h2>Componente Contador</h2>
                 <p>Un contador simple con funcionalidad de incrementar, decrementar y reiniciar, más auto-incremento
                     cada segundo.</p>
@@ -1208,8 +1319,260 @@ App.navigateTo('/ruta');   // Navegación programática
                             <td>Condicional</td>
                             <td><code>&lt;div data-if="items.length >0"&gt;&lt;/div&gt;</code></td>
                         </tr>
+                        <tr>
+                            <td><code>data-props</code></td>
+                            <td>Pasa props a componentes hijos</td>
+                            <td><code>&lt;div data-component="Hijo" data-props="{ miProp: 'valor' }"&gt;&lt;/div&gt;</code></td>
+                        </tr>
                     </tbody>
                 </table>
+            </article>
+
+            <article id="component-slots-example">
+                <h2>Slots de Componentes</h2>
+                <p>Los componentes pueden ser diseñados para ser más reutilizables usando slots. Un slot es un marcador de posición dentro de un componente que puedes rellenar con tu propio marcado desde el componente padre.</p>
+                <p>Esto es particularmente útil para componentes que encapsulan comportamiento pero necesitan contenido flexible, como un botón genérico o un diálogo modal.</p>
+
+                <h3>Ejemplo: Un Componente de Botón Reutilizable</h3>
+                <p>Vamos a crear un componente <code>BotonPersonalizado</code> que maneja una acción de clic pero permite que su contenido sea definido por el padre.</p>
+
+                <h4>Componente Hijo: <code>BotonPersonalizado</code></h4>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">boton-personalizado-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="boton-personalizado-template"&gt;
+    &lt;button data-action="handleClick" class="contrast"&gt;
+        &lt;slot&gt;&lt;/slot&gt; &lt;!-- El contenido del padre se insertará aquí --&gt;
+    &lt;/button&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">boton-personalizado-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('BotonPersonalizado', {
+    template: 'boton-personalizado-template',
+    actions: {
+        handleClick: ({ event }) => {
+            console.log('¡Botón personalizado clickeado!');
+            // Puedes añadir lógica más compleja aquí
+        }
+    }
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h4>Componente Padre: Usando <code>BotonPersonalizado</code></h4>
+                <p>Ahora, podemos usar <code>BotonPersonalizado</code> en un componente padre y proporcionar cualquier contenido que queramos dentro de él.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">padre-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="padre-template"&gt;
+    &lt;h2&gt;Usando Componentes con Slots&lt;/h2&gt;
+
+    &lt;!-- Ejemplo 1: Botón con texto --&gt;
+    &lt;div data-component="BotonPersonalizado"&gt;
+        ¡Haz Clic!
+    &lt;/div&gt;
+
+    &lt;!-- Ejemplo 2: Botón con un icono y texto --&gt;
+    &lt;div data-component="BotonPersonalizado"&gt;
+        &lt;i class="icon-check"&gt;&lt;/i&gt; Enviar
+    &lt;/div&gt;
+
+    &lt;!-- Ejemplo 3: Botón con HTML más complejo --&gt;
+    &lt;div data-component="BotonPersonalizado"&gt;
+        &lt;strong&gt;Guardar&lt;/strong&gt; &lt;em&gt;Cambios&lt;/em&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Cómo Funciona</h3>
+                <ol>
+                    <li>Defines un componente con una etiqueta <code>&lt;slot&gt;&lt;/slot&gt;</code> en su plantilla.</li>
+                    <li>Cuando usas este componente con <code>data-component</code>, cualquier contenido HTML que coloques dentro del elemento será capturado.</li>
+                    <li>Lila JS reemplaza la etiqueta <code>&lt;slot&gt;</code> en la plantilla del hijo con el contenido capturado del padre.</li>
+                </ol>
+            </article>
+
+            <article id="parent-child-communication-example">
+                <h2>Comunicación Padre-Hijo</h2>
+                <p>Lila JS permite la comunicación entre componentes padre e hijo, permitiéndote construir aplicaciones más complejas e interactivas.</p>
+
+                <h3>Pasar Props de Padre a Hijo</h3>
+                <p>Un componente padre puede pasar datos (props) a un componente hijo. El componente hijo recibe estos props en su función `state`.</p>
+
+                <h4>Componente Hijo: <code>PerfilUsuario</code></h4>
+                <p>Este componente está diseñado para recibir datos de usuario de un padre.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">perfil-usuario-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="perfil-usuario-template"&gt;
+    &lt;article&gt;
+        &lt;h4&gt;Perfil de Usuario&lt;/h4&gt;
+        &lt;p&gt;Nombre: &lt;span data-bind="nombreUsuario"&gt;&lt;/span&gt;&lt;/p&gt;
+        &lt;p&gt;Email: &lt;span data-bind="emailUsuario"&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;/article&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">perfil-usuario-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('PerfilUsuario', {
+    template: 'perfil-usuario-template',
+    state: (props) => ({
+        nombreUsuario: props.nombre || 'N/A',
+        emailUsuario: props.email || 'N/A'
+    })
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h4>Componente Padre: <code>Panel</code></h4>
+                <p>El componente padre `Panel` define los datos y los pasa al hijo `PerfilUsuario`.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">panel-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="panel-template"&gt;
+    &lt;h2&gt;Panel de Control&lt;/h2&gt;
+    &lt;div data-component="PerfilUsuario" data-props="{ nombre: usuarioActual.nombre, email: usuarioActual.email }"&gt;&lt;/div&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+                 <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">panel-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('Panel', {
+    template: 'panel-template',
+    state: () => ({
+        usuarioActual: {
+            nombre: 'Juan Pérez',
+            email: 'juan.perez@example.com'
+        }
+    })
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Llamar Acciones del Padre desde el Hijo</h3>
+                <p>Un componente hijo puede disparar acciones definidas in su padre. Esto es útil para notificar al padre de eventos, como el clic de un botón o el envío de un formulario.</p>
+
+                <h4>Componente Hijo: <code>FormularioBusqueda</code></h4>
+                <p>Este componente tiene un formulario y llamará a una acción del padre al enviarse.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">formulario-busqueda-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="formulario-busqueda-template"&gt;
+    &lt;form data-action="handleSearch"&gt;
+        &lt;input type="search" data-model="query" placeholder="Buscar..." /&gt;
+        &lt;button type="submit"&gt;Buscar&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">formulario-busqueda-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('FormularioBusqueda', {
+    template: 'formulario-busqueda-template',
+    state: (props) => ({
+        query: '',
+        _parentActions: props._parentActions || null
+    }),
+    actions: {
+        handleSearch: ({ state, event }) => {
+            event.preventDefault();
+            if (state._parentActions && state._parentActions.realizarBusqueda) {
+                state._parentActions.realizarBusqueda({ terminoBusqueda: state.query });
+            }
+        }
+    }
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h4>Componente Padre: <code>PaginaBusqueda</code></h4>
+                <p>El padre define la acción `realizarBusqueda` y renderiza el `FormularioBusqueda`.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">pagina-busqueda-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="pagina-busqueda-template"&gt;
+    &lt;h2&gt;Buscar Productos&lt;/h2&gt;
+    &lt;div data-component="FormularioBusqueda"&gt;&lt;/div&gt;
+    &lt;p&gt;Resultados: &lt;span data-bind="results"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">pagina-busqueda-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('PaginaBusqueda', {
+    template: 'pagina-busqueda-template',
+    state: () => ({
+        results: 'Aún no hay búsqueda.'
+    }),
+    actions: {
+        realizarBusqueda: ({ state, terminoBusqueda }) => {
+            // En una app real, aquí harías una petición de datos
+            state.results = `Resultados para "${terminoBusqueda}"`;
+        }
+    }
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Cómo Funciona</h3>
+                <ol>
+                    <li><strong>Props:</strong> Usa el atributo `data-props` en el elemento del componente hijo para pasar un objeto de datos. La función `state` del hijo recibe este objeto.</li>
+                    <li><strong>Acciones:</strong> Lila JS pasa automáticamente un objeto `_parentActions` a los props del componente hijo. Este objeto contiene todas las acciones del padre. El hijo puede entonces llamar a estas acciones.</li>
+                </ol>
             </article>
         </section>
     </template>

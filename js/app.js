@@ -21,9 +21,17 @@ App.createComponent("Features", {
     }
 });
 
+App.createComponent("Api", {
+    template: "api-template",
+    onMount: (state) => {
+        hls();
+    }
+});
+
 App.addRoute("*", "Features");
 App.addRoute("/install", "Install");
 App.addRoute("/examples", "Examples");
+App.addRoute("/api", "Api");
 handleRouting();
 
 

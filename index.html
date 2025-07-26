@@ -48,6 +48,7 @@
                 <li><a href="/" data-link>Features</a></li>
                 <li><a href="/install" data-link>Install</a></li>
                 <li><a href="/examples" data-link>Examples</a></li>
+                <li><a href="/api" data-link>API</a></li>
                 <li><a href="documentacion.html">Español</a></li>
                 <li><a href="https://github.com/seip25/lila_js" target="_blank">GitHub</a></li>
             </ul>
@@ -292,12 +293,121 @@
         </section>
     </template>
 
+    <template data-template="api-template">
+        <section id="api-docs">
+            <h1>API Reference</h1>
+            <p>This section provides a detailed reference for the core functions and concepts in Lila JS.</p>
+
+            <article id="api-app-reactive">
+                <h2>App.reactive(data, callback)</h2>
+                <p>Creates a reactive object (a Proxy) that automatically triggers updates when its properties are changed.</p>
+
+                <h4>Arguments</h4>
+                <ul>
+                    <li><code>data</code> (Object): The initial object to make reactive.</li>
+                    <li><code>callback</code> (Function, optional): A function to be called whenever a property is set. It receives `(property, value)`.</li>
+                </ul>
+
+                <h4>Returns</h4>
+                <p>A Proxy-wrapped object that is fully reactive.</p>
+
+                <h4>Usage Example</h4>
+                <pre><code class="language-javascript">
+const myState = App.reactive({
+    count: 0,
+    message: 'Hello'
+});
+
+// The UI will update automatically whenever `count` changes.
+myState.count = 1;
+                </code></pre>
+            </article>
+
+            <article id="api-app-createcomponent">
+                <h2>App.createComponent(name, definition)</h2>
+                <p>Registers a new component with the application.</p>
+
+                <h4>Arguments</h4>
+                <ul>
+                    <li><code>name</code> (String): The unique name for the component (e.g., 'MyComponent').</li>
+                    <li><code>definition</code> (Object): An object that defines the component's behavior.
+                        <ul>
+                            <li><code>template</code> (String): The `data-template` ID of the template to use.</li>
+                            <li><code>state</code> (Function, optional): A function that returns the initial state object for the component. It can receive `props` from a parent.</li>
+                            <li><code>actions</code> (Object, optional): An object containing methods that can be called from the component's template or from other components.</li>
+                            <li><code>onMount</code> (Function, optional): A lifecycle hook called after the component is mounted to the DOM.</li>
+                            <li><code>onDestroy</code> (Function, optional): A lifecycle hook called just before the component is removed from the DOM.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>Usage Example</h4>
+                <pre><code class="language-javascript">
+App.createComponent('Counter', {
+    template: 'counter-template',
+    state: () => ({ count: 0 }),
+    actions: {
+        increment: ({ state }) => state.count++
+    },
+    onMount: () => console.log('Counter mounted!')
+});
+                </code></pre>
+            </article>
+
+            <article id="api-app-addroute">
+                <h2>App.addRoute(path, componentName, props)</h2>
+                <p>Maps a URL path to a component, enabling routing.</p>
+
+                <h4>Arguments</h4>
+                <ul>
+                    <li><code>path</code> (String): The URL path (e.g., '/', '/about', '*'). The path '*' is a wildcard that matches any route not otherwise defined.</li>
+                    <li><code>componentName</code> (String): The name of the component to render for this route.</li>
+                    <li><code>props</code> (Object, optional): An object of props to pass to the component when it's rendered via this route.</li>
+                </ul>
+            </article>
+
+            <article id="api-app-navigateto">
+                <h2>App.navigateTo(path)</h2>
+                <p>Programmatically navigates to a different route.</p>
+
+                <h4>Arguments</h4>
+                <ul>
+                    <li><code>path</code> (String): The path to navigate to.</li>
+                </ul>
+            </article>
+
+            <article id="api-app-mountcomponent">
+                <h2>App.mountComponent(componentName, targetElementId, props)</h2>
+                <p>Manually mounts a component into a specific DOM element. This is less common and is typically handled automatically by the router.</p>
+
+                <h4>Arguments</h4>
+                <ul>
+                    <li><code>componentName</code> (String): The name of the component to mount.</li>
+                    <li><code>targetElementId</code> (String): The ID of the DOM element where the component will be rendered.</li>
+                    <li><code>props</code> (Object, optional): An object of props to pass to the component.</li>
+                </ul>
+            </article>
+
+        </section>
+    </template>
+
     <template data-template="examples-template">
         <section id="examples">
             <h2>Practical Examples</h2>
 
+            <div class="grid">
+                <a href="#counter-example" role="button" class="secondary outline">Counter</a>
+                <a href="#about-example" role="button" class="secondary outline">About</a>
+                <a href="#not-found-example" role="button" class="secondary outline">Not Found</a>
+                <a href="#home-component-example" role="button" class="secondary outline">Home Component</a>
+                <a href="#complete-app-structure-example" role="button" class="secondary outline">Complete App Structure</a>
+                <a href="#conditional-rendering-example" role="button" class="secondary outline">Conditional Rendering</a>
+                <a href="#data-repeat-example" role="button" class="secondary outline">List Rendering</a>
+                <a href="#component-slots-example" role="button" class="secondary outline">Component Slots</a>
+                <a href="#parent-child-communication-example" role="button" class="secondary outline">Parent-Child Communication</a>
+            </div>
 
-            <article id="counter">
+            <article id="counter-example">
                 <h2>Counter Component</h2>
                 <p>A simple counter with increment, decrement and reset functionality, plus auto-increment every second.
                 </p>
@@ -1211,12 +1321,264 @@ App.navigateTo('/path');   // Programmatic navigation
                             <td>Conditional</td>
                             <td><code>&lt;div data-if="items.length >0"&gt;&lt;/div&gt;</code></td>
                         </tr>
-
+                        <tr>
+                            <td><code>data-props</code></td>
+                            <td>Pass props to child components</td>
+                            <td><code>&lt;div data-component="Child" data-props="{ myProp: 'value' }"&gt;&lt;/div&gt;</code></td>
+                        </tr>
 
 
                     </tbody>
                 </table>
             </article>
+
+            <article id="component-slots-example">
+                <h2>Component Slots</h2>
+                <p>Components can be designed to be more reusable by using slots. A slot is a placeholder inside a component that you can fill with your own markup from the parent component.</p>
+                <p>This is particularly useful for components that encapsulate behavior but need flexible content, like a generic button or a modal dialog.</p>
+
+                <h3>Example: A Reusable Button Component</h3>
+                <p>Let's create a <code>CustomButton</code> component that handles a click action but allows its content to be defined by the parent.</p>
+
+                <h4>Child Component: <code>CustomButton</code></h4>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">custom-button-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="custom-button-template"&gt;
+    &lt;button data-action="handleClick" class="contrast"&gt;
+        &lt;slot&gt;&lt;/slot&gt; &lt;!-- Content from the parent will be inserted here --&gt;
+    &lt;/button&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">custom-button-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('CustomButton', {
+    template: 'custom-button-template',
+    actions: {
+        handleClick: ({ event }) => {
+            console.log('Custom button clicked!');
+            // You can add more complex logic here
+        }
+    }
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h4>Parent Component: Using <code>CustomButton</code></h4>
+                <p>Now, we can use the <code>CustomButton</code> in a parent component and provide any content we want inside it.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">parent-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="parent-template"&gt;
+    &lt;h2&gt;Using Slotted Components&lt;/h2&gt;
+
+    &lt;!-- Example 1: Button with text --&gt;
+    &lt;div data-component="CustomButton"&gt;
+        Click Me!
+    &lt;/div&gt;
+
+    &lt;!-- Example 2: Button with an icon and text --&gt;
+    &lt;div data-component="CustomButton"&gt;
+        &lt;i class="icon-check"&gt;&lt;/i&gt; Submit
+    &lt;/div&gt;
+
+    &lt;!-- Example 3: Button with more complex HTML --&gt;
+    &lt;div data-component="CustomButton"&gt;
+        &lt;strong&gt;Save&lt;/strong&gt; &lt;em&gt;Changes&lt;/em&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>How It Works</h3>
+                <ol>
+                    <li>You define a component with a <code>&lt;slot&gt;&lt;/slot&gt;</code> tag in its template.</li>
+                    <li>When you use this component with <code>data-component</code>, any HTML content you place inside the element will be captured.</li>
+                    <li>Lila JS replaces the <code>&lt;slot&gt;</code> tag in the child's template with the captured content from the parent.</li>
+                </ol>
+            </article>
+
+            <article id="parent-child-communication-example">
+                <h2>Parent-Child Communication</h2>
+                <p>Lila JS allows for communication between parent and child components, enabling you to build more complex and interactive applications.</p>
+
+                <h3>Passing Props from Parent to Child</h3>
+                <p>A parent component can pass data (props) to a child component. The child component receives these props in its `state` function.</p>
+
+                <h4>Child Component: <code>UserProfile</code></h4>
+                <p>This component is designed to receive user data from a parent.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">user-profile-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="user-profile-template"&gt;
+    &lt;article&gt;
+        &lt;h4&gt;User Profile&lt;/h4&gt;
+        &lt;p&gt;Name: &lt;span data-bind="userName"&gt;&lt;/span&gt;&lt;/p&gt;
+        &lt;p&gt;Email: &lt;span data-bind="userEmail"&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;/article&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">user-profile-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('UserProfile', {
+    template: 'user-profile-template',
+    state: (props) => ({
+        userName: props.name || 'N/A',
+        userEmail: props.email || 'N/A'
+    })
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h4>Parent Component: <code>Dashboard</code></h4>
+                <p>The parent `Dashboard` component defines the data and passes it to the `UserProfile` child.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">dashboard-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="dashboard-template"&gt;
+    &lt;h2&gt;Dashboard&lt;/h2&gt;
+    &lt;div data-component="UserProfile" data-props="{ name: currentUser.name, email: currentUser.email }"&gt;&lt;/div&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+                 <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">dashboard-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('Dashboard', {
+    template: 'dashboard-template',
+    state: () => ({
+        currentUser: {
+            name: 'John Doe',
+            email: 'john.doe@example.com'
+        }
+    })
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>Calling Parent Actions from Child</h3>
+                <p>A child component can trigger actions defined in its parent. This is useful for notifying the parent of events, like a button click or a form submission.</p>
+
+                <h4>Child Component: <code>SearchForm</code></h4>
+                <p>This component has a form and will call a parent action upon submission.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">search-form-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="search-form-template"&gt;
+    &lt;form data-action="handleSearch"&gt;
+        &lt;input type="search" data-model="query" placeholder="Search..." /&gt;
+        &lt;button type="submit"&gt;Search&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">search-form-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('SearchForm', {
+    template: 'search-form-template',
+    state: (props) => ({
+        query: '',
+        _parentActions: props._parentActions || null
+    }),
+    actions: {
+        handleSearch: ({ state, event }) => {
+            event.preventDefault();
+            if (state._parentActions && state._parentActions.performSearch) {
+                state._parentActions.performSearch({ searchTerm: state.query });
+            }
+        }
+    }
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h4>Parent Component: <code>SearchPage</code></h4>
+                <p>The parent defines the `performSearch` action and renders the `SearchForm`.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">search-page-template.html</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-html">
+&lt;template data-template="search-page-template"&gt;
+    &lt;h2&gt;Search Products&lt;/h2&gt;
+    &lt;div data-component="SearchForm"&gt;&lt;/div&gt;
+    &lt;p&gt;Search results: &lt;span data-bind="results"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/template&gt;
+                        </code></pre>
+                    </div>
+                </div>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">search-page-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('SearchPage', {
+    template: 'search-page-template',
+    state: () => ({
+        results: 'No search yet.'
+    }),
+    actions: {
+        performSearch: ({ state, searchTerm }) => {
+            // In a real app, you would fetch data here
+            state.results = `Results for "${searchTerm}"`;
+        }
+    }
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h3>How It Works</h3>
+                <ol>
+                    <li><strong>Props:</strong> Use the `data-props` attribute on the child component's element to pass an object of data. The child's `state` function receives this object.</li>
+                    <li><strong>Actions:</strong> Lila JS automatically passes a `_parentActions` object to the child component's props. This object contains all the actions from the parent. The child can then call these actions.</li>
+                </ol>
+            </article>
+
         </section>
     </template>
 
