@@ -62,6 +62,7 @@ function createComponent(name, {
         onMount: onMount,
         onDestroy: onDestroy
     });
+    return registeredComponents.get(name);
 }
 
 function evalInContext(expression, context) {
@@ -94,6 +95,23 @@ function mountComponent(componentName, targetElementId, props = {}) {
     let modelListeners = new Map();
     let nestedComponentInstances = new Map();
     let isUpdating = false;
+
+    const slotContent = new Map();
+    targetElement.querySelectorAll('[data-slot]').forEach(slotElement => {
+        const slotName = slotElement.getAttribute('data-slot');
+        if (slotName) {
+            const content = document.createDocumentFragment();
+            while (slotElement.firstChild) {
+                content.appendChild(slotElement.firstChild);
+            }
+            slotContent.set(slotName, content);
+            slotElement.parentNode.removeChild(slotElement);
+        } else {
+            console.warn(`Element with data-slot has no slot name:`, slotElement);
+        }
+    });
+
+
     function getExpressionDependencies(expression) {
         const reserved = new Set(['true', 'false', 'null', 'undefined', 'this']);
         return [...new Set((expression.match(/[a-zA-Z_$][a-zA-Z0-9_$]*/g) || [])
@@ -163,8 +181,8 @@ function mountComponent(componentName, targetElementId, props = {}) {
                             const htmlAttr = attr.name.replace('data-repeat-bind-html-', '');
                             const expression = attr.value;
                             const value = evalInContext(expression, { ...context, item, index });
-                            
-                            if (value !== undefined && value!== null) {
+
+                            if (value !== undefined && value !== null) {
                                 el.setAttribute(htmlAttr, value);
                             }
                             //el.removeAttribute(attr.name);
@@ -189,8 +207,7 @@ function mountComponent(componentName, targetElementId, props = {}) {
                             if (value !== undefined) {
                                 el.setAttribute(attributeName, value);
                             }
-                            M
-                            el.removeAttribute(attr.name);
+
                         }
                     });
                 });
@@ -200,7 +217,12 @@ function mountComponent(componentName, targetElementId, props = {}) {
                     if (componentActions[actionName]) {
                         let eventListener = (event) => {
                             event.preventDefault();
-                            componentActions[actionName]({ state: context, event: event, item: item, index: index });
+                            componentActions[actionName]({
+                                state: context,
+                                event: event,
+                                item: item,
+                                index: index
+                            });
                         };
                         actionElement.addEventListener("click", eventListener);
                         actionElement._actionListener = eventListener;
@@ -214,7 +236,6 @@ function mountComponent(componentName, targetElementId, props = {}) {
         } else {
             console.warn(`data-repeat expression "${repeatExpression}" did not evaluate to an array. Result:`, repeatData);
         }
-
         parentElement.insertBefore(fragment, repeatElement.nextSibling);
         repeatElement.style.display = "none";
     }
@@ -228,7 +249,10 @@ function mountComponent(componentName, targetElementId, props = {}) {
         requestAnimationFrame(() => {
             try {
                 if (changedProperties.length === 0) {
-                    modelListeners.forEach(({ listener, eventType }, element) => {
+                    modelListeners.forEach(({
+                        listener,
+                        eventType
+                    }, element) => {
                         if (element && listener) {
                             element.removeEventListener(eventType, listener);
                         }
@@ -263,6 +287,17 @@ function mountComponent(componentName, targetElementId, props = {}) {
                     if (typeof renderedTemplate === "string") {
                         targetElement.innerHTML = renderedTemplate;
 
+                        slotContent.forEach((content, slotName) => {
+                            const slotOutlet = targetElement.querySelector(`[data-slot-outlet="${slotName}"]`);
+                            if (slotOutlet) {
+                                while (slotOutlet.firstChild) {
+                                    slotOutlet.removeChild(slotOutlet.firstChild);
+                                }
+                                slotOutlet.appendChild(content.cloneNode(true));
+                            } else {
+                                console.warn(`Slot outlet with name "${slotName}" not found in component template.`);
+                            }
+                        });
                         targetElement.querySelectorAll("[data-if]").forEach(ifElement => {
                             let ifExpression = ifElement.getAttribute("data-if");
                             let showElement = evalInContext(ifExpression, {
@@ -298,7 +333,35 @@ function mountComponent(componentName, targetElementId, props = {}) {
 
                             if (!nestedComponentElement._componentInstance) {
                                 let nestedComponentName = nestedComponentElement.dataset.component;
-                                let nestedInstance = mountComponent(nestedComponentName, elementId);
+
+                                const wrappedParentActions = {};
+                              
+                                for (const actionName in componentDefinition.actions) {
+                                    if (typeof componentDefinition.actions[actionName] === 'function') {
+                                        wrappedParentActions[actionName] = (...args) => {
+                                           
+                                            return componentDefinition.actions[actionName]({
+                                                state: componentState,
+                                                actions: componentDefinition.actions,
+                                                ...args[0] 
+                                            });
+                                        };
+                                    }
+                                }
+
+                                const nestedProps = {
+                                    ...evalInContext(nestedComponentElement.dataset.props || '{}', {
+                                        ...componentState, 
+                                        ...componentDefinition.actions 
+                                    }),
+                                    _parentActions: wrappedParentActions ,
+                                    _parentState: componentState
+                                };
+                                if(nestedComponentName=='DialogSearch') console.log(`Mounting nested component ${nestedComponentName}: passing props`, nestedProps); 
+
+                                let nestedInstance = mountComponent(nestedComponentName, elementId, nestedProps);
+
+
                                 if (nestedInstance) {
                                     nestedComponentInstances.set(nestedComponentElement, nestedInstance);
                                     nestedComponentElement._componentInstance = nestedInstance;
@@ -313,7 +376,10 @@ function mountComponent(componentName, targetElementId, props = {}) {
                                     if (actionElement.tagName === "FORM") {
                                         event.preventDefault();
                                     }
-                                    componentDefinition.actions[actionName]({ state: componentState, event: event });
+                                    componentDefinition.actions[actionName]({
+                                        state: componentState,
+                                        event: event
+                                    });
                                 };
                                 let eventType = actionElement.tagName === "FORM" ? "submit" : "click";
                                 actionElement.addEventListener(eventType, eventListener);
@@ -369,6 +435,7 @@ function mountComponent(componentName, targetElementId, props = {}) {
 
                 } else {
                     changedProperties.forEach(changedProperty => {
+                     //   console.log("UpdateView: Propiedad cambiada:", changedProperty); // Log de la propiedad cambiada
                         targetElement.querySelectorAll(`[data-bind="${changedProperty}"]`).forEach(bindElement => {
                             if (componentState[changedProperty] !== undefined) {
                                 bindElement.textContent = componentState[changedProperty];
@@ -420,6 +487,8 @@ function mountComponent(componentName, targetElementId, props = {}) {
                                 renderRepeatElements(repeatElement, componentState, componentDefinition.actions);
                             }
                         });
+
+
                     });
                 }
             } catch (error) {
@@ -429,6 +498,7 @@ function mountComponent(componentName, targetElementId, props = {}) {
             }
         });
     }
+
 
     let stateSubscription = componentState.subscribe(property => {
         updateView([property]);
@@ -476,7 +546,10 @@ function mountComponent(componentName, targetElementId, props = {}) {
 
             stateSubscription();
 
-            modelListeners.forEach(({ listener, eventType }, element) => {
+            modelListeners.forEach(({
+                listener,
+                eventType
+            }, element) => {
                 if (element && listener) {
                     element.removeEventListener(eventType, listener);
                 }
@@ -554,7 +627,7 @@ function compileTemplate(templateId) {
     }
 
     let templateHTML = templateElement.innerHTML;
-    return (context) => templateHTML.replace(/${([^}]+)}/g, (match, expression) => {
+    return (context) => templateHTML.replace(/\${([^}]+)}/g, (match, expression) => {
         try {
             return evalInContext(expression.trim(), context);
         } catch (error) {
