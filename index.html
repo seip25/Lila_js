@@ -1617,22 +1617,22 @@ state.items = items;
 <div class="editor-content"> 
 <pre><code class="language-javascript">
 App.createComponent('Dialog', { 
-template: 'dialog-template', 
-state: (props) => ({ 
-search: '', 
-_parentState: props._parentState || null, 
-}), 
-actions: { 
-submit: async ({ state, event }) => { 
-event.preventDefault(); 
-const query = state.search.trim();
-if (query) {
-const url = `/api/items?search=${encodeURIComponent(query)}`;
-const items = await Http(url);
-state._parentState.items = items; // Directly modifies the parent's state
-}
-}
-}
+    template: 'dialog-template', 
+    state: (props) => ({ 
+        search: '', 
+        _parentState: props._parentState || null, 
+    }), 
+    actions: { 
+        submit: async ({ state, event }) => { 
+            event.preventDefault(); 
+            const query = state.search.trim();
+            if (query) {
+                const url = `/api/items?search=${encodeURIComponent(query)}`;
+                const items = await Http(url);
+                state._parentState.items = items; // Directly modifies the parent's state
+            }
+        }
+    }
 });
 </code></pre>
 </div>
@@ -1644,6 +1644,35 @@ state._parentState.items = items; // Directly modifies the parent's state
 <li><strong>Actions:</strong> Lila JS automatically passes a `_parentActions` object to the child component's props. This object contains all of the parent's actions. The child can then call these actions.</li>
 <li><strong>Parent State:</strong> Similarly, Lilac JS passes a <code>_parentState</code> object to the child's props, which is a direct reference to the parent's reactive state.</li>
 </ol>
+
+
+<h3>Subscribing to Parent State Changes</h3>
+<p>A child component can subscribe to changes in the parent's state to react to specific updates.</p>
+
+<h4>Child Component: <code>Logger</code></h4>
+<p>This child component watches for changes in the parent's state and displays them in the console.</p>
+<div class="code-editor">
+<div class="editor-header">
+<span class="editor-title">logger-component.js</span>
+</div>
+<div class="editor-content">
+<pre><code class="language-javascript">
+App.createComponent('Logger', {
+    template: 'empty-template', // No template needed
+    state: (props) => ({
+        _parentStateSubscribe: props._parentStateSubscribe || null,
+    }),
+    onMount: (state) => {
+        if (state._parentStateSubscribe) {
+            state._parentStateSubscribe(propertyName => {
+            console.log(`The property '${propertyName}' of the parent state has changed.`);
+        });
+    }
+    }
+});
+</code></pre>
+</div>
+</div>
             </article>
 
         </section>
