@@ -1640,6 +1640,34 @@ App.createComponent('Dialog', {
                     <li><strong>Acciones:</strong> Lila JS pasa automáticamente un objeto `_parentActions` a los props del componente hijo. Este objeto contiene todas las acciones del padre. El hijo puede entonces llamar a estas acciones.</li>
                     <li><strong>Estado del Padre:</strong> De manera similar, Lila JS pasa un objeto <code>_parentState</code> a los props del hijo, que es una referencia directa al estado reactivo del padre.</li>
                 </ol>
+
+   <h3>Suscripción a Cambios en el Estado del Padre</h3>
+                <p>Un componente hijo puede suscribirse a los cambios en el estado del padre para reaccionar a actualizaciones específicas.</p>
+
+                <h4>Componente Hijo: <code>Logger</code></h4>
+                <p>Este componente hijo observa los cambios en el estado del padre y los muestra en la consola.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">logger-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('Logger', {
+  template: 'empty-template', // No necesita template
+  state: (props) => ({
+    _parentStateSubscribe: props._parentStateSubscribe || null,
+  }),
+  onMount: (state) => {
+    if (state._parentStateSubscribe) {
+      state._parentStateSubscribe(propertyName => {
+        console.log(`La propiedad '${propertyName}' del estado del padre ha cambiado.`);
+      });
+    }
+  }
+});
+                        </code></pre>
+                    </div>
+                </div>
             </article>
         </section>
     </template>
