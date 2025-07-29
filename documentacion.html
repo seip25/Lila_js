@@ -1416,6 +1416,12 @@ App.createComponent('BotonPersonalizado', {
                 <h2>Comunicación Padre-Hijo</h2>
                 <p>Lila JS permite la comunicación entre componentes padre e hijo, permitiéndote construir aplicaciones más complejas e interactivas.</p>
 
+                <div class="grid">
+                <a href="#parent-child-communication-example" role="button" class="secondary outline">Props</a>
+                <a href="#parent-child-communication-example" role="button" class="secondary outline">Acciones del Padre</a>
+                <a href="#parent-child-communication-example" role="button" class="secondary outline">Estado del Padre</a>
+                </div>
+
                 <h3>Pasar Props de Padre a Hijo</h3>
                 <p>Un componente padre puede pasar datos (props) a un componente hijo. El componente hijo recibe estos props en su función `state`.</p>
 
@@ -1571,10 +1577,68 @@ App.createComponent('PaginaBusqueda', {
                     </div>
                 </div>
 
+                <h3>Acceder al Estado del Padre desde el Hijo con <code>_parentState</code></h3>
+                <p>Además de llamar a las acciones del padre, un componente hijo puede acceder directamente y modificar el estado de su padre a través de la propiedad <code>_parentState</code>.</p>
+
+                <h4>Componente Padre: <code>Container</code></h4>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">container-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('Container', {
+  template: 'container-template',
+  state: () => ({
+    items: [],
+    showSections: true,
+    currentItem: null,
+  }),
+  actions: {
+    updateItems: ({ state, items }) => {
+      state.items = items;
+    },
+  }
+});
+                        </code></pre>
+                    </div>
+                </div>
+
+                <h4>Componente Hijo: <code>Dialog</code></h4>
+                <p>Este componente hijo accede y modifica directamente el estado <code>items</code> del componente padre.</p>
+                <div class="code-editor">
+                    <div class="editor-header">
+                        <span class="editor-title">dialog-component.js</span>
+                    </div>
+                    <div class="editor-content">
+                        <pre><code class="language-javascript">
+App.createComponent('Dialog', {
+  template: 'dialog-template',
+  state: (props) => ({
+    search: '',
+    _parentState: props._parentState || null,
+  }),
+  actions: {
+    submit: async ({ state, event }) => {
+      event.preventDefault();
+      const query = state.search.trim();
+      if (query) {
+        const url = `/api/items?search=${encodeURIComponent(query)}`;
+        const items = await Http(url);
+        state._parentState.items = items; // Modifica directamente el estado del padre
+      }
+    }
+  }
+});
+                        </code></pre>
+                    </div>
+                </div>
+
                 <h3>Cómo Funciona</h3>
                 <ol>
                     <li><strong>Props:</strong> Usa el atributo `data-props` en el elemento del componente hijo para pasar un objeto de datos. La función `state` del hijo recibe este objeto.</li>
                     <li><strong>Acciones:</strong> Lila JS pasa automáticamente un objeto `_parentActions` a los props del componente hijo. Este objeto contiene todas las acciones del padre. El hijo puede entonces llamar a estas acciones.</li>
+                    <li><strong>Estado del Padre:</strong> De manera similar, Lila JS pasa un objeto <code>_parentState</code> a los props del hijo, que es una referencia directa al estado reactivo del padre.</li>
                 </ol>
             </article>
         </section>
