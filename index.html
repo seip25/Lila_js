@@ -1579,6 +1579,71 @@ App.createComponent('SearchPage', {
                     <li><strong>Props:</strong> Use the `data-props` attribute on the child component's element to pass an object of data. The child's `state` function receives this object.</li>
                     <li><strong>Actions:</strong> Lila JS automatically passes a `_parentActions` object to the child component's props. This object contains all the actions from the parent. The child can then call these actions.</li>
                 </ol>
+
+
+<h3>Accessing the Parent's State from the Child with <code>_parentState</code></h3>
+<p>In addition to calling the parent's actions, a child component can directly access and modify its parent's state through the <code>_parentState</code> property.</p>
+
+<h4>Parent Component: <code>Container</code></h4>
+<div class="code-editor">
+<div class="editor-header">
+<span class="editor-title">container-component.js</span>
+</div>
+<div class="editor-content">
+<pre><code class="language-javascript">
+App.createComponent('Container', {
+template: 'container-template',
+state: () => ({
+items: [],
+showSections: true,
+currentItem: null,
+}),
+actions: {
+updateItems: ({ state, items }) => { 
+state.items = items; 
+}, 
+}
+}); 
+</code></pre> 
+</div> 
+</div> 
+
+<h4>Child Component: <code>Dialog</code></h4> 
+<p>This child component directly accesses and modifies the <code>items</code> state of the parent component.</p> 
+<div class="code-editor"> 
+<div class="editor-header"> 
+<span class="editor-title">dialog-component.js</span> 
+</div> 
+<div class="editor-content"> 
+<pre><code class="language-javascript">
+App.createComponent('Dialog', { 
+template: 'dialog-template', 
+state: (props) => ({ 
+search: '', 
+_parentState: props._parentState || null, 
+}), 
+actions: { 
+submit: async ({ state, event }) => { 
+event.preventDefault(); 
+const query = state.search.trim();
+if (query) {
+const url = `/api/items?search=${encodeURIComponent(query)}`;
+const items = await Http(url);
+state._parentState.items = items; // Directly modifies the parent's state
+}
+}
+}
+});
+</code></pre>
+</div>
+</div>
+
+<h3>How It Works</h3>
+<ol>
+<li><strong>Props:</strong> Use the `data-props` attribute on the child component element to pass a data object. The child's `state` function receives this object.</li>
+<li><strong>Actions:</strong> Lila JS automatically passes a `_parentActions` object to the child component's props. This object contains all of the parent's actions. The child can then call these actions.</li>
+<li><strong>Parent State:</strong> Similarly, Lilac JS passes a <code>_parentState</code> object to the child's props, which is a direct reference to the parent's reactive state.</li>
+</ol>
             </article>
 
         </section>
