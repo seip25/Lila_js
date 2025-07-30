@@ -522,30 +522,35 @@ function mountComponent(componentName, targetElementId, props = {}) {
         });
     }
     setTimeout(() => {
-        updateView(); 
+        updateView(); // Primera renderización con estado inicial (probablemente array vacío)
         if (componentDefinition.onMount) {
             try {
                 let onMountResult = componentDefinition.onMount(componentState);
                 if (onMountResult && typeof onMountResult.then === "function") {
                     onMountResult.then(() => {
-                        updateView();
+                        updateView(); // Re-renderizar después de que onMount haya actualizado el estado
+                        // *** Inicializar la suscripción aquí después de la primera actualización con datos ***
+                        stateSubscription = componentState.subscribe(property => {
                             updateView([property]);
                         });
                     }).catch(error => console.error("Error in onMount promise:", error));
                 } else {
-                    updateView(); 
+                    updateView(); // Si onMount no es asíncrono, re-renderizar
+                    // *** Inicializar la suscripción aquí si onMount no es asíncrono ***
                     stateSubscription = componentState.subscribe(property => {
                         updateView([property]);
                     });
                 }
             } catch (error) {
                 console.error("Error in onMount:", error);
+                // *** Inicializar la suscripción incluso si hay un error en onMount ***
                 stateSubscription = componentState.subscribe(property => {
                     updateView([property]);
                 });
             }
         } else {
-             updateView();
+             updateView(); // Si no hay onMount, renderizar inmediatamente
+             // *** Inicializar la suscripción si no hay onMount ***
              stateSubscription = componentState.subscribe(property => {
                 updateView([property]);
             });
