@@ -1,70 +1,56 @@
-// English: Global maps to store component definitions and instances.
-// Español: Mapas globales para almacenar definiciones e instancias de componentes.
 const componentStores = new Map();
 const registeredComponents = new Map();
 const activeComponentInstances = new Set();
 
-// English: Retrieves a registered component definition.
-// Español: Recupera la definición de un componente registrado.
 function getRegisteredComponents(componentName) {
     return registeredComponents.get(componentName);
 }
 
-// English: Creates a reactive object using a Proxy.
-// Español: Crea un objeto reactivo usando un Proxy.
 function reactive(data, callback = false) {
     let dependencySet = new Set();
     if (callback) {
         dependencySet.add(callback);
     }
-    return new Proxy(data, {
-        // English: The set trap is called when a property is set.
-        // Español: El trap 'set' se llama cuando se establece una propiedad.
+
+    const proxyHandler = {
         set: (target, property, value) => {
             if (target[property] !== value) {
                 target[property] = value;
-                // English: Notify all dependent effects of the change.
-                // Español: Notifica a todos los efectos dependientes sobre el cambio.
                 dependencySet.forEach(effect => effect(property, value));
+        
+                if (Array.isArray(target) && property !== 'items' && property !== 'length') {
+                    dependencySet.forEach(effect => effect('items', target));
+                }
             }
             return true;
         },
-        // English: The get trap is called when a property is accessed.
-        // Español: El trap 'get' se llama cuando se accede a una propiedad.
         get(target, property) {
             if (property === "subscribe") {
                 return (effect) => {
                     dependencySet.add(effect);
-                    // English: Returns an unsubscribe function.
-                    // Español: Devuelve una función para desuscribirse.
                     return () => dependencySet.delete(effect);
                 };
             }
-            let result = target[property];
-            // English: Intercept array mutation methods to trigger reactivity.
-            // Español: Intercepta los métodos de mutación de arrays para activar la reactividad.
-            if (typeof result === "function" && Array.isArray(target) && [
-                "push",
-                "pop",
-                "shift",
-                "unshift",
-                "splice",
-                "sort",
-                "reverse"
-            ].includes(property)) {
-                return function (...args) {
-                    let methodResult = result.apply(target, args);
-                    dependencySet.forEach(effect => effect("items", target));
-                    return methodResult;
-                };
+
+            const value = target[property];
+            if (Array.isArray(target) && typeof value === 'function') {
+                const methodsToWrap = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'];
+                if (methodsToWrap.includes(property)) {
+                    return function(...args) {
+                        const result = value.apply(target, args);
+                        dependencySet.forEach(effect => effect('length', target.length));
+                        dependencySet.forEach(effect => effect('items', target));
+                        return result;
+                    };
+                }
             }
-            return result;
+            return value;
         }
-    });
+    };
+
+    return new Proxy(data, proxyHandler);
 }
 
-// English: Registers a new component definition.
-// Español: Registra una nueva definición de componente.
 function createComponent(name, {
     template,
     state,
@@ -72,8 +58,6 @@ function createComponent(name, {
     onMount,
     onDestroy
 }) {
-    // English: Compile the template if it's a string ID.
-    // Español: Compila la plantilla si es un ID de cadena.
     let compiledTemplate = typeof template === "string" ? compileTemplate(template) : template;
     registeredComponents.set(name, {
         template: compiledTemplate,
@@ -85,8 +69,6 @@ function createComponent(name, {
     return registeredComponents.get(name);
 }
 
-// English: Evaluates an expression in a given context.
-// Español: Evalúa una expresión en un contexto dado.
 function evalInContext(expression, context) {
     try {
         let keys = Object.keys(context);
@@ -100,8 +82,6 @@ function evalInContext(expression, context) {
     }
 }
 
-// English: Mounts a component into a target DOM element.
-// Español: Monta un componente en un elemento DOM de destino.
 function mountComponent(componentName, targetElementId, props = {}) {
     let targetElement = document.getElementById(targetElementId);
     if (!targetElement) {
@@ -115,30 +95,35 @@ function mountComponent(componentName, targetElementId, props = {}) {
         return null;
     }
 
-    // English: Create a reactive state for the component instance.
-    // Español: Crea un estado reactivo para la instancia del componente.
     let componentState = reactive(componentDefinition.state(props));
+
     let modelListeners = new Map();
     let nestedComponentInstances = new Map();
     let isUpdating = false;
 
-    // English: Capture the content of the target element to be used as a slot.
-    // Español: Captura el contenido del elemento de destino para usarlo como un slot.
-    const slotContent = document.createDocumentFragment();
-    while (targetElement.firstChild) {
-        slotContent.appendChild(targetElement.firstChild);
-    }
+    const slotContent = new Map();
+    targetElement.querySelectorAll('[data-slot]').forEach(slotElement => {
+        const slotName = slotElement.getAttribute('data-slot');
+        if (slotName) {
+            const content = document.createDocumentFragment();
+            while (slotElement.firstChild) {
+                content.appendChild(slotElement.firstChild);
+            }
+            slotContent.set(slotName, content);
+            slotElement.parentNode.removeChild(slotElement);
+        } else {
+            console.warn(`Element with data-slot has no slot name:`, slotElement);
+        }
+    });
 
-    // English: Extracts dependencies from an expression string.
-    // Español: Extrae las dependencias de una cadena de expresión.
+    let stateSubscription;
+
     function getExpressionDependencies(expression) {
         const reserved = new Set(['true', 'false', 'null', 'undefined', 'this']);
         return [...new Set((expression.match(/[a-zA-Z_$][a-zA-Z0-9_$]*/g) || [])
             .filter(dep => !reserved.has(dep)))];
     }
 
-    // English: Renders elements for a data-repeat directive.
-    // Español: Renderiza elementos para una directiva data-repeat.
     function renderRepeatElements(repeatElement, context, componentActions) {
         let repeatExpression = repeatElement.getAttribute("data-repeat");
         let repeatData = evalInContext(repeatExpression, {
@@ -148,8 +133,6 @@ function mountComponent(componentName, targetElementId, props = {}) {
         let parentElement = repeatElement.parentNode;
         let nextSibling = repeatElement.nextElementSibling;
 
-        // English: Clear previously rendered items.
-        // Español: Limpia los elementos renderizados previamente.
         while (nextSibling) {
             let currentSibling = nextSibling;
             nextSibling = currentSibling.nextElementSibling;
@@ -174,8 +157,6 @@ function mountComponent(componentName, targetElementId, props = {}) {
                 let repeatedItemElement = templateElement.cloneNode(true);
                 repeatedItemElement.setAttribute("data-repeated-item", "");
 
-                // English: Handle conditional rendering within repeated items.
-                // Español: Maneja el renderizado condicional dentro de los elementos repetidos.
                 repeatedItemElement.querySelectorAll("[data-repeat-if]").forEach(ifElement => {
                     let ifExpression = ifElement.getAttribute("data-repeat-if");
                     let dependencies = getExpressionDependencies(ifExpression);
@@ -199,8 +180,6 @@ function mountComponent(componentName, targetElementId, props = {}) {
 
                 });
 
-                // English: Handle HTML attribute binding.
-                // Español: Maneja el enlace de atributos HTML.
                 repeatedItemElement.querySelectorAll('*').forEach(el => {
                     Array.from(el.attributes)
                         .filter(attr => attr.name.startsWith('data-repeat-bind-html-'))
@@ -212,11 +191,10 @@ function mountComponent(componentName, targetElementId, props = {}) {
                             if (value !== undefined && value !== null) {
                                 el.setAttribute(htmlAttr, value);
                             }
+                            el.removeAttribute(attr.name);
                         });
                 });
 
-                // English: Handle text content binding.
-                // Español: Maneja el enlace de contenido de texto.
                 Array.from(repeatedItemElement.querySelectorAll('[data-repeat-bind]')).forEach(el => {
                     const textBinding = el.getAttribute('data-repeat-bind');
                     if (textBinding) {
@@ -240,8 +218,6 @@ function mountComponent(componentName, targetElementId, props = {}) {
                     });
                 });
 
-                // English: Handle action binding for repeated items.
-                // Español: Maneja el enlace de acciones para elementos repetidos.
                 repeatedItemElement.querySelectorAll("[data-repeat-action]").forEach(actionElement => {
                     let actionName = actionElement.getAttribute("data-repeat-action");
                     if (componentActions[actionName]) {
@@ -270,21 +246,18 @@ function mountComponent(componentName, targetElementId, props = {}) {
         repeatElement.style.display = "none";
     }
 
-    // English: Updates the view based on state changes.
-    // Español: Actualiza la vista en función de los cambios de estado.
     function updateView(changedProperties = []) {
-
+        
         if (isUpdating || !targetElement) {
             return;
         }
         isUpdating = true;
         requestAnimationFrame(() => {
+ 
+            
             try {
-                // English: Full render if no specific properties are changed.
-                // Español: Renderizado completo si no se cambian propiedades específicas.
+             
                 if (changedProperties.length === 0) {
-                    // English: Clean up old listeners and instances.
-                    // Español: Limpia los antiguos listeners e instancias.
                     modelListeners.forEach(({
                         listener,
                         eventType
@@ -296,6 +269,7 @@ function mountComponent(componentName, targetElementId, props = {}) {
                     modelListeners.clear();
 
                     targetElement.querySelectorAll("[data-action]").forEach(actionElement => {
+                        
                         if (actionElement._actionListener) {
                             let eventType = actionElement.tagName === "FORM" ? "submit" : "click";
                             actionElement.removeEventListener(eventType, actionElement._actionListener);
@@ -323,20 +297,17 @@ function mountComponent(componentName, targetElementId, props = {}) {
                     if (typeof renderedTemplate === "string") {
                         targetElement.innerHTML = renderedTemplate;
 
-                        // English: Find the slot element in the component's template.
-                        // Español: Encuentra el elemento slot en la plantilla del componente.
-                        const slotOutlet = targetElement.querySelector('slot');
-
-                        // English: If a slot element exists and there is content to insert,
-                        // replace the slot with the content.
-                        // Español: Si existe un elemento slot y hay contenido para insertar,
-                        // reemplaza el slot con el contenido.
-                        if (slotOutlet && slotContent.hasChildNodes()) {
-                            slotOutlet.parentNode.replaceChild(slotContent, slotOutlet);
-                        }
-
-                        // English: Handle conditional rendering.
-                        // Español: Maneja el renderizado condicional.
+                        slotContent.forEach((content, slotName) => {
+                            const slotOutlet = targetElement.querySelector(`[data-slot-outlet="${slotName}"]`);
+                            if (slotOutlet) {
+                                while (slotOutlet.firstChild) {
+                                    slotOutlet.removeChild(slotOutlet.firstChild);
+                                }
+                                slotOutlet.appendChild(content.cloneNode(true));
+                            } else {
+                                console.warn(`Slot outlet with name "${slotName}" not found in component template.`);
+                            }
+                        });
                         targetElement.querySelectorAll("[data-if]").forEach(ifElement => {
                             let ifExpression = ifElement.getAttribute("data-if");
                             let showElement = evalInContext(ifExpression, {
@@ -355,14 +326,10 @@ function mountComponent(componentName, targetElementId, props = {}) {
                             elseElement.style.display = showElement ? "none" : "";
                         });
 
-                        // English: Handle list rendering.
-                        // Español: Maneja el renderizado de listas.
                         targetElement.querySelectorAll("[data-repeat]").forEach(repeatElement => {
                             renderRepeatElements(repeatElement, componentState, componentDefinition.actions);
                         });
 
-                        // English: Mount nested components.
-                        // Español: Monta componentes anidados.
                         targetElement.querySelectorAll("[data-component]").forEach(nestedComponentElement => {
                             let elementId = nestedComponentElement.id || (() => {
                                 let id = "lila-" + Math.random().toString(36).substr(2, 9);
@@ -377,8 +344,6 @@ function mountComponent(componentName, targetElementId, props = {}) {
                             if (!nestedComponentElement._componentInstance) {
                                 let nestedComponentName = nestedComponentElement.dataset.component;
 
-                                // English: Wrap parent actions to pass to the child.
-                                // Español: Envuelve las acciones del padre para pasarlas al hijo.
                                 const wrappedParentActions = {};
                               
                                 for (const actionName in componentDefinition.actions) {
@@ -402,8 +367,7 @@ function mountComponent(componentName, targetElementId, props = {}) {
                                     _parentActions: wrappedParentActions ,
                                     _parentState: componentState
                                 };
-                                if(nestedComponentName=='DialogSearch') console.log(`Mounting nested component ${nestedComponentName}: passing props`, nestedProps); 
-
+                            
                                 let nestedInstance = mountComponent(nestedComponentName, elementId, nestedProps);
 
 
@@ -414,11 +378,11 @@ function mountComponent(componentName, targetElementId, props = {}) {
                             }
                         });
 
-                        // English: Set up action listeners.
-                        // Español: Configura los listeners de acciones.
                         targetElement.querySelectorAll("[data-action]").forEach(actionElement => {
+                            
                             let actionName = actionElement.dataset.action;
                             if (componentDefinition.actions[actionName] && !actionElement._actionListener) {
+                                
                                 let eventListener = (event) => {
                                     if (actionElement.tagName === "FORM") {
                                         event.preventDefault();
@@ -431,13 +395,12 @@ function mountComponent(componentName, targetElementId, props = {}) {
                                 let eventType = actionElement.tagName === "FORM" ? "submit" : "click";
                                 actionElement.addEventListener(eventType, eventListener);
                                 actionElement._actionListener = eventListener;
+                               
                             } else if (!componentDefinition.actions[actionName]) {
                                 console.warn(`Action "${actionName}" not found for data-action`);
                             }
                         });
 
-                        // English: Set up two-way data binding.
-                        // Español: Configura el enlace de datos bidireccional.
                         targetElement.querySelectorAll("[data-model]").forEach(modelElement => {
                             let modelProperty = modelElement.getAttribute("data-model");
                             if (componentState[modelProperty] !== undefined) {
@@ -471,8 +434,6 @@ function mountComponent(componentName, targetElementId, props = {}) {
                             }
                         });
 
-                        // English: Set up one-way data binding.
-                        // Español: Configura el enlace de datos unidireccional.
                         targetElement.querySelectorAll("[data-bind]").forEach(bindElement => {
                             let bindProperty = bindElement.getAttribute("data-bind");
                             if (componentState[bindProperty] !== undefined) {
@@ -484,9 +445,7 @@ function mountComponent(componentName, targetElementId, props = {}) {
                         console.error("Component template did not return a string.");
                     }
 
-                } else {
-                    // English: Partial update for specific properties.
-                    // Español: Actualización parcial para propiedades específicas.
+                } else { 
                     changedProperties.forEach(changedProperty => {
                         targetElement.querySelectorAll(`[data-bind="${changedProperty}"]`).forEach(bindElement => {
                             if (componentState[changedProperty] !== undefined) {
@@ -535,10 +494,22 @@ function mountComponent(componentName, targetElementId, props = {}) {
                         targetElement.querySelectorAll("[data-repeat]").forEach(repeatElement => {
                             let repeatExpression = repeatElement.getAttribute("data-repeat");
                             let dependencies = getExpressionDependencies(repeatExpression);
-                            if (dependencies.includes(changedProperty)) {
+                        
+                            let shouldRender = dependencies.some(dep =>
+                                changedProperty === dep ||
+                                changedProperty === 'items' ||
+                                changedProperty.startsWith(dep + '.')
+                            );
+                        
+                            if (dependencies.length > 0 && changedProperty === dependencies[0] && Array.isArray(componentState[changedProperty])) {
+                                 shouldRender = true;
+                            }
+                        
+                            if (shouldRender) {
                                 renderRepeatElements(repeatElement, componentState, componentDefinition.actions);
                             }
                         });
+                        
 
 
                     });
@@ -550,39 +521,65 @@ function mountComponent(componentName, targetElementId, props = {}) {
             }
         });
     }
-
-
-    // English: Subscribe to state changes to trigger view updates.
-    // Español: Suscríbete a los cambios de estado para activar las actualizaciones de la vista.
-    let stateSubscription = componentState.subscribe(property => {
-        updateView([property]);
-    });
-
-    // English: Perform initial render and call onMount hook.
-    // Español: Realiza el renderizado inicial y llama al hook onMount.
     setTimeout(() => {
-        updateView();
+        updateView(); // Primera renderización con estado inicial (probablemente array vacío)
         if (componentDefinition.onMount) {
             try {
                 let onMountResult = componentDefinition.onMount(componentState);
                 if (onMountResult && typeof onMountResult.then === "function") {
                     onMountResult.then(() => {
-                        updateView();
+                        updateView(); // Re-renderizar después de que onMount haya actualizado el estado
+                        // *** Inicializar la suscripción aquí después de la primera actualización con datos ***
+                        stateSubscription = componentState.subscribe(property => {
+                            updateView([property]);
+                        });
                     }).catch(error => console.error("Error in onMount promise:", error));
                 } else {
-                    updateView();
+                    updateView(); // Si onMount no es asíncrono, re-renderizar
+                    // *** Inicializar la suscripción aquí si onMount no es asíncrono ***
+                    stateSubscription = componentState.subscribe(property => {
+                        updateView([property]);
+                    });
                 }
             } catch (error) {
                 console.error("Error in onMount:", error);
+                // *** Inicializar la suscripción incluso si hay un error en onMount ***
+                stateSubscription = componentState.subscribe(property => {
+                    updateView([property]);
+                });
             }
+        } else {
+             updateView(); // Si no hay onMount, renderizar inmediatamente
+             // *** Inicializar la suscripción si no hay onMount ***
+             stateSubscription = componentState.subscribe(property => {
+                updateView([property]);
+            });
         }
     }, 0);
 
-    // English: The component instance object.
-    // Español: El objeto de la instancia del componente.
+    // let stateSubscription = componentState.subscribe(property => {
+    //     updateView([property]);
+    // });
+
+    // setTimeout(() => {
+    //     updateView()
+    //     if (componentDefinition.onMount) {
+    //         try {
+    //             let onMountResult = componentDefinition.onMount(componentState);
+    //             if (onMountResult && typeof onMountResult.then === "function") {
+    //                 onMountResult.then(() => {
+    //                     updateView();
+    //                 }).catch(error => console.error("Error in onMount promise:", error));
+    //             } else {
+    //                 updateView();
+    //             }
+    //         } catch (error) {
+    //             console.error("Error in onMount:", error);
+    //         }
+    //     }
+    // }, 0);
+
     let componentInstance = {
-        // English: Destroys the component instance, cleaning up listeners and DOM elements.
-        // Español: Destruye la instancia del componente, limpiando listeners y elementos del DOM.
         destroy() {
             try {
                 if (componentDefinition.onDestroy) {
@@ -604,7 +601,9 @@ function mountComponent(componentName, targetElementId, props = {}) {
             });
             nestedComponentInstances.clear();
 
-            stateSubscription();
+            if (stateSubscription) {
+                stateSubscription();
+            }
 
             modelListeners.forEach(({
                 listener,
@@ -638,8 +637,6 @@ function mountComponent(componentName, targetElementId, props = {}) {
     return componentInstance;
 }
 
-// English: Handles routing based on the current URL hash.
-// Español: Maneja el enrutamiento basado en el hash de la URL actual.
 function handleRouting() {
     let currentHash = window.location.hash.substring(1) || "/";
     let targetRoute = routes.get(currentHash) || routes.get("*");
@@ -649,8 +646,6 @@ function handleRouting() {
         return;
     }
 
-    // English: Destroy all active component instances before mounting a new one.
-    // Español: Destruye todas las instancias de componentes activas antes de montar una nueva.
     activeComponentInstances.forEach(instance => {
         try {
             instance.destroy();
@@ -668,12 +663,8 @@ function handleRouting() {
     }
 }
 
-// English: Map to store route definitions.
-// Español: Mapa para almacenar las definiciones de rutas.
 const routes = new Map();
 
-// English: Adds a new route to the application.
-// Español: Añade una nueva ruta a la aplicación.
 function addRoute(path, componentName, props = {}) {
     routes.set(path, {
         componentName: componentName,
@@ -681,16 +672,12 @@ function addRoute(path, componentName, props = {}) {
     });
 }
 
-// English: Programmatically navigates to a new path.
-// Español: Navega programáticamente a una nueva ruta.
 function navigateTo(path) {
     if (window.location.hash.substring(1) !== path) {
         window.location.hash = path;
     }
 }
 
-// English: Compiles a template from a template element.
-// Español: Compila una plantilla a partir de un elemento de plantilla.
 function compileTemplate(templateId) {
     let templateElement = document.querySelector(`[data-template="${templateId}"]`);
     if (!templateElement) {
@@ -708,8 +695,6 @@ function compileTemplate(templateId) {
     });
 }
 
-// English: Set up routing and navigation listeners.
-// Español: Configura los listeners de enrutamiento y navegación.
 window.addEventListener("hashchange", handleRouting);
 window.addEventListener("load", handleRouting);
 document.addEventListener("click", event => {
@@ -723,8 +708,6 @@ document.addEventListener("click", event => {
     }
 });
 
-// English: Expose the public API on the window object.
-// Español: Expone la API pública en el objeto window.
 window.App = {
     reactive,
     createComponent,
@@ -732,5 +715,7 @@ window.App = {
     navigateTo,
     mountComponent,
     getComponents: getRegisteredComponents,
-    evalInContext
+    evalInContext,
 };
+
+ 
