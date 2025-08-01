@@ -1348,7 +1348,7 @@ App.navigateTo('/ruta');   // Navegación programática
                         <pre><code class="language-html">
 &lt;template data-template="boton-personalizado-template"&gt;
     &lt;button data-action="handleClick" class="contrast"&gt;
-        &lt;slot&gt;&lt;/slot&gt; &lt;!-- El contenido del padre se insertará aquí --&gt;
+        &lt;span  data-slot-outlet="slot" &gt;&lt;/span&gt; &lt;!-- El contenido del padre se insertará aquí --&gt;
     &lt;/button&gt;
 &lt;/template&gt;
                         </code></pre>
@@ -1387,17 +1387,20 @@ App.createComponent('BotonPersonalizado', {
 
     &lt;!-- Ejemplo 1: Botón con texto --&gt;
     &lt;div data-component="BotonPersonalizado"&gt;
-        ¡Haz Clic!
+        &lt;span  data-slot="slot" &gt;  ¡Haz Clic!  &lt;/span&gt; &lt;
     &lt;/div&gt;
 
     &lt;!-- Ejemplo 2: Botón con un icono y texto --&gt;
     &lt;div data-component="BotonPersonalizado"&gt;
-        &lt;i class="icon-check"&gt;&lt;/i&gt; Enviar
+    &lt;span  data-slot="slot" &gt;   &lt;i class="icon-check"&gt;&lt;/i&gt; Enviar &lt;/span&gt; &lt;
+      
     &lt;/div&gt;
 
     &lt;!-- Ejemplo 3: Botón con HTML más complejo --&gt;
     &lt;div data-component="BotonPersonalizado"&gt;
-        &lt;strong&gt;Guardar&lt;/strong&gt; &lt;em&gt;Cambios&lt;/em&gt;
+  &lt;span  data-slot="slot" &gt;    &lt;strong&gt;Guardar&lt;/strong&gt; &lt;em&gt;Cambios&lt;/em&gt; &lt;/span&gt; &lt;
+ 
+      
     &lt;/div&gt;
 &lt;/template&gt;
                         </code></pre>
@@ -1406,9 +1409,9 @@ App.createComponent('BotonPersonalizado', {
 
                 <h3>Cómo Funciona</h3>
                 <ol>
-                    <li>Defines un componente con una etiqueta <code>&lt;slot&gt;&lt;/slot&gt;</code> en su plantilla.</li>
+                    <li>Defines un componente con una etiqueta y dentro  <code>&lt;data-slot-outlet&gt;&lt;/slot&gt;</code> en su plantilla.</li>
                     <li>Cuando usas este componente con <code>data-component</code>, cualquier contenido HTML que coloques dentro del elemento será capturado.</li>
-                    <li>Lila JS reemplaza la etiqueta <code>&lt;slot&gt;</code> en la plantilla del hijo con el contenido capturado del padre.</li>
+                    <li>Lila JS reemplaza la etiqueta y el dataset de <code>&lt;data-slot&gt;</code> en la plantilla del hijo con el contenido capturado del padre.</li>
                 </ol>
             </article>
 
