@@ -1334,89 +1334,139 @@ App.navigateTo('/path');   // Programmatic navigation
                 </table>
             </article>
 
-            <article id="component-slots-example">
-                <h2>Component Slots</h2>
-                <p>Components can be designed to be more reusable by using slots. A slot is a placeholder inside a component that you can fill with your own markup from the parent component.</p>
-                <p>This is particularly useful for components that encapsulate behavior but need flexible content, like a generic button or a modal dialog.</p>
+       <article id="component-slots-example">
+<h2>Component Slots</h2>
+<p>Components can be designed to be more reusable using slots. A slot is a placeholder within a component that you can fill with your own markup from the parent component.</p>
+<p>This is particularly useful for components that encapsulate behavior but require flexible content, such as a generic button or modal dialog.</p>
 
-                <h3>Example: A Reusable Button Component</h3>
-                <p>Let's create a <code>CustomButton</code> component that handles a click action but allows its content to be defined by the parent.</p>
+<h3>Example 1: Component with a Basic Slot</h3>
+<p><code>CustomButton</code> component that handles a click action but allows flexible content.</p>
 
-                <h4>Child Component: <code>CustomButton</code></h4>
-                <div class="code-editor">
-                    <div class="editor-header">
-                        <span class="editor-title">custom-button-template.html</span>
-                    </div>
-                    <div class="editor-content">
-                        <pre><code class="language-html">
+<h4>Child Component: <code>CustomButton</code></h4>
+<div class="code-editor">
+<div class="editor-header">
+<span class="editor-title">custom-button-template.html</span>
+</div>
+<div class="editor-content">
+<pre><code class="language-html">
 &lt;template data-template="custom-button-template"&gt;
-    &lt;button data-action="handleClick" class="contrast"&gt;
-        &lt;span  data-slot-outlet="slot" &gt;&lt;/span&gt; &lt;!-- Content from the parent will be inserted here --&gt;
+    &lt;button data-action="handleClick" class="contrast"&gt; 
+        &lt;span data-slot-outlet="slot"&gt;&lt;/span&gt; &lt;!-- The content of the parent will be inserted here --&gt; 
     &lt;/button&gt;
-&lt;/template&gt;
-                        </code></pre>
-                    </div>
-                </div>
+&lt;/template&gt; 
+</code></pre>
+</div>
+</div>
 
-                <div class="code-editor">
-                    <div class="editor-header">
-                        <span class="editor-title">custom-button-component.js</span>
-                    </div>
-                    <div class="editor-content">
-                        <pre><code class="language-javascript">
+<div class="code-editor">
+<div class="editor-header">
+<span class="editor-title">custom-button-component.js</span>
+</div>
+<div class="editor-content">
+<pre><code class="language-javascript">
 App.createComponent('CustomButton', {
     template: 'custom-button-template',
     actions: {
         handleClick: ({ event }) => {
-            console.log('Custom button clicked!');
-            // You can add more complex logic here
+        console.log('Custom button clicked!');
+        // You can add more complex logic here
         }
     }
 });
-                        </code></pre>
-                    </div>
-                </div>
+</code></pre> 
+</div> 
+</div> 
 
-                <h4>Parent Component: Using <code>CustomButton</code></h4>
-                <p>Now, we can use the <code>CustomButton</code> in a parent component and provide any content we want inside it.</p>
-                <div class="code-editor">
-                    <div class="editor-header">
-                        <span class="editor-title">parent-template.html</span>
-                    </div>
-                    <div class="editor-content">
-                        <pre><code class="language-html">
-&lt;template data-template="parent-template"&gt;
-    &lt;h2&gt;Using Slotted Components&lt;/h2&gt;
+<h4>Use in Parent Component</h4> 
+<div class="code-editor"> 
+<div class="editor-header"> 
+<span class="editor-title">father-template.html</span> 
+</div> 
+<div class="editor-content"> 
+<pre><code class="language-html">
+&lt;!-- Example 1: Button with simple text --&gt;
+&lt;div data-component="CustomButton"&gt; 
+&lt;span data-slot="slot"&gt;Click!&lt;/span&gt;
+&lt;/div&gt;
 
-    &lt;!-- Example 1: Button with text --&gt;
-    &lt;div data-component="CustomButton"&gt;
-      &lt;span  data-slot="slot" &gt;   Click Me! &lt;/span&gt; &lt; 
-    &lt;/div&gt;
+&lt;!-- Example 2: Button with icon --&gt;
+&lt;div data-component="CustomButton"&gt; 
+&lt;span data-slot="slot"&gt;&lt;i class="icon-check"&gt;&lt;/i&gt; Send&lt;/span&gt;
+&lt;/div&gt; 
+</code></pre> 
+</div> 
+</div> 
 
-    &lt;!-- Example 2: Button with an icon and text --&gt;
-    &lt;div data-component="CustomButton"&gt;
- &lt;span  data-slot="slot" &gt;     &lt;i class="icon-check"&gt;&lt;/i&gt; Submit  &lt;/span&gt; &lt; 
+<h3>Example 2: Component with Slot and Props</h3> 
+<p>More advanced <code>Button</code> component that accepts both slots and properties through <code>data-props</code>.</p> 
+
+<h4>Child Component: <code>Button</code></h4> 
+<div class="code-editor"> 
+<div class="editor-header"> 
+<span class="editor-title">button-template.html</span> 
+</div> 
+<div class="editor-content"> 
+<pre><code class="language-html">
+&lt;template data-template="button-template"&gt; 
+<button 
+class="text-gray-600 dark:text-gray-400 bg-gray-400 dark:bg-gray-600 hover:bg-gray-500 dark:hover:bg-gray-700 flex justify-center" 
+data-action="action" 
+data-bind-class="class" 
+data-bind-type="type" 
+data-bind-disabled="disabled"&gt; 
     
-    &lt;/div&gt;
+    &lt;span data-slot-outlet="slot"&gt; 
+    &lt;span data-bind="text"&gt;&lt;/span&gt; 
+    &lt;/span&gt; 
+    &lt;/button&gt;
+&lt;/template&gt; 
+</code></pre> 
+</div> 
+</div> 
 
-    &lt;!-- Example 3: Button with more complex HTML --&gt;
-    &lt;div data-component="CustomButton"&gt;
-&lt;span  data-slot="slot" &gt;     &lt;strong&gt;Save&lt;/strong&gt; &lt;em&gt;Changes&lt;/em&gt; &lt;/span&gt; &lt; 
-      
-    &lt;/div&gt;
-&lt;/template&gt;
-                        </code></pre>
-                    </div>
-                </div>
+<div class="code-editor"> 
+<div class="editor-header"> 
+<span class="editor-title">button-component.js</span> 
+</div> 
+<div class="editor-content"> 
+<pre><code class="language-javascript">
+App.createComponent('Button', { 
+    template: 'button-template', 
+    state: (props) => ({ 
+        _parentActions: props._parentActions || null, 
+        props: props, 
+        disabled: props.disabled || false, 
+        class: props.class || '', 
+        type: props.type || 'button', 
+        onClick: props.onClick || null, 
+        text: props.text || '', 
+    }), 
+    actions: { 
+        action: ({ state, event }) => { 
+            if (event.preventDefault) event.preventDefault(); 
+            if (state.onClick) state.onClick({ state, event }); 
+            if (state._parentActions) state._parentActions({ state, event }); 
+        } 
+    }
+}); 
+</code></pre> 
+</div> 
+</div> 
 
-                <h3>How It Works</h3>
-                <ol>
-                    <li>You define a component with a <code>&lt;slot&gt;&lt;/slot&gt;</code> tag in its template.</li>
-                    <li>When you use this component with <code>data-component</code>, any HTML content you place inside the element will be captured.</li>
-                    <li>Lila JS replaces the <code>&lt;slot&gt;</code> tag in the child's template with the captured content from the parent.</li>
-                </ol>
-            </article>
+<h4>Use in Parent Component</h4> 
+<div class="code-editor"> 
+<div class="editor-header"> 
+<span class="editor-title">father-template.html</span> 
+</div> 
+<div class="editor-content"> 
+<pre><code class="language-html">
+&lt;!-- Option 1: Using only data-props --&gt;
+&lt;div data-component="Button" 
+data-props='{"text":"Submit!", "class":"btn-primary", "onClick": "handleClick"}'&gt;
+&lt;/div&gt;
 
+&lt;!-- Option 2: Using only slot --&gt;
+&lt;div data-component="Button
             <article id="parent-child-communication-example">
                 <h2>Parent-Child Communication</h2>
                 <p>Lila JS allows for communication between parent and child components, enabling you to build more complex and interactive applications.</p>
