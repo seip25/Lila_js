@@ -1351,7 +1351,7 @@ App.navigateTo('/path');   // Programmatic navigation
                         <pre><code class="language-html">
 &lt;template data-template="custom-button-template"&gt;
     &lt;button data-action="handleClick" class="contrast"&gt;
-        &lt;slot&gt;&lt;/slot&gt; &lt;!-- Content from the parent will be inserted here --&gt;
+        &lt;span  data-slot-outlet="slot" &gt;&lt;/span&gt; &lt;!-- Content from the parent will be inserted here --&gt;
     &lt;/button&gt;
 &lt;/template&gt;
                         </code></pre>
@@ -1390,17 +1390,19 @@ App.createComponent('CustomButton', {
 
     &lt;!-- Example 1: Button with text --&gt;
     &lt;div data-component="CustomButton"&gt;
-        Click Me!
+      &lt;span  data-slot="slot" &gt;   Click Me! &lt;/span&gt; &lt; 
     &lt;/div&gt;
 
     &lt;!-- Example 2: Button with an icon and text --&gt;
     &lt;div data-component="CustomButton"&gt;
-        &lt;i class="icon-check"&gt;&lt;/i&gt; Submit
+ &lt;span  data-slot="slot" &gt;     &lt;i class="icon-check"&gt;&lt;/i&gt; Submit  &lt;/span&gt; &lt; 
+    
     &lt;/div&gt;
 
     &lt;!-- Example 3: Button with more complex HTML --&gt;
     &lt;div data-component="CustomButton"&gt;
-        &lt;strong&gt;Save&lt;/strong&gt; &lt;em&gt;Changes&lt;/em&gt;
+&lt;span  data-slot="slot" &gt;     &lt;strong&gt;Save&lt;/strong&gt; &lt;em&gt;Changes&lt;/em&gt; &lt;/span&gt; &lt; 
+      
     &lt;/div&gt;
 &lt;/template&gt;
                         </code></pre>
