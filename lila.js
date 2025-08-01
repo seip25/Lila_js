@@ -357,6 +357,11 @@ function mountComponent(componentName, targetElementId, props = {}) {
                                             });
                                         };
                                     }
+                                }   
+
+                                if (nestedComponentElement.dataset.class) {
+                                    let merge_class = nestedComponentElement.dataset.class.split(' ');
+                                    nestedComponentElement.classList.add(...merge_class);
                                 }
 
                                 const nestedProps = {
@@ -546,34 +551,14 @@ function mountComponent(componentName, targetElementId, props = {}) {
                 });
             }
         } else {
-             updateView();
+             updateView(); 
              stateSubscription = componentState.subscribe(property => {
                 updateView([property]);
             });
         }
     }, 0);
 
-    // let stateSubscription = componentState.subscribe(property => {
-    //     updateView([property]);
-    // });
 
-    // setTimeout(() => {
-    //     updateView()
-    //     if (componentDefinition.onMount) {
-    //         try {
-    //             let onMountResult = componentDefinition.onMount(componentState);
-    //             if (onMountResult && typeof onMountResult.then === "function") {
-    //                 onMountResult.then(() => {
-    //                     updateView();
-    //                 }).catch(error => console.error("Error in onMount promise:", error));
-    //             } else {
-    //                 updateView();
-    //             }
-    //         } catch (error) {
-    //             console.error("Error in onMount:", error);
-    //         }
-    //     }
-    // }, 0);
 
     let componentInstance = {
         destroy() {
