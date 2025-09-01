@@ -1,261 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LILA JS </title>
+    <title>Lila JS App</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="lila.js"></script>
 </head>
-
-<body>
-    <nav class="p-4 bg-gray-200 flex gap-4">
-        <lila-link href="/" color="blue">Home</lila-link>
-        <lila-link href="/about" color="green">About</lila-link>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-sm p-4">
+        <lila-link href="/" color="purple">Home</lila-link>
+        <lila-link href="/about" color="purple" class="ml-4">About</lila-link>
     </nav>
-
-    <main id="app" class="p-6"></main>
-
+    
+    <main id="app" class="container mx-auto p-4"></main>
+    
     <script>
-
-
-
-        const aboutTemplate = /*html*/`
-      <h1 class="text-xl font-bold mb-4">About</h1>
-      <p class="text-gray-700">Lila-JS es un framework ligero para construir aplicaciones web.</p>
-    `;
-
-        App.defineRoute("/about", () => aboutTemplate);
-
-
-
-        App.createComponent('testing-if', {
-            template: /*html*/`
-        <div>
-          <h2 data-if="showTitle" class="text-lg font-semibold mb-2
-            ">Este es un título condicional</h2>
-            <button class="border border-blue-600 bg-blue-600 text-white px-4 py-2 rounded-md"
-                    data-on:click="toggleTitle">
-                Toggle Title
-            </button>
-        </div>
-      `,
-            state: () => ({
-                showTitle: true
-            }),
-            actions: {
-                toggleTitle() {
-                    const val = !this.state.showTitle;
-                    console.log(val);
-                    this.setState({ showTitle: val });
-                }
-            }
-        }
-        )
-
-        App.createComponent('testing-for', {
-            template: /*html*/`
-        <div>
-          <div class="list-disc pl-5 mb-4 ">
-            <div data-for="item in items" class="mb-4 flex flex-col">
-                <div class="flex items-center justify-between mb-4">
-                    <span>\${item}</span>
-                    <button class="border border-red-600 bg-red-600 text-white px-2 py-1 rounded-md"
-                            data-on:click="removeItem"
-                            data-index="\${index}"
-                            data-item="\${item}">
-                        Remove
-                    </button>
-                </div> 
-            </div>
-            <button class="border border-green-600 bg-green-600 text-white px-4 py-2 rounded-md"
-                    data-on:click="addItem">
-                Add Item
-            </button>
-            <button class="border border-red-600 bg-red-600 text-white px-4 py-2 rounded-md ml-2"
-                    data-on:click="removeItemRandom">
-                Remove Item
-            </button>
-        </div>
-      `,
-            state: () => ({
-                items: ["Item 1", "Item 2", "Item 3"]
-            }),
-            actions: {
-
-                removeItemRandom() {
-                    this.setState({ items: this.state.items.slice(0, -1) });
-                },
-                addItem(event) {
-                    event.preventDefault(); 
-                    const newItem = `Item ${this.state.items.length + 1}`;
-                    console.log('Adding item:', newItem);
-                    this.setState({ items: [...this.state.items, newItem] });
-                },
-
-                removeItem(event) {
-                    event.preventDefault(); 
-                    const index = parseInt(event.target.dataset.index);
-                    console.log('Removing item at index:', index);
-                    this.setState({
-                        items: this.state.items.filter((_, i) => i !== index)
-                    });
-                }
-            }
-        });
-
-
-        App.createComponent("lila-button", {
-            template: /*html*/`
-        <span class="mr-2">Color: \${state.color}</span>
-        <button class="border border-\${state.color}-600 
-                       bg-\${state.color}-600 
-                       text-white px-4 py-2 rounded-md"
-                data-on:click="handleClick">
-          <slot></slot>
-        </button>
-      `,
-            state: (props) => ({
-                color: props.color || "blue"
-            }),
-            actions: {
-                handleClick() {
-                    const colors = ["blue", "green", "red", "yellow", "purple", "pink", "indigo"];
-                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    this.setState({ color: randomColor });
-                }
-            }
-        });
-
-        App.createComponent('x-button', {
-            template: /*html*/`
-        
-        <button class="border border-\${state.color}-600 
-                       bg-\${state.color}-600 
-                       text-white px-4 py-2 rounded-md \${state.class || ''}"
-                  data-on:click="handleClick" >
-          <slot></slot>
-        </button>
-        `,
-            state: (props) => ({
-                color: props.color || "blue",
-                class: props.class || "",
-                onClick: props.onClick || (() => { })
-            }),
-            actions: {
-                handleClick(e) {
-                    this.emit('button-click', {
-                        originalEvent: e,
-                        component: this
-                    });
-                }
-            },
-            onMount: function () {
-                // console.log('Component mounted with state:', this.state);
-                // console.log('Props:', this.props);
-            }
-        });
-
-        const homeTemplate = /*html*/`
-      <h1 class="text-xl font-bold mb-4">Home</h1>
-      <p class="text-gray-700 mb-4">Bienvenido a Lila-JS con Tailwind CSS 🚀</p>
-     <div class="mb-4">
-  <lila-input type="text" placeholder="Escribe algo..." class="w-full" 
-  value="\${state.nombre}"  data-model="nombre" ></lila-input>
-<div class="mt-4 mb-4">
-       
-   <x-button color="indigo"  >
-                Actualizar Nombre
-    </x-button>
-    </div>
-
-<h1 class="mt-2 text-gray-600" data-bind="nombre"  >
-    \${state.nombre}
-    </h1>
-
-</div>
-
-      <br />
-      <lila-button color="blue" >Cambia mi color</lila-button>
-        <div class="mt-4">
-            <testing-if></testing-if>
-        </div>
-
-        <div class="mt-4">
-            <testing-for></testing-for>
-        </div>
- 
-    `;
-        App.createComponent("home-page", {
-            template: homeTemplate,
-            state: () => ({
-                nombre: 'Lila-JS'
-            }),
-            onMount: function () {
-
-                this.querySelector('x-button').addEventListener('button-click', (event) => {
-                    event.preventDefault();
-                    console.log('Evento recibido:', event);
-
-                    this.verModel(event.detail.originalEvent);
-                });
-            },
-            actions: {
-                verModel: function (event) {
-                    console.log('verModel ejecutado:', event);
-                    alert('Nombre: ' + this.state.nombre);
-                }
-            }
-        });
-
-        App.defineRoute("/", () => `<home-page></home-page>`);
-
-
-        App.createComponent('lila-input', {
-            template: /*html*/`
-    <input 
-      type="\${props.type}" 
-      placeholder="\${props.placeholder}" 
-      value="\${props.value}"
-      class="border border-gray-300 p-2 rounded-md w-full"
-      data-on:input="handleInput"
-    />
-  `,
-            attributeChangedCallback(name, oldValue, newValue) {
-                if (name === 'value' && oldValue !== newValue) {
-                    const input = this.querySelector('input');
-                    if (input && input.value !== newValue) {
-                        input.value = newValue;
-                        if (this.props['data-model']) {
-                            this.emit('modelChange', {
-                                value: newValue,
-                                model: this.props['data-model']
-                            });
-                        }
-                    }
-                }
-            },
-        });
-
         App.createComponent('lila-link', {
-            template: /*html*/`
-        <a href="#\${props.href}" 
+    template: /*html*/`
+        <a href="#\${props.href}"
            class="text-\${props.color}-600 hover:underline hover:text-\${props.color}-800"
            data-on:click="handleClick">
           <slot></slot>
         </a>
-      `,
+    `,
+    actions: {
+        handleClick(event) {
+            event.preventDefault();
+            const href = this.props.href;
+            App.navigate(href);
+        }
+    }
+});
+
+         // Definir rutas
+        const homeTemplate = /*html*/`
+            <div>
+                <app-header title="Welcome to Lila JS">
+                    <p class="text-sm">A minimal reactive framework</p>
+                </app-header>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <user-card name="John Doe" email="john@example.com"></user-card>
+                    <user-card name="Jane Smith" email="jane@example.com"></user-card>
+                    <user-card name="Bob Johnson" email="bob@example.com"></user-card>
+                </div>
+            </div>
+        `;
+        // Definir componentes
+        App.createComponent('app-header', {
+            template: `
+                <header class="bg-purple-600 text-white p-4">
+                    <h1 class="text-2xl font-bold">\${props.title}</h1>
+                    <slot></slot>
+                </header>
+            `,
+            
+        });
+        
+        App.createComponent('user-card', {
+            template: `
+                <div class="border p-4 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold">\${props.name}</h3>
+                    <p class="text-gray-600">\${props.email}</p>
+                    <button class="bg-purple-600 text-white px-3 py-1 rounded mt-2"
+                            data-on:click="handleClick">
+                        View Profile
+                    </button>
+                </div>
+            `,
             actions: {
-                handleClick(event) {
-                    event.preventDefault();
-                    const href = this.props.href;
-                    App.navigate(href);
+                handleClick() {
+                    alert(`Viewing profile of ${this.props.name}`);
                 }
             }
         });
-        App.mount("app");
+        
+       
+        
+        const aboutTemplate = `
+            <div>
+                <app-header title="About Us"></app-header>
+                <div class="mt-6">
+                    <p>This is a sample application built with Lila JS.</p>
+                    <p class="mt-4">Lila JS provides a simple way to build reactive web components without complex build tools or dependencies.</p>
+                </div>
+            </div>
+        `;
+        
+        App.defineRoute('/', () => homeTemplate);
+        App.defineRoute('/about', () => aboutTemplate);
+        
+        // Montar la aplicación
+        App.mount('app');
     </script>
 </body>
-
 </html>

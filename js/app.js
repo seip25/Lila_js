@@ -41,6 +41,12 @@ const i18n = {
         list_rendering_text: "Easily render lists of items using the <code>data-for</code> directive.",
         slot_component: "Slot Component",
         slot_component_text: "A component that demonstrates how slots allow parent-child content projection.",
+        form_component: "Form Component",
+        form_component_text: "A complete form example with two-way data binding (data-bind='name_prop_or_state').",
+        todo_app: "Todo App",
+        todo_app_text: "A complete todo application demonstrating multiple Lila JS features.",
+        starter_template: "Starter Template",
+        starter_template_text: "A complete starter template for building applications with Lila JS.",
         core_concepts: "Core Concepts",
         core_concepts_text: "Learn the fundamental concepts of Lila JS to build reactive applications.",
         reactivity: "Reactivity",
@@ -56,7 +62,20 @@ const i18n = {
         mount_text: "Mounts your application to the DOM element provided.",
         set_state: "setState",
         set_state_text: "Updates component state and re-renders automatically.",
-
+        lifecycle_hooks: "Lifecycle Hooks",
+        lifecycle_hooks_text: "Lifecycle hooks allow you to run code at specific stages of a component's life.",
+        on_mount: "onMount",
+        on_mount_text: "Called when the component is mounted to the DOM.",
+        on_unmount: "onUnmount",
+        on_unmount_text: "Called when the component is removed from the DOM.",
+        two_way_binding: "Two-Way Binding",
+        two_way_binding_text: "Bind form inputs directly to your component state.",
+        event_handling: "Event Handling",
+        event_handling_text: "Handle user interactions with declarative event bindings.",
+        component_communication: "Component Communication",
+        component_communication_text: "Pass data between components using props and custom events.",
+        important : "Important, remember to use ${props.title} or ${state.title} you must use backticks ` ` in the template literal with '\' before the $ ,like this: \\${props.title} or \\${state.title}. If you use single quotes ' ' or double quotes \" \" it won't work, also if you don't use '\' before the $.",
+        install: "Installation",
     },
     es: {
         home: "Inicio",
@@ -100,6 +119,12 @@ const i18n = {
         list_rendering_text: "Renderiza fácilmente listas de elementos usando la directiva <code>data-for</code>.",
         slot_component: "Componente con Slot",
         slot_component_text: "Un componente que demuestra cómo los slots permiten proyectar contenido del padre.",
+        form_component: "Componente de Formulario",
+        form_component_text: "Un ejemplo completo de formulario con enlace bidireccional de datos,utilizando data-bind.",
+        todo_app: "App de Tareas",
+        todo_app_text: "Una aplicación completa de tareas que demuestra múltiples características de Lila JS.",
+        starter_template: "Plantilla Inicial",
+        starter_template_text: "Una plantilla completa para comenzar a construir aplicaciones con Lila JS.",
         core_concepts: "Conceptos Básicos",
         core_concepts_text: "Aprende los conceptos fundamentales de Lila JS para construir aplicaciones reactivas.",
         reactivity: "Reactividad",
@@ -115,16 +140,48 @@ const i18n = {
         mount_text: "Monta tu aplicación en el elemento del DOM proporcionado.",
         set_state: "setState",
         set_state_text: "Actualiza el estado del componente y vuelve a renderizar automáticamente.",
-        
-    }
+        lifecycle_hooks: "Hooks del Ciclo de Vida",
+        lifecycle_hooks_text: "Los hooks del ciclo de vida te permiten ejecutar código en etapas específicas de la vida de un componente.",
+        on_mount: "onMount",
+        on_mount_text: "Se llama cuando el componente se monta en el DOM.",
+        on_unmount: "onUnmount",
+        on_unmount_text: "Se llama cuando el componente se elimina del DOM.",
+        two_way_binding: "Enlace Bidireccional",
+        two_way_binding_text: "Vincula entradas de formulario directamente al estado de tu componente.",
+        event_handling: "Manejo de Eventos",
+        event_handling_text: "Maneja interacciones del usuario con enlaces de eventos declarativos.",
+        component_communication: "Comunicación entre Componentes",
+        component_communication_text: "Pasa datos entre componentes usando props y eventos personalizados.",
+        important : "Importante, recuerda para utlizar ${props.title} o ${state.title} debes usar backticks ` ` en el template literal con '\' antes de los $ ,así : \\${props.title} o \\${state.title}. Si usas comillas simples ' ' o dobles \" \" no funcionará, tampoco si no usas '\' antes del $.",
+        install: "Instalación",
+   
+ }
 };
-
 
 const lang = document.documentElement.lang;
 const t = i18n[lang];
+ 
+App.createComponent('lila-link', {
+    template: /*html*/`
+        <a href="#\${props.href}"
+           class="text-\${props.color}-600 hover:underline hover:text-\${props.color}-800"
+           data-on:click="handleClick">
+          <slot></slot>
+        </a>
+    `,
+    actions: {
+        handleClick(event) {
+            event.preventDefault();
+            const href = this.props.href;
+            App.navigate(href);
+        }
+    }
+});
 
+ 
 const homeTemplate = /*html*/`
     <div class="prose max-w-none">
+    
         <div class="text-center">
             <h1 class="text-5xl font-bold text-purple-600">Lila JS</h1>
             <p class="text-xl">${t.description}</p>
@@ -158,30 +215,22 @@ const homeTemplate = /*html*/`
         </div>
     </div>
 `;
-
-App.createComponent('lila-link', {
-    template: /*html*/`
-        <a href="#\${props.href}"
-           class="text-\${props.color}-600 hover:underline hover:text-\${props.color}-800"
-           data-on:click="handleClick">
-          <slot></slot>
-        </a>
-      `,
-    actions: {
-        handleClick(event) {
-            event.preventDefault();
-            const href = this.props.href;
-            App.navigate(href);
-        }
-    }
-});
-
-App.defineRoute("/", () => homeTemplate);
-
+ 
 const documentationTemplate = /*html*/`
     <div class="prose max-w-none">
-        <h1 class="text-4xl font-bold mb-4">${t.documentation}</h1>
-
+    
+    <h1 class="text-2xl font-bold mb-4">${t.install}</h1>
+    <code class="bg-white border border-gray-400 fw-semibold p-4 rounded-lg w-full block mb-8 text-gray-800">
+        &lt;script src="lila.js"&gt;&lt;/script&gt;
+        <br />
+        Or use the CDN:
+        <br/>
+        &lt;script src="https://seip25.github.io/Lila_js.js"&gt;&lt;/script&gt;
+        
+    </code>
+ 
+ 
+     
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.core_concepts}</h2>
         <p>${t.core_concepts_text}</p>
 
@@ -190,6 +239,18 @@ const documentationTemplate = /*html*/`
 
         <h3 class="text-xl font-bold mt-6 mb-2">${t.routing}</h3>
         <p>${t.routing_text}</p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">${t.lifecycle_hooks}</h3>
+        <p>${t.lifecycle_hooks_text}</p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">${t.two_way_binding}</h3>
+        <p>${t.two_way_binding_text}</p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">${t.event_handling}</h3>
+        <p>${t.event_handling_text}</p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">${t.component_communication}</h3>
+        <p>${t.component_communication_text}</p>
 
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.api_reference}</h2>
 
@@ -204,10 +265,21 @@ const documentationTemplate = /*html*/`
 
         <h3 class="text-xl font-bold mt-6 mb-2">${t.set_state}</h3>
         <p>${t.set_state_text}</p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">${t.on_mount}</h3>
+        <p>${t.on_mount_text}</p>
+
+        <h3 class="text-xl font-bold mt-6 mb-2">${t.on_unmount}</h3>
+        <p>${t.on_unmount_text}</p>
+    <br />
+           <h1 class="text-2xl font-bold mb-4">${t.important}</h1>
+
     </div>
 `;
+ 
 const examplesTemplate = /*html*/`
-    <div class="prose max-w-none">
+    <div class="prose max-w-none"> 
+
         <h1 class="text-4xl font-bold mb-4">${t.examples}</h1>
         
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.counter_component}</h2>
@@ -225,13 +297,19 @@ const examplesTemplate = /*html*/`
                 </div>
                 <div class="editor-content">
                     <pre><code class="language-js">
+<span class="syntax-keyword">
+#In the html file
+    &lt;counter-example&gt; &lt;/counter-example&gt;
+</span>
+
+
 <span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">counter-example</span>', {
     <span class="syntax-keyword">state</span>: () => ({
         <span class="syntax-prop">count</span>: <span class="syntax-number">0</span>
     }),
     <span class="syntax-keyword">template</span>: \`
         &lt;div&gt;
-            &lt;p&gt;Conteo: \${<span class="syntax-variable">state</span>.<span class="syntax-prop">count</span>}&lt;/p&gt;
+            &lt;p&gt;Conteo: \\\${<span class="syntax-variable">state</span>.<span class="syntax-prop">count</span>}&lt;/p&gt;
             &lt;button data-on:click="<span class="syntax-action">increment</span>"&gt;Incrementar&lt;/button&gt;
         &lt;/div&gt;
     \`,
@@ -246,7 +324,6 @@ const examplesTemplate = /*html*/`
             </div>
         </div>
 
-         
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.conditional_rendering}</h2>
         <p>${t.conditional_rendering_text}</p>
         <div class="flex flex-col gap-8">
@@ -262,6 +339,10 @@ const examplesTemplate = /*html*/`
                 </div>
                 <div class="editor-content">
                     <pre><code class="language-js">
+<span class="syntax-keyword">
+#In the html file
+    &lt;conditional-example&gt; &lt;/conditional-example&gt;
+</span>
 <span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">conditional-example</span>', {
     <span class="syntax-keyword">state</span>: () => ({
         <span class="syntax-prop">show</span>: <span class="syntax-boolean">true</span>
@@ -285,7 +366,6 @@ const examplesTemplate = /*html*/`
             </div>
         </div>
 
-         
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.list_rendering}</h2>
         <p>${t.list_rendering_text}</p>
         <div class="flex flex-col gap-8">
@@ -301,6 +381,11 @@ const examplesTemplate = /*html*/`
                 </div>
                 <div class="editor-content">
                     <pre><code class="language-js">
+<span class="syntax-keyword">
+#In the html file
+    &lt;list-example&gt; &lt;/list-example&gt;
+</span>
+
 <span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">list-example</span>', {
     <span class="syntax-keyword">state</span>: () => ({
         <span class="syntax-prop">items</span>: ['<span class="syntax-string">Apple</span>', '<span class="syntax-string">Banana</span>', '<span class="syntax-string">Cherry</span>']
@@ -308,7 +393,7 @@ const examplesTemplate = /*html*/`
     <span class="syntax-keyword">template</span>: \`
         &lt;div&gt;
             &lt;ul&gt;
-                &lt;li data-for="<span class="syntax-variable">item</span> <span class="syntax-in">in</span> <span class="syntax-prop">items</span>"&gt;\${<span class="syntax-variable">item</span>}&lt;/li&gt;
+                &lt;li data-for="<span class="syntax-variable">item</span> <span class="syntax-in">in</span> <span class="syntax-prop">items</span>"&gt;\\\${<span class="syntax-variable">item</span>}&lt;/li&gt;
             &lt;/ul&gt;
             &lt;button data-on:click="<span class="syntax-action">addItem</span>"&gt;Añadir Elemento&lt;/button&gt;
         &lt;/div&gt;
@@ -325,7 +410,6 @@ const examplesTemplate = /*html*/`
             </div>
         </div>
 
-         
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.slot_component}</h2>
         <p>${t.slot_component_text}</p>
         <div class="flex flex-col gap-8">
@@ -363,8 +447,78 @@ const examplesTemplate = /*html*/`
                 </div>
             </div>
         </div>
-    </div>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4">${t.form_component}</h2>
+        <p>${t.form_component_text}</p>
+        <div class="flex flex-col gap-8">
+            <form-example class="w-full"></form-example>
+            <div class="code-editor w-full">
+                <div class="editor-header">
+                    <span class="editor-title">form-example.js</span>
+                    <div class="editor-controls">
+                        <div class="control close"></div>
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <pre><code class="language-js">
+<span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">form-example</span>', {
+    <span class="syntax-keyword">state</span>: () => ({
+        <span class="syntax-prop">name</span>: '<span class="syntax-string">John Doe</span>',
+        <span class="syntax-prop">email</span>: '<span class="syntax-string">john@example.com</span>',
+        <span class="syntax-prop">message</span>: '<span class="syntax-string">Hello Lila JS!</span>'
+    }),
+    <span class="syntax-keyword">template</span>: \`
+        &lt;div&gt;
+            &lt;div class="mb-4"&gt;
+                &lt;label class="block text-gray-700"&gt;Name&lt;/label&gt;
+                &lt;input type="text" class="border p-2 w-full" 
+                       data-model="name" /&gt;
+            &lt;/div&gt;
+            &lt;div class="mb-4"&gt;
+                &lt;label class="block text-gray-700"&gt;Email&lt;/label&gt;
+                &lt;input type="email" class="border p-2 w-full" 
+                       data-model="email" /&gt;
+            &lt;/div&gt;
+            &lt;div class="mb-4"&gt;
+                &lt;label class="block text-gray-700"&gt;Message&lt;/label&gt;
+                &lt;textarea class="border p-2 w-full" 
+                          data-model="message"&gt;&lt;/textarea&gt;
+            &lt;/div&gt;
+            &lt;button class="bg-purple-600 text-white px-4 py-2 rounded-md" 
+                    data-on:click="submitForm"&gt;
+                Submit
+            &lt;/button&gt;
+            &lt;div class="mt-4 p-4 bg-gray-100"&gt;
+                &lt;h3 class="font-bold"&gt;Form Data:&lt;/h3&gt;
+                &lt;p data-bind="name" &gt;Name: \${<span class="syntax-variable">state</span>.<span class="syntax-prop">name</span>}&lt;/p&gt;
+                &lt;p  data-bind="email" &gt;Email: \${<span class="syntax-variable">state</span>.<span class="syntax-prop">email</span>}&lt;/p&gt;
+                &lt;p  data-bind="message" &gt;Message: \${<span class="syntax-variable">state</span>.<span class="syntax-prop">message</span>}&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    \`,
+    <span class="syntax-keyword">actions</span>: {
+        <span class="syntax-action">submitForm</span>() {
+            alert(\`Form submitted with: \${JSON.stringify(<span class="syntax-keyword">this</span>.<span class="syntax-variable">state</span>)}\`);
+        }
+    }
+});
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+
+        
+    
+     
+      
 `;
+ 
+App.defineRoute("/", () => homeTemplate);
+App.defineRoute("/documentation", () => documentationTemplate);
+App.defineRoute("/examples", () => examplesTemplate);
+ 
 App.createComponent('counter-example', {
     template: /*html*/`
         <div class="border p-4 rounded-md bg-white">
@@ -385,14 +539,15 @@ App.createComponent('counter-example', {
 App.createComponent('conditional-example', {
     template: /*html*/`
         <div class="border p-4 rounded-md bg-white">
-            <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" data-on:click="toggle">${lang === 'es' ? 'Alternar' : 'Toggle'}</button>
+            <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4 " data-on:click="toggle">${lang === 'es' ? 'Alternar' : 'Toggle'}</button>
             <div data-if="show" class="bg-green-200 p-4 rounded-md">
                 ${lang === 'es' ? 'Este elemento se renderiza condicionalmente.' : 'This element is conditionally rendered.'}
             </div>
         </div>
     `,
-    state: () => ({
-        show: true
+    state: (props) => ({
+        show: true,
+        color : props.color || 'purple'
     }),
     actions: {
         toggle() {
@@ -432,9 +587,145 @@ App.createComponent('slot-example', {
     `
 });
 
-App.defineRoute("/documentation", () => documentationTemplate);
-App.defineRoute("/examples", () => examplesTemplate);
+App.createComponent('form-example', {
+    template: /*html*/`
+        <div class="border p-4 rounded-md bg-white">
+            <div class="mb-4">
+                <label class="block text-gray-700">${lang === 'es' ? 'Nombre' : 'Name'}</label>
+                <input type="text" class="border p-2 w-full" data-model="name" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Email</label>
+                <input type="email" class="border p-2 w-full" data-model="email" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">${lang === 'es' ? 'Mensaje' : 'Message'}</label>
+                <textarea class="border p-2 w-full" data-model="message"></textarea>
+            </div>
+            <button class="bg-purple-600 text-white px-4 py-2 rounded-md" data-on:click="submitForm">
+                ${lang === 'es' ? 'Enviar' : 'Submit'}
+            </button>
+            <div class="mt-4 p-4 bg-gray-100">
+                <h3 class="font-bold">${lang === 'es' ? 'Datos del Formulario' : 'Form Data'}:</h3>
+                <p data-bind="name">${lang === 'es' ? 'Nombre' : 'Name'}: \${state.name}</p>
+                <p data-bind="email">Email: \${state.email}</p>
+                <p data-bind="message">${lang === 'es' ? 'Mensaje' : 'Message'}: \${state.message}</p>
+            </div>
+        </div>
+    `,
+    state: () => ({
+        name: 'John Doe',
+        email: 'john@example.com',
+        message: 'Hello Lila JS!'
+    }),
+    actions: {
+        submitForm() {
+            alert(`${lang === 'es' ? 'Formulario enviado con:' : 'Form submitted with:'} ${JSON.stringify(this.state)}`);
+        }
+    }
+});
 
+App.createComponent('todo-app', {
+    template: /*html*/`
+        <div class="border p-4 rounded-md bg-white">
+            <h2 class="text-2xl font-bold mb-4">${lang === 'es' ? 'App de Tareas' : 'Todo App'}</h2>
+            
+            <div class="flex mb-4">
+                <input type="text" 
+                       class="border p-2 flex-grow" 
+                       placeholder="${lang === 'es' ? 'Añadir una nueva tarea...' : 'Add a new todo...'}"
+                       data-model="newTodo" />
+                <button class="bg-purple-600 text-white px-4 py-2 ml-2"
+                        data-on:click="addTodo">
+                    ${lang === 'es' ? 'Añadir' : 'Add'}
+                </button>
+            </div>
+            
+            <div class="flex space-x-2 mb-4">
+                <button class="px-3 py-1 \${state.filter === 'all' ? 'bg-purple-600 text-white' : 'bg-gray-200'}"
+                        data-on:click="setFilter" data-filter="all">
+                    ${lang === 'es' ? 'Todos' : 'All'}
+                </button>
+                <button class="px-3 py-1 \${state.filter === 'active' ? 'bg-purple-600 text-white' : 'bg-gray-200'}"
+                        data-on:click="setFilter" data-filter="active">
+                    ${lang === 'es' ? 'Activos' : 'Active'}
+                </button>
+                <button class="px-3 py-1 \${state.filter === 'completed' ? 'bg-purple-600 text-white' : 'bg-gray-200'}"
+                        data-on:click="setFilter" data-filter="completed">
+                    ${lang === 'es' ? 'Completados' : 'Completed'}
+                </button>
+            </div>
+            
+            <ul class="space-y-2">
+                <li data-for="todo in filteredTodos" class="flex items-center">
+                    <input type="checkbox" 
+                           class="mr-2" 
+                           data-checked="\${todo.completed}"
+                           data-on:change="toggleTodo" 
+                           data-id="\${todo.id}" />
+                    <span class="\${todo.completed ? 'line-through text-gray-500' : ''}">
+                        \${todo.text}
+                    </span>
+                    <button class="ml-auto text-red-600"
+                            data-on:click="removeTodo" 
+                            data-id="\${todo.id}">
+                        ${lang === 'es' ? 'Eliminar' : 'Delete'}
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="mt-4 text-gray-600">
+                \${state.todos.filter(t => !t.completed).length} ${lang === 'es' ? 'tareas pendientes' : 'items left'}
+            </div>
+        </div>
+    `,
+    state: () => ({
+        todos: [],
+        newTodo: '',
+        filter: 'all'
+    }),
+    computed: {
+        filteredTodos() {
+            const { todos, filter } = this.state;
+            if (filter === 'active') return todos.filter(t => !t.completed);
+            if (filter === 'completed') return todos.filter(t => t.completed);
+            return todos;
+        }
+    },
+    actions: {
+        addTodo() {
+            if (!this.state.newTodo.trim()) return;
+            
+            const newTodo = {
+                id: Date.now(),
+                text: this.state.newTodo,
+                completed: false
+            };
+            
+            this.setState({
+                todos: [...this.state.todos, newTodo],
+                newTodo: ''
+            });
+        },
+        toggleTodo(event) {
+            const id = parseInt(event.target.dataset.id);
+            const todos = this.state.todos.map(todo =>
+                todo.id === id ? { ...todo, completed: !todo.completed } : todo
+            );
+            this.setState({ todos });
+        },
+        removeTodo(event) {
+            const id = parseInt(event.target.dataset.id);
+            const todos = this.state.todos.filter(todo => todo.id !== id);
+            this.setState({ todos });
+        },
+        setFilter(event) {
+            const filter = event.target.dataset.filter;
+            this.setState({ filter });
+        }
+    }
+});
+ 
 App.mount("app");
-
+ 
  
