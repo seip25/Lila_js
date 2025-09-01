@@ -1,28 +1,4 @@
-.text-lila {
-    color: violet !important ;
-}
-.bg-lila{
-    background-color :violet !important;
-    border-color: violet !important;
-    color:white !important;
-}
-.mt-4 {
-    margin-top: 4rem   !important ;
-}
-.mt-2 {
-    margin-top: 2rem   !important ;
-}
-.mt-3 {
-    margin-top: 3rem   !important ;
-}
-.mt-1{
-    margin-top: 1rem ;
-}
-@keyframes parpadeoCursor {
-    50% {
-        border-right-color: transparent !important ;
-    }
-}
+ 
 
 .terminal {
     border: 0.1em solid #333 !important ;
@@ -189,37 +165,43 @@ pre {
     color: #a0a0a0 !important ;  
     font-style: italic !important ;  
 }
-
-
-.copy-btn {
-    background-color: #56b000 !important ;
-    color: white !important ;
-    padding: 0.5em 1em !important ;
-    border-radius: 5px !important ;
-    cursor: pointer !important ;
-    position: absolute !important ;
-    top: 10px !important ;
-    right: 10px !important ;
-    font-size: 0.9em !important ;
+  
+.syntax-keyword {
+    color: #c678dd; 
 }
 
-.copy-btn:hover {
-    background-color: #4a9f00 !important ;
+.syntax-string {
+    color: #98c379;  
 }
 
-.white {
-    color :white!important;
+.syntax-prop {
+    color: #e5c07b;  
 }
 
-.mb-4{
-    margin-bottom:  4rem !important;
+.syntax-number {
+    color: #d19a66;  
 }
 
-body {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out
+.syntax-boolean {
+    color: #d19a66; 
 }
 
-body.loaded {
-    opacity: 1
+.syntax-action {
+    color: #61afef;  
+}
+
+.syntax-variable {
+    color: #e06c75; 
+}
+
+.syntax-in {
+    color: #56b000; 
+}
+
+.syntax-comment {
+    color: #848484;  
+}
+
+.syntax-tag {
+    color: #e06c75; 
 }

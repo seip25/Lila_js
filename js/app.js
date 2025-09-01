@@ -33,6 +33,30 @@ const i18n = {
         progressive_evolution_text: "Start with a traditional script and scale to <b>full PWA</b> as needed.",
         full_interoperability: "🛠️ <b>Full Interoperability</b>",
         full_interoperability_text: "Use only what you need and integrate with <b>any existing stack</b>.",
+        counter_component: "Counter Component",
+        counter_component_text: "An example of a simple counter component with reactive state.",
+        conditional_rendering: "Conditional Rendering",
+        conditional_rendering_text: "Render elements dynamically based on state conditions.",
+        list_rendering: "List Rendering",
+        list_rendering_text: "Easily render lists of items using the <code>data-for</code> directive.",
+        slot_component: "Slot Component",
+        slot_component_text: "A component that demonstrates how slots allow parent-child content projection.",
+        core_concepts: "Core Concepts",
+        core_concepts_text: "Learn the fundamental concepts of Lila JS to build reactive applications.",
+        reactivity: "Reactivity",
+        reactivity_text: "Lila JS reactivity system automatically updates the DOM when state changes.",
+        routing: "Routing",
+        routing_text: "Define simple routes with built-in micro-router for SPAs.",
+        api_reference: "API Reference",
+        create_component: "App.createComponent",
+        create_component_text: "Defines a new component with template, state, and actions.",
+        define_route: "App.defineRoute",
+        define_route_text: "Associates a path with a template or component.",
+        mount: "App.mount",
+        mount_text: "Mounts your application to the DOM element provided.",
+        set_state: "setState",
+        set_state_text: "Updates component state and re-renders automatically.",
+
     },
     es: {
         home: "Inicio",
@@ -52,7 +76,7 @@ const i18n = {
         features: "Ventajas clave de <b>Lila JS</b> como Micro-Framework",
         ultra_compact_core: "🚀 <b>Núcleo Ultracompacto</b>",
         ultra_compact_core_text: "Sistema reactivo completo, enrutamiento y componentes en <b>menos de 10kb</b>. Sin bloatware ni dependencias ocultas.",
-        precise_reactivity: "💡 <b>Reactivdad Precisa</b>",
+        precise_reactivity: "💡 <b>Reactividad Precisa</b>",
         precise_reactivity_text: "<b>Sistema de actualización granular</b> que solo modifica lo necesario en el DOM usando <b>Proxy nativo</b>.",
         self_contained_components: "🧩 <b>Componentes Autocontenidos</b>",
         self_contained_components_text: "Cada componente gestiona su propio <b>estado reactivo</b>, <b>ciclo de vida</b> y <b>plantilla con alcance</b>.",
@@ -68,8 +92,33 @@ const i18n = {
         progressive_evolution_text: "Comienza con un script tradicional y escala a <b>PWA completo</b> según sea necesario.",
         full_interoperability: "🛠️ <b>Interoperabilidad Total</b>",
         full_interoperability_text: "Usa solo lo que necesitas e integra con <b>cualquier stack existente</b>.",
+        counter_component: "Componente Contador",
+        counter_component_text: "Un ejemplo de un componente contador simple con estado reactivo.",
+        conditional_rendering: "Renderizado Condicional",
+        conditional_rendering_text: "Renderiza elementos dinámicamente según condiciones del estado.",
+        list_rendering: "Renderizado de Listas",
+        list_rendering_text: "Renderiza fácilmente listas de elementos usando la directiva <code>data-for</code>.",
+        slot_component: "Componente con Slot",
+        slot_component_text: "Un componente que demuestra cómo los slots permiten proyectar contenido del padre.",
+        core_concepts: "Conceptos Básicos",
+        core_concepts_text: "Aprende los conceptos fundamentales de Lila JS para construir aplicaciones reactivas.",
+        reactivity: "Reactividad",
+        reactivity_text: "El sistema de reactividad de Lila JS actualiza automáticamente el DOM cuando cambia el estado.",
+        routing: "Enrutamiento",
+        routing_text: "Define rutas simples con el enrutador micro incorporado para SPAs.",
+        api_reference: "Referencia de API",
+        create_component: "App.createComponent",
+        create_component_text: "Define un nuevo componente con plantilla, estado y acciones.",
+        define_route: "App.defineRoute",
+        define_route_text: "Asocia una ruta con una plantilla o componente.",
+        mount: "App.mount",
+        mount_text: "Monta tu aplicación en el elemento del DOM proporcionado.",
+        set_state: "setState",
+        set_state_text: "Actualiza el estado del componente y vuelve a renderizar automáticamente.",
+        
     }
 };
+
 
 const lang = document.documentElement.lang;
 const t = i18n[lang];
@@ -157,34 +206,168 @@ const documentationTemplate = /*html*/`
         <p>${t.set_state_text}</p>
     </div>
 `;
-
 const examplesTemplate = /*html*/`
     <div class="prose max-w-none">
         <h1 class="text-4xl font-bold mb-4">${t.examples}</h1>
-
+        
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.counter_component}</h2>
         <p>${t.counter_component_text}</p>
-        <counter-example></counter-example>
+        <div class="flex flex-col gap-8">
+            <counter-example class="w-full"></counter-example>
+            <div class="code-editor w-full">
+                <div class="editor-header">
+                    <span class="editor-title">counter-example.js</span>
+                    <div class="editor-controls">
+                        <div class="control close"></div>
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <pre><code class="language-js">
+<span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">counter-example</span>', {
+    <span class="syntax-keyword">state</span>: () => ({
+        <span class="syntax-prop">count</span>: <span class="syntax-number">0</span>
+    }),
+    <span class="syntax-keyword">template</span>: \`
+        &lt;div&gt;
+            &lt;p&gt;Conteo: \${<span class="syntax-variable">state</span>.<span class="syntax-prop">count</span>}&lt;/p&gt;
+            &lt;button data-on:click="<span class="syntax-action">increment</span>"&gt;Incrementar&lt;/button&gt;
+        &lt;/div&gt;
+    \`,
+    <span class="syntax-keyword">actions</span>: {
+        <span class="syntax-action">increment</span>() {
+            <span class="syntax-keyword">this</span>.<span class="syntax-action">setState</span>({ <span class="syntax-prop">count</span>: <span class="syntax-keyword">this</span>.<span class="syntax-variable">state</span>.<span class="syntax-prop">count</span> + <span class="syntax-number">1</span> });
+        }
+    }
+});
+                    </code></pre>
+                </div>
+            </div>
+        </div>
 
+         
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.conditional_rendering}</h2>
         <p>${t.conditional_rendering_text}</p>
-        <conditional-example></conditional-example>
+        <div class="flex flex-col gap-8">
+            <conditional-example class="w-full"></conditional-example>
+            <div class="code-editor w-full">
+                <div class="editor-header">
+                    <span class="editor-title">conditional-example.js</span>
+                    <div class="editor-controls">
+                        <div class="control close"></div>
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <pre><code class="language-js">
+<span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">conditional-example</span>', {
+    <span class="syntax-keyword">state</span>: () => ({
+        <span class="syntax-prop">show</span>: <span class="syntax-boolean">true</span>
+    }),
+    <span class="syntax-keyword">template</span>: \`
+        &lt;div&gt;
+            &lt;button data-on:click="<span class="syntax-action">toggle</span>"&gt;Alternar&lt;/button&gt;
+            &lt;div data-if="<span class="syntax-prop">show</span>"&gt;
+                Este elemento se renderiza condicionalmente.
+            &lt;/div&gt;
+        &lt;/div&gt;
+    \`,
+    <span class="syntax-keyword">actions</span>: {
+        <span class="syntax-action">toggle</span>() {
+            <span class="syntax-keyword">this</span>.<span class="syntax-action">setState</span>({ <span class="syntax-prop">show</span>: !<span class="syntax-keyword">this</span>.<span class="syntax-variable">state</span>.<span class="syntax-prop">show</span> });
+        }
+    }
+});
+                    </code></pre>
+                </div>
+            </div>
+        </div>
 
+         
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.list_rendering}</h2>
         <p>${t.list_rendering_text}</p>
-        <list-example></list-example>
+        <div class="flex flex-col gap-8">
+            <list-example class="w-full"></list-example>
+            <div class="code-editor w-full">
+                <div class="editor-header">
+                    <span class="editor-title">list-example.js</span>
+                    <div class="editor-controls">
+                        <div class="control close"></div>
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <pre><code class="language-js">
+<span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">list-example</span>', {
+    <span class="syntax-keyword">state</span>: () => ({
+        <span class="syntax-prop">items</span>: ['<span class="syntax-string">Apple</span>', '<span class="syntax-string">Banana</span>', '<span class="syntax-string">Cherry</span>']
+    }),
+    <span class="syntax-keyword">template</span>: \`
+        &lt;div&gt;
+            &lt;ul&gt;
+                &lt;li data-for="<span class="syntax-variable">item</span> <span class="syntax-in">in</span> <span class="syntax-prop">items</span>"&gt;\${<span class="syntax-variable">item</span>}&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;button data-on:click="<span class="syntax-action">addItem</span>"&gt;Añadir Elemento&lt;/button&gt;
+        &lt;/div&gt;
+    \`,
+    <span class="syntax-keyword">actions</span>: {
+        <span class="syntax-action">addItem</span>() {
+            <span class="syntax-keyword">const</span> <span class="syntax-variable">newItem</span> = \`Item \${<span class="syntax-keyword">this</span>.<span class="syntax-variable">state</span>.<span class="syntax-prop">items</span>.length + <span class="syntax-number">1</span>}\`;
+            <span class="syntax-keyword">this</span>.<span class="syntax-action">setState</span>({ <span class="syntax-prop">items</span>: [...<span class="syntax-keyword">this</span>.<span class="syntax-variable">state</span>.<span class="syntax-prop">items</span>, <span class="syntax-variable">newItem</span>] });
+        }
+    }
+});
+                    </code></pre>
+                </div>
+            </div>
+        </div>
 
+         
         <h2 class="text-2xl font-bold mt-8 mb-4">${t.slot_component}</h2>
         <p>${t.slot_component_text}</p>
-        <slot-example>
-            <span class="font-bold text-purple-600">${lang === 'es' ? '¡Este contenido es del padre!' : 'This content is from the parent!'}</span>
-        </slot-example>
+        <div class="flex flex-col gap-8">
+            <slot-example class="w-full">
+                <span class="font-bold text-purple-600">${lang === 'es' ? '¡Este contenido es del padre!' : 'This content is from the parent!'}</span>
+            </slot-example>
+            <div class="code-editor w-full">
+                <div class="editor-header">
+                    <span class="editor-title">slot-example.js</span>
+                    <div class="editor-controls">
+                        <div class="control close"></div>
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <pre><code class="language-js">
+<span class="syntax-comment">// Componente con slot</span>
+<span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">slot-example</span>', {
+    <span class="syntax-keyword">template</span>: \`
+        &lt;div&gt;
+            &lt;p&gt;Contenido propio.&lt;/p&gt;
+            &lt;div class="border-t mt-4 pt-4"&gt;
+                &lt;slot&gt;&lt;/slot&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    \`
+});
+
+<span class="syntax-comment">// Uso en el HTML padre</span>
+&lt;<span class="syntax-tag">slot-example</span>&gt;
+    &lt;<span class="syntax-tag">span</span>&gt;Contenido desde el padre.&lt;/<span class="syntax-tag">span</span>&gt;
+&lt;/<span class="syntax-tag">slot-example</span>&gt;
+                    </code></pre>
+                </div>
+            </div>
+        </div>
     </div>
 `;
-
 App.createComponent('counter-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md">
+        <div class="border p-4 rounded-md bg-white">
             <p class="text-lg">${lang === 'es' ? 'Conteo' : 'Count'}: \${state.count}</p>
             <button class="bg-purple-600 text-white px-4 py-2 rounded-md" data-on:click="increment">${lang === 'es' ? 'Incrementar' : 'Increment'}</button>
         </div>
@@ -201,7 +384,7 @@ App.createComponent('counter-example', {
 
 App.createComponent('conditional-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md">
+        <div class="border p-4 rounded-md bg-white">
             <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4" data-on:click="toggle">${lang === 'es' ? 'Alternar' : 'Toggle'}</button>
             <div data-if="show" class="bg-green-200 p-4 rounded-md">
                 ${lang === 'es' ? 'Este elemento se renderiza condicionalmente.' : 'This element is conditionally rendered.'}
@@ -220,7 +403,7 @@ App.createComponent('conditional-example', {
 
 App.createComponent('list-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md">
+        <div class="border p-4 rounded-md bg-white">
             <ul class="list-disc pl-5">
                 <li data-for="item in items">\${item}</li>
             </ul>
@@ -240,7 +423,7 @@ App.createComponent('list-example', {
 
 App.createComponent('slot-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md">
+        <div class="border p-4 rounded-md bg-white">
             <p>${lang === 'es' ? 'Este es el contenido propio del componente. Debajo está el contenido del padre:' : 'This is the component\'s own content. Below is the content from the parent:'}</p>
             <div class="border-t mt-4 pt-4">
                 <slot></slot>
@@ -253,3 +436,5 @@ App.defineRoute("/documentation", () => documentationTemplate);
 App.defineRoute("/examples", () => examplesTemplate);
 
 App.mount("app");
+
+ 

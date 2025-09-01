@@ -23,17 +23,18 @@
         content="The simplest way to build reactive web apps with vanilla JavaScript. No build step, no dependencies.">
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="css/index.css"> 
     <link rel="icon" type="image/jpeg" href="lila.jpeg" alt="Lila JS Logo">
     <script src="lila.js"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
     <header class="bg-white shadow-md">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-xl font-bold text-purple-600">
                 <a href="/">Lila JS</a>
             </div>
-            <div class="flex gap-4">
+            <div class="flex gap-2 grid grid-cols-1 sm:grid-cols-5 ">
                 <lila-link href="/" color="purple">Home</lila-link>
                 <lila-link href="/documentation" color="purple">Documentation</lila-link>
                 <lila-link href="/examples" color="purple">Examples</lila-link>
@@ -44,7 +45,7 @@
         </nav>
     </header>
 
-    <main id="app" class="container mx-auto px-6 py-8">
+    <main id="app" class="container mx-auto px-6 py-8 flex-grow ">
     </main>
 
     <footer class="bg-white shadow-md mt-8">
