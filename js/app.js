@@ -357,7 +357,7 @@ const documentationTemplate = /*html*/`
 
         <span class="syntax-comment">// Define routes</span>
         App.defineRoute(<span class="syntax-string">'/'</span>, () => homeTemplate);
-        App.defineRoute(<span class="syntax-string">'/about'</span>, () => aboutTemplate);
+        App.defineRoute(<span class="syntax-string">'/about</span>, () => aboutTemplate);
 
         <span class="syntax-comment">// Mount the application</span>
         App.mount(<span class="syntax-string">'app'</span>);
@@ -412,6 +412,157 @@ App.mount('app');
             </div>
         </div>
 
+        <h3 class="text-2xl font-bold mt-6 mb-2">${lang === 'es' ? 'Directivas de Plantilla' : 'Template Directives'}</h3>
+        <p>${lang === 'es' ? 'Lila JS proporciona directivas especiales para manejar la lógica de plantillas directamente en el HTML.' : 'Lila JS provides special directives to handle template logic directly in HTML.'}</p>
+
+        <h4 class="text-xl font-bold mt-4 mb-2">data-if: ${t.conditional_rendering}</h4>
+        <p>${lang === 'es' ? 'La directiva <code>data-if</code> permite mostrar u ocultar elementos basados en una condición.' : 'The <code>data-if</code> directive allows showing or hiding elements based on a condition.'}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('user-profile', {
+    state: () => ({ isLoggedIn: false }),
+    template: \`
+        &lt;div&gt;
+            &lt;div <span class="syntax-attr">data-if</span>="<span class="syntax-prop">isLoggedIn</span>"&gt;
+                &lt;h1&gt;${lang === 'es' ? 'Bienvenido usuario!' : 'Welcome user!'}&lt;/h1&gt;
+            &lt;/div&gt;
+            &lt;div <span class="syntax-attr">data-if</span>="!<span class="syntax-prop">isLoggedIn</span>"&gt;
+                &lt;button data-on:click="login"&gt;${lang === 'es' ? 'Iniciar sesión' : 'Log in'}&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    \`,
+    actions: {
+        login() {
+            this.setState({ isLoggedIn: true });
+        }
+    }
+});
+                </code></pre>
+            </div>
+        </div>
+
+        <h4 class="text-xl font-bold mt-4 mb-2">data-for: ${t.list_rendering}</h4>
+        <p>${lang === 'es' ? 'La directiva <code>data-for</code> itera sobre arrays para renderizar listas de elementos.' : 'The <code>data-for</code> directive iterates over arrays to render lists of elements.'}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('todo-list', {
+    state: () => ({
+        todos: [
+            { id: 1, text: '${lang === 'es' ? 'Aprender Lila JS' : 'Learn Lila JS'}', completed: true },
+            { id: 2, text: '${lang === 'es' ? 'Crear una app' : 'Create an app'}', completed: false }
+        ]
+    }),
+    template: \`
+        &lt;ul&gt;
+            &lt;li <span class="syntax-attr">data-for</span>="<span class="syntax-variable">todo</span> in <span class="syntax-prop">todos</span>"&gt;
+                &lt;span class="\\\${<span class="syntax-variable">todo</span>.completed ? 'line-through' : ''}"&gt;
+                    \\\${<span class="syntax-variable">todo</span>.text}
+                &lt;/span&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    \`
+});
+                </code></pre>
+            </div>
+        </div>
+
+        <h4 class="text-xl font-bold mt-4 mb-2">data-model: ${t.two_way_binding}</h4>
+        <p>${lang === 'es' ? 'La directiva <code>data-model</code> crea un enlace bidireccional entre inputs y el estado.' : 'The <code>data-model</code> directive creates two-way binding between inputs and state.'}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('user-form', {
+    state: () => ({
+        name: '',
+        email: '',
+        message: ''
+    }),
+    template: \`
+        &lt;form&gt;
+            &lt;input type="text" 
+                   <span class="syntax-attr">data-model</span>="<span class="syntax-prop">name</span>" 
+                   placeholder="${lang === 'es' ? 'Nombre' : 'Name'}"&gt;
+            
+            &lt;input type="email" 
+                   <span class="syntax-attr">data-model</span>="<span class="syntax-prop">email</span>" 
+                   placeholder="Email"&gt;
+            
+            &lt;textarea <span class="syntax-attr">data-model</span>="<span class="syntax-prop">message</span>"&gt;&lt;/textarea&gt;
+            
+            &lt;button data-on:click="submit"&gt;${lang === 'es' ? 'Enviar' : 'Submit'}&lt;/button&gt;
+        &lt;/form&gt;
+    \`,
+    actions: {
+        submit(e) {
+            e.preventDefault();
+            console.log('${lang === 'es' ? 'Datos del formulario:' : 'Form data:'}', this.state);
+        }
+    }
+});
+                </code></pre>
+            </div>
+        </div>
+
+        <h4 class="text-xl font-bold mt-4 mb-2">data-bind: ${lang === 'es' ? 'Enlace Unidireccional' : 'One-Way Binding'}</h4>
+        <p>${lang === 'es' ? 'La directiva <code>data-bind</code> muestra el valor de una propiedad del estado y se actualiza automáticamente cuando cambia.' : 'The <code>data-bind</code> directive displays the value of a state property and updates automatically when it changes.'}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('user-profile', {
+    state: () => ({
+        userName: '${lang === 'es' ? 'Juan Pérez' : 'John Doe'}',
+        userEmail: 'juan@example.com',
+        score: 100
+    }),
+    template: \`
+        &lt;div&gt;
+            &lt;h1 <span class="syntax-attr">data-bind</span>="<span class="syntax-prop">userName</span>"&gt;\\\${state.userName}&lt;/h1&gt;
+            &lt;p <span class="syntax-attr">data-bind</span>="<span class="syntax-prop">userEmail</span>"&gt;Email: \\\${state.userEmail}&lt;/p&gt;
+            &lt;p <span class="syntax-attr">data-bind</span>="<span class="syntax-prop">score</span>"&gt;${lang === 'es' ? 'Puntuación:' : 'Score:'} \\\${state.score}&lt;/p&gt;
+        &lt;/div&gt;
+    \`
+});
+                </code></pre>
+            </div>
+        </div>
+
+        <h4 class="text-xl font-bold mt-4 mb-2">data-on: ${t.event_handling}</h4>
+        <p>${lang === 'es' ? 'La directiva <code>data-on</code> permite manejar eventos del DOM llamando a acciones del componente.' : 'The <code>data-on</code> directive allows handling DOM events by calling component actions.'}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('interactive-button', {
+    state: () => ({ clickCount: 0 }),
+    template: \`
+        &lt;div&gt;
+            &lt;button <span class="syntax-attr">data-on:click</span>="<span class="syntax-action">handleClick</span>"&gt;
+                ${lang === 'es' ? 'Clickeado' : 'Clicked'} \\\${state.clickCount} ${lang === 'es' ? 'veces' : 'times'}
+            &lt;/button&gt;
+            &lt;button <span class="syntax-attr">data-on:mouseover</span>="<span class="syntax-action">handleHover</span>"&gt;
+                ${lang === 'es' ? 'Pasa el mouse' : 'Hover over me'}
+            &lt;/button&gt;
+        &lt;/div&gt;
+    \`,
+    actions: {
+        handleClick() {
+            this.setState({ clickCount: this.state.clickCount + 1 });
+        },
+        handleHover() {
+            console.log('${lang === 'es' ? 'Mouse sobre el botón' : 'Mouse over button'}');
+        }
+    }
+});
+                </code></pre>
+            </div>
+        </div>
+
         <h3 class="text-2xl font-bold mt-6 mb-2">${t.lifecycle_hooks}</h3>
         <p>${t.lifecycle_hooks_text}</p>
 
@@ -427,7 +578,7 @@ App.mount('app');
         <h2 class="text-3xl font-bold mt-8 mb-4">${t.api_reference}</h2>
 
         <h3 class="text-2xl font-bold mt-6 mb-2">${t.create_component}</h3>
-        <p>Defines a new component. It takes two arguments: the component's tag name (e.g., 'my-component') and an options object.</p>
+        <p>${t.create_component_text}</p>
         <div class="code-editor">
             <div class="editor-header"><span class="editor-title">JavaScript</span></div>
             <div class="editor-content">
@@ -452,13 +603,13 @@ App.createComponent('my-component', {
                 <pre><code class="language-js">
 App.createComponent('user-profile', {
     state: (props) => ({
-        name: props.name || 'Guest',
+        name: props.name || '${lang === 'es' ? 'Invitado' : 'Guest'}',
         followers: 0
     }),
     template: \`
         &lt;div&gt;
             &lt;h1&gt;\\\${state.name}&lt;/h1&gt;
-            &lt;p&gt;Followers: \\\${state.followers}&lt;/p&gt;
+            &lt;p&gt;${lang === 'es' ? 'Seguidores:' : 'Followers:'} \\\${state.followers}&lt;/p&gt;
         &lt;/div&gt;
     \`
 });
@@ -479,7 +630,7 @@ App.createComponent('counter-button', {
     state: () => ({ count: 0 }),
     template: \`
         &lt;button data-on:click="increment"&gt;
-            Clicked \\\${state.count} times
+            ${lang === 'es' ? 'Clickeado' : 'Clicked'} \\\${state.count} ${lang === 'es' ? 'veces' : 'times'}
         &lt;/button&gt;
     \`,
     actions: {
@@ -502,9 +653,9 @@ App.createComponent('user-data', {
     state: () => ({ user: null }),
     template: \`
         &lt;div&gt;
-            &lt;div data-if="!user"&gt;Loading...&lt;/div&gt;
+            &lt;div data-if="!user"&gt;${lang === 'es' ? 'Cargando...' : 'Loading...'}&lt;/div&gt;
             &lt;div data-if="user"&gt;
-                Welcome, \\\${state.user.name}
+                ${lang === 'es' ? 'Bienvenido,' : 'Welcome,'} \\\${state.user.name}
             &lt;/div&gt;
         &lt;/div&gt;
     \`,
@@ -530,12 +681,19 @@ App.createComponent('user-data', {
         <h3 class="text-2xl font-bold mt-6 mb-2">${t.set_state}</h3>
         <p>${t.set_state_text}</p>
 
-        <br />
-        <h1 class="text-2xl font-bold mb-4">${t.important}</h1>
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-8">
+            <div class="flex">
+                <div class="ml-3">
+                    <h3 class="text-sm font-bold text-yellow-800">${lang === 'es' ? '¡Importante!' : 'Important!'}</h3>
+                    <div class="mt-2 text-sm text-yellow-700">
+                        <p>${t.important}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 `;
- 
 const examplesTemplate = /*html*/`
     <div class="prose max-w-none"> 
 
