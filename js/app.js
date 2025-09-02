@@ -747,9 +747,9 @@ const examplesTemplate = /*html*/`
             &lt;/button&gt;
             &lt;div class="mt-4 p-4 bg-gray-100"&gt;
                 &lt;h3 class="font-bold"&gt;Form Data:&lt;/h3&gt;
-                &lt;p data-bind="name" &gt;Name: \${<span class="syntax-variable">state</span>.<span class="syntax-prop">name</span>}&lt;/p&gt;
-                &lt;p  data-bind="email" &gt;Email: \${<span class="syntax-variable">state</span>.<span class="syntax-prop">email</span>}&lt;/p&gt;
-                &lt;p  data-bind="message" &gt;Message: \${<span class="syntax-variable">state</span>.<span class="syntax-prop">message</span>}&lt;/p&gt;
+                &lt;p data-bind="name" &gt;Name: \\\${<span class="syntax-variable">state</span>.<span class="syntax-prop">name</span>}&lt;/p&gt;
+                &lt;p  data-bind="email" &gt;Email: \\\${<span class="syntax-variable">state</span>.<span class="syntax-prop">email</span>}&lt;/p&gt;
+                &lt;p  data-bind="message" &gt;Message: \\\${<span class="syntax-variable">state</span>.<span class="syntax-prop">message</span>}&lt;/p&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     \`,
