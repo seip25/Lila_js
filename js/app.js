@@ -268,6 +268,10 @@ const documentationTemplate = /*html*/`
 <span class="syntax-string">
 &lt;script src="https://seip25.github.io/Lila_js/lila.js"&gt;&lt;/script&gt;
 </span> 
+&lt;!-- Or minify --&gt;
+<span class="syntax-string">
+&lt;script src="https://seip25.github.io/Lila_js/lila.min.js"&gt;&lt;/script&gt;
+</span> 
 </code></pre>
             </div>
         </div>
@@ -767,9 +771,9 @@ const examplesTemplate = /*html*/`
         
    <div class="flex flex-col gap-8 bg-white p-4 rounded-md mt-8">
      <p class="mt-4 mb-4 text-purple-600 text-2xl">${t.examples_html}</p>
-    <a href="examples.html" class="mb-4 text-purple-600 hover:underline">Views Profile example</a>
+    <a href="examples.html" class="mb-4 text-purple-600 underline hover:text-purple-300">Views Profile example</a>
 
-    <a href="starter.html" class="text-purple-600 hover:underline">Starter app</a>
+    <a href="starter.html" class="text-purple-600 hover:text-purple-300 underline" >Starter app</a>
    </div>
      
       
