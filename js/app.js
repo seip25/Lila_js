@@ -266,7 +266,7 @@ const documentationTemplate = /*html*/`
 </span>
 &lt;!-- Or from a CDN --&gt;
 <span class="syntax-string">
-&lt;script src="https://seip25.github.io/Lila_js.js"&gt;&lt;/script&gt;
+&lt;script src="https://seip25.github.io/Lila_js/lila.js"&gt;&lt;/script&gt;
 </span> 
 </code></pre>
             </div>
