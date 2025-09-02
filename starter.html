@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lila JS Starter Template</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://seip25.github.io/Lila_js/lila.js"></script>
+</head>
+<body>
+    <nav class="bg-white shadow-sm p-4">
+        <lila-link href="/" color="purple">Home</lila-link>
+        <lila-link href="/about" color="purple" class="ml-4">About</lila-link>
+    </nav>
+    <main id="app" class="container mx-auto p-4"></main>
+
+    <script>
+        // Define templates for our pages
+        const homeTemplate = `
+            <div>
+                <h1 class="text-2xl">Home Page</h1>
+                <p>Welcome to the Lila JS starter template.</p>
+                <counter-component></counter-component>
+            </div>
+        `;
+
+        const aboutTemplate = `
+            <div>
+                <h1 class="text-2xl">About Page</h1>
+                <p>This page is another route in your single-page application.</p>
+            </div>
+        `;
+
+        // Define the lila-link component for navigation
+        App.createComponent('lila-link', {
+            template: `
+                <a href="#\${props.href}"
+                   class="text-\${props.color}-600 hover:underline hover:text-\${props.color}-800"
+                   data-on:click="handleClick">
+                  <slot></slot>
+                </a>
+            `,
+            actions: {
+                handleClick(event) {
+                    event.preventDefault();
+                    App.navigate(this.props.href);
+                }
+            }
+        });
+
+        // Define the counter component
+        App.createComponent('counter-component', {
+            state: () => ({ count: 0 }),
+            template: `
+                <div class="mt-4 border p-4 rounded-lg">
+                    <p class="font-bold">Counter</p>
+                    <p>Current count: \${state.count}</p>
+                    <button class="bg-purple-600 text-white px-3 py-1 rounded mt-2"
+                            data-on:click="increment">
+                        Increment
+                    </button>
+                </div>
+            `,
+            actions: {
+                increment() {
+                    this.setState({ count: this.state.count + 1 });
+                }
+            }
+        });
+
+        // Define routes
+        App.defineRoute('/', () => homeTemplate);
+        App.defineRoute('/about', () => aboutTemplate);
+
+        // Mount the application
+        App.mount('app');
+    </script>
+</body>
+</html>

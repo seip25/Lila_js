@@ -74,7 +74,7 @@ const i18n = {
         event_handling_text: "Handle user interactions with declarative event bindings.",
         component_communication: "Component Communication",
         component_communication_text: "Pass data between components using props and custom events.",
-        important : "Important, remember to use ${props.title} or ${state.title} you must use backticks ` ` in the template literal with '\' before the $ ,like this: \\${props.title} or \\${state.title}. If you use single quotes ' ' or double quotes \" \" it won't work, also if you don't use '\' before the $.",
+        important : "Important, remember to use ${props.title} or ${state.title} you must use backticks ` ` in the template literal with '\' before the $ ,like this: \\\${props.title} or \\\${state.title}. If you use single quotes ' ' or double quotes \" \" it won't work, also if you don't use '\' before the $.",
         install: "Installation",
         getting_started: "Getting Started",
         getting_started_text: "Follow these steps to create your first Lila JS application.",
@@ -92,7 +92,8 @@ const i18n = {
         options_ondestroy: "onUnmount",
         options_ondestroy_desc: "A function that is called when the component is removed from the DOM. Useful for cleanup tasks.",
         routing_example: "Routing Example",
-        routing_example_desc: "Here’s how you can set up simple SPA routing using `defineRoute` and the `lila-link` component."
+        routing_example_desc: "Here’s how you can set up simple SPA routing using `defineRoute` and the `lila-link` component.",
+        examples_html: "We leave you 2 html pages with two examples so you can see the code working "
     },
     es: {
         home: "Inicio",
@@ -169,7 +170,7 @@ const i18n = {
         event_handling_text: "Maneja interacciones del usuario con enlaces de eventos declarativos.",
         component_communication: "Comunicación entre Componentes",
         component_communication_text: "Pasa datos entre componentes usando props y eventos personalizados.",
-        important : "Importante, recuerda para utlizar ${props.title} o ${state.title} debes usar backticks ` ` en el template literal con '\' antes de los $ ,así : \\${props.title} o \\${state.title}. Si usas comillas simples ' ' o dobles \" \" no funcionará, tampoco si no usas '\' antes del $.",
+        important : "Importante, recuerda para utlizar ${props.title} o ${state.title} debes usar backticks ` ` en el template literal con '\' antes de los $ ,así : \\\${props.title} o \\\${state.title}. Si usas comillas simples ' ' o dobles \" \" no funcionará, tampoco si no usas '\' antes del $.",
         install: "Instalación",
         getting_started: "Empezando",
         getting_started_text: "Sigue estos pasos para crear tu primera aplicación con Lila JS.",
@@ -187,7 +188,8 @@ const i18n = {
         options_ondestroy: "onUnmount",
         options_ondestroy_desc: "Una función que se llama cuando el componente se elimina del DOM. Útil para tareas de limpieza.",
         routing_example: "Ejemplo de Enrutamiento",
-        routing_example_desc: "A continuación se muestra cómo puedes configurar un enrutamiento de SPA simple usando `defineRoute` y el componente `lila-link`."
+        routing_example_desc: "A continuación se muestra cómo puedes configurar un enrutamiento de SPA simple usando `defineRoute` y el componente `lila-link`.",
+        examples_html: "Te dejamos 2 páginas html con dos ejemplos para que puedas ver el código funcionando "
  }
 };
 
@@ -259,11 +261,14 @@ const documentationTemplate = /*html*/`
             <div class="editor-content">
                 <pre><code class="language-html">
 &lt;!-- Include Lila JS from a local file --&gt;
+<span class="syntax-string">
 &lt;script src="lila.js"&gt;&lt;/script&gt;
-
+</span>
 &lt;!-- Or from a CDN --&gt;
+<span class="syntax-string">
 &lt;script src="https://seip25.github.io/Lila_js.js"&gt;&lt;/script&gt;
-                </code></pre>
+</span> 
+</code></pre>
             </div>
         </div>
 
@@ -274,49 +279,49 @@ const documentationTemplate = /*html*/`
         <p>${t.starter_template_desc}</p>
         <div class="code-editor">
             <div class="editor-header"><span class="editor-title">index.html</span></div>
-            <div class="editor-content">
-                <pre><code class="language-html">
-&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;Lila JS Starter Template&lt;/title&gt;
-    &lt;script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"&gt;&lt;/script&gt;
-    &lt;script src="lila.js"&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;nav class="bg-white shadow-sm p-4"&gt;
-        &lt;lila-link href="/" color="purple"&gt;Home&lt;/lila-link&gt;
-        &lt;lila-link href="/about" color="purple" class="ml-4"&gt;About&lt;/lila-link&gt;
-    &lt;/nav&gt;
-    &lt;main id="app" class="container mx-auto p-4"&gt;&lt;/main&gt;
+            <div class="editor-content"> 
+<pre class="code-editor"><code class="language-html">
+<span class="syntax-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="syntax-tag">&lt;html</span> <span class="syntax-attr">lang</span>=<span class="syntax-string">"en"</span><span class="syntax-tag">&gt;</span>
+<span class="syntax-tag">&lt;head&gt;</span>
+    <span class="syntax-tag">&lt;meta</span> <span class="syntax-attr">charset</span>=<span class="syntax-string">"UTF-8"</span><span class="syntax-tag">&gt;</span>
+    <span class="syntax-tag">&lt;meta</span> <span class="syntax-attr">name</span>=<span class="syntax-string">"viewport"</span> <span class="syntax-attr">content</span>=<span class="syntax-string">"width=device-width, initial-scale=1.0"</span><span class="syntax-tag">&gt;</span>
+    <span class="syntax-tag">&lt;title&gt;</span><span class="syntax-string">Lila JS Starter Template</span><span class="syntax-tag">&lt;/title&gt;</span>
+    <span class="syntax-tag">&lt;script</span> <span class="syntax-attr">src</span>=<span class="syntax-string">"https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"</span><span class="syntax-tag">&gt;&lt;/script&gt;</span>
+    <span class="syntax-tag">&lt;script</span> <span class="syntax-attr">src</span>=<span class="syntax-string">"lila.js"</span><span class="syntax-tag">&gt;&lt;/script&gt;</span>
+<span class="syntax-tag">&lt;/head&gt;</span>
+<span class="syntax-tag">&lt;body&gt;</span>
+    <span class="syntax-tag">&lt;nav</span> <span class="syntax-attr">class</span>=<span class="syntax-string">"bg-white shadow-sm p-4"</span><span class="syntax-tag">&gt;</span>
+        <span class="syntax-tag">&lt;lila-link</span> <span class="syntax-attr">href</span>=<span class="syntax-string">"/"</span> <span class="syntax-attr">color</span>=<span class="syntax-string">"purple"</span><span class="syntax-tag">&gt;</span><span class="syntax-string">Home</span><span class="syntax-tag">&lt;/lila-link&gt;</span>
+        <span class="syntax-tag">&lt;lila-link</span> <span class="syntax-attr">href</span>=<span class="syntax-string">"/about"</span> <span class="syntax-attr">color</span>=<span class="syntax-string">"purple"</span> <span class="syntax-attr">class</span>=<span class="syntax-string">"ml-4"</span><span class="syntax-tag">&gt;</span><span class="syntax-string">About</span><span class="syntax-tag">&lt;/lila-link&gt;</span>
+    <span class="syntax-tag">&lt;/nav&gt;</span>
+    <span class="syntax-tag">&lt;main</span> <span class="syntax-attr">id</span>=<span class="syntax-string">"app"</span> <span class="syntax-attr">class</span>=<span class="syntax-string">"container mx-auto p-4"</span><span class="syntax-tag">&gt;&lt;/main&gt;</span>
 
-    &lt;script&gt;
-        // Define templates for our pages
-        const homeTemplate = \`
-            &lt;div&gt;
-                &lt;h1 class="text-2xl"&gt;Home Page&lt;/h1&gt;
-                &lt;p&gt;Welcome to the Lila JS starter template.&lt;/p&gt;
-                &lt;counter-component&gt;&lt;/counter-component&gt;
-            &lt;/div&gt;
+    <span class="syntax-keyword">&lt;script&gt;</span>
+        <span class="syntax-comment">// Define templates for our pages</span>
+        <span class="syntax-keyword">const</span> homeTemplate = \`
+            <span class="syntax-tag">&lt;div&gt;</span>
+                <span class="syntax-tag">&lt;h1</span> <span class="syntax-attr">class</span>=<span class="syntax-string">"text-2xl"</span><span class="syntax-tag">&gt;</span><span class="syntax-string">Home Page</span><span class="syntax-tag">&lt;/h1&gt;</span>
+                <span class="syntax-tag">&lt;p&gt;</span><span class="syntax-string">Welcome to the Lila JS starter template.</span><span class="syntax-tag">&lt;/p&gt;</span>
+                <span class="syntax-tag">&lt;counter-component&gt;&lt;/counter-component&gt;</span>
+            <span class="syntax-tag">&lt;/div&gt;</span>
         \`;
 
-        const aboutTemplate = \`
-            &lt;div&gt;
-                &lt;h1 class="text-2xl"&gt;About Page&lt;/h1&gt;
-                &lt;p&gt;This page is another route in your single-page application.&lt;/p&gt;
-            &lt;/div&gt;
+        <span class="syntax-keyword">const</span> aboutTemplate = \`
+            <span class="syntax-tag">&lt;div&gt;</span>
+                <span class="syntax-tag">&lt;h1</span> <span class="syntax-attr">class</span>=<span class="syntax-string">"text-2xl"</span><span class="syntax-tag">&gt;</span><span class="syntax-string">About Page</span><span class="syntax-tag">&lt;/h1&gt;</span>
+                <span class="syntax-tag">&lt;p&gt;</span><span class="syntax-string">This page is another route in your single-page application.</span><span class="syntax-tag">&lt;/p&gt;</span>
+            <span class="syntax-tag">&lt;/div&gt;</span>
         \`;
 
-        // Define the lila-link component for navigation
-        App.createComponent('lila-link', {
+        <span class="syntax-comment">// Define the lila-link component for navigation</span>
+        App.createComponent(<span class="syntax-string">'lila-link'</span>, {
             template: \`
-                &lt;a href="#\${props.href}"
-                   class="text-\${props.color}-600 hover:underline hover:text-\${props.color}-800"
-                   data-on:click="handleClick"&gt;
-                  &lt;slot&gt;&lt;/slot&gt;
-                &lt;/a&gt;
+                <span class="syntax-tag">&lt;a</span> <span class="syntax-attr">href</span>="#\\\${props.href}"
+                   <span class="syntax-attr">class</span>="text-\\\${props.color}-600 hover:underline hover:text-\\\${props.color}-800"
+                   <span class="syntax-attr">data-on:click</span>="handleClick"<span class="syntax-tag">&gt;</span>
+                  <span class="syntax-tag">&lt;slot&gt;&lt;/slot&gt;</span>
+                <span class="syntax-tag">&lt;/a&gt;</span>
             \`,
             actions: {
                 handleClick(event) {
@@ -326,18 +331,18 @@ const documentationTemplate = /*html*/`
             }
         });
 
-        // Define the counter component
-        App.createComponent('counter-component', {
+        <span class="syntax-comment">// Define the counter component</span>
+        App.createComponent(<span class="syntax-string">'counter-component'</span>, {
             state: () => ({ count: 0 }),
             template: \`
-                &lt;div class="mt-4 border p-4 rounded-lg"&gt;
-                    &lt;p class="font-bold"&gt;Counter&lt;/p&gt;
-                    &lt;p&gt;Current count: \${state.count}&lt;/p&gt;
-                    &lt;button class="bg-purple-600 text-white px-3 py-1 rounded mt-2"
-                            data-on:click="increment"&gt;
-                        Increment
-                    &lt;/button&gt;
-                &lt;/div&gt;
+                <span class="syntax-tag">&lt;div</span> <span class="syntax-attr">class</span>="mt-4 border p-4 rounded-lg"<span class="syntax-tag">&gt;</span>
+                    <span class="syntax-tag">&lt;p</span> <span class="syntax-attr">class</span>="font-bold"<span class="syntax-tag">&gt;</span><span class="syntax-string">Counter</span><span class="syntax-tag">&lt;/p&gt;</span>
+                    <span class="syntax-tag">&lt;p&gt;</span><span class="syntax-string">Current count:</span> \\\${state.count}<span class="syntax-tag">&lt;/p&gt;</span>
+                    <span class="syntax-tag">&lt;button</span> <span class="syntax-attr">class</span>="bg-purple-600 text-white px-3 py-1 rounded mt-2"
+                            <span class="syntax-attr">data-on:click</span>="increment"<span class="syntax-tag">&gt;</span>
+                        <span class="syntax-string">Increment</span>
+                    <span class="syntax-tag">&lt;/button&gt;</span>
+                <span class="syntax-tag">&lt;/div&gt;</span>
             \`,
             actions: {
                 increment() {
@@ -346,16 +351,16 @@ const documentationTemplate = /*html*/`
             }
         });
 
-        // Define routes
-        App.defineRoute('/', () => homeTemplate);
-        App.defineRoute('/about', () => aboutTemplate);
+        <span class="syntax-comment">// Define routes</span>
+        App.defineRoute(<span class="syntax-string">'/'</span>, () => homeTemplate);
+        App.defineRoute(<span class="syntax-string">'/about'</span>, () => aboutTemplate);
 
-        // Mount the application
-        App.mount('app');
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-                </code></pre>
+        <span class="syntax-comment">// Mount the application</span>
+        App.mount(<span class="syntax-string">'app'</span>);
+    <span class="syntax-keyword">&lt;/script&gt;</span>
+<span class="syntax-tag">&lt;/body&gt;</span>
+<span class="syntax-tag">&lt;/html&gt;</span>
+</code></pre>
             </div>
         </div>
 
@@ -378,7 +383,7 @@ App.defineRoute('/about', () => '&lt;h1&gt;About Page&lt;/h1&gt;');
 
 // Create a navigational link component
 App.createComponent('lila-link', {
-    template: '&lt;a href="#\${props.href}" data-on:click="navigate"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/a&gt;',
+    template: '&lt;a href="#\\\${props.href}" data-on:click="navigate"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/a&gt;',
     actions: {
         navigate(e) {
             e.preventDefault();
@@ -448,8 +453,8 @@ App.createComponent('user-profile', {
     }),
     template: \`
         &lt;div&gt;
-            &lt;h1&gt;\${state.name}&lt;/h1&gt;
-            &lt;p&gt;Followers: \${state.followers}&lt;/p&gt;
+            &lt;h1&gt;\\\${state.name}&lt;/h1&gt;
+            &lt;p&gt;Followers: \\\${state.followers}&lt;/p&gt;
         &lt;/div&gt;
     \`
 });
@@ -470,7 +475,7 @@ App.createComponent('counter-button', {
     state: () => ({ count: 0 }),
     template: \`
         &lt;button data-on:click="increment"&gt;
-            Clicked \${state.count} times
+            Clicked \\\${state.count} times
         &lt;/button&gt;
     \`,
     actions: {
@@ -495,7 +500,7 @@ App.createComponent('user-data', {
         &lt;div&gt;
             &lt;div data-if="!user"&gt;Loading...&lt;/div&gt;
             &lt;div data-if="user"&gt;
-                Welcome, \${state.user.name}
+                Welcome, \\\${state.user.name}
             &lt;/div&gt;
         &lt;/div&gt;
     \`,
@@ -760,7 +765,12 @@ const examplesTemplate = /*html*/`
         </div>
 
         
-    
+   <div class="flex flex-col gap-8 bg-white p-4 rounded-md mt-8">
+     <p class="mt-4 mb-4 text-purple-600 text-2xl">${t.examples_html}</p>
+    <a href="examples.html" class="mb-4 text-purple-600 hover:underline">Views Profile example</a>
+
+    <a href="starter.html" class="text-purple-600 hover:underline">Starter app</a>
+   </div>
      
       
 `;
