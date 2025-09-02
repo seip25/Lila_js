@@ -76,6 +76,23 @@ const i18n = {
         component_communication_text: "Pass data between components using props and custom events.",
         important : "Important, remember to use ${props.title} or ${state.title} you must use backticks ` ` in the template literal with '\' before the $ ,like this: \\${props.title} or \\${state.title}. If you use single quotes ' ' or double quotes \" \" it won't work, also if you don't use '\' before the $.",
         install: "Installation",
+        getting_started: "Getting Started",
+        getting_started_text: "Follow these steps to create your first Lila JS application.",
+        starter_template_title: "Starter Template",
+        starter_template_desc: "Here is a basic counter application with routing to get you started.",
+        create_component_options: "Component Options",
+        options_template: "template",
+        options_template_desc: "A string literal (using backticks ``) that defines the HTML structure of the component. You can interpolate state and props using `${state.propertyName}` and `${props.propertyName}`.",
+        options_state: "state",
+        options_state_desc: "A function that returns the initial state of the component. It can receive `props` as an argument to initialize state based on properties passed to the component.",
+        options_actions: "actions",
+        options_actions_desc: "An object containing methods that can be called from your template to handle events and update the component's state.",
+        options_onmount: "onMount",
+        options_onmount_desc: "A function that is called when the component is first mounted to the DOM. Useful for fetching data or performing initial setup.",
+        options_ondestroy: "onUnmount",
+        options_ondestroy_desc: "A function that is called when the component is removed from the DOM. Useful for cleanup tasks.",
+        routing_example: "Routing Example",
+        routing_example_desc: "Here’s how you can set up simple SPA routing using `defineRoute` and the `lila-link` component."
     },
     es: {
         home: "Inicio",
@@ -154,7 +171,23 @@ const i18n = {
         component_communication_text: "Pasa datos entre componentes usando props y eventos personalizados.",
         important : "Importante, recuerda para utlizar ${props.title} o ${state.title} debes usar backticks ` ` en el template literal con '\' antes de los $ ,así : \\${props.title} o \\${state.title}. Si usas comillas simples ' ' o dobles \" \" no funcionará, tampoco si no usas '\' antes del $.",
         install: "Instalación",
-   
+        getting_started: "Empezando",
+        getting_started_text: "Sigue estos pasos para crear tu primera aplicación con Lila JS.",
+        starter_template_title: "Plantilla de Inicio",
+        starter_template_desc: "Aquí tienes una aplicación de contador básica con enrutamiento para que puedas comenzar.",
+        create_component_options: "Opciones del Componente",
+        options_template: "plantilla",
+        options_template_desc: "Una cadena de texto (usando backticks ``) que define la estructura HTML del componente. Puedes interpolar el estado y las props usando `${state.propertyName}` y `${props.propertyName}`.",
+        options_state: "estado",
+        options_state_desc: "Una función que devuelve el estado inicial del componente. Puede recibir `props` como argumento para inicializar el estado basado en las propiedades pasadas al componente.",
+        options_actions: "acciones",
+        options_actions_desc: "Un objeto que contiene métodos que pueden ser llamados desde tu plantilla para manejar eventos y actualizar el estado del componente.",
+        options_onmount: "onMount",
+        options_onmount_desc: "Una función que se llama cuando el componente se monta por primera vez en el DOM. Útil para obtener datos o realizar una configuración inicial.",
+        options_ondestroy: "onUnmount",
+        options_ondestroy_desc: "Una función que se llama cuando el componente se elimina del DOM. Útil para tareas de limpieza.",
+        routing_example: "Ejemplo de Enrutamiento",
+        routing_example_desc: "A continuación se muestra cómo puedes configurar un enrutamiento de SPA simple usando `defineRoute` y el componente `lila-link`."
  }
 };
 
@@ -219,60 +252,277 @@ const homeTemplate = /*html*/`
 const documentationTemplate = /*html*/`
     <div class="prose max-w-none">
     
-    <h1 class="text-2xl font-bold mb-4">${t.install}</h1>
-    <code class="bg-white border border-gray-400 fw-semibold p-4 rounded-lg w-full block mb-8 text-gray-800">
-        &lt;script src="lila.js"&gt;&lt;/script&gt;
-        <br />
-        Or use the CDN:
-        <br/>
-        &lt;script src="https://seip25.github.io/Lila_js.js"&gt;&lt;/script&gt;
-        
-    </code>
- 
- 
-     
-        <h2 class="text-2xl font-bold mt-8 mb-4">${t.core_concepts}</h2>
+        <h2 class="text-3xl font-bold mb-4">${t.install}</h2>
+        <p>${t.get_started_text}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">HTML</span></div>
+            <div class="editor-content">
+                <pre><code class="language-html">
+&lt;!-- Include Lila JS from a local file --&gt;
+&lt;script src="lila.js"&gt;&lt;/script&gt;
+
+&lt;!-- Or from a CDN --&gt;
+&lt;script src="https://seip25.github.io/Lila_js.js"&gt;&lt;/script&gt;
+                </code></pre>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-bold mt-8 mb-4">${t.getting_started}</h2>
+        <p>${t.getting_started_text}</p>
+
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.starter_template_title}</h3>
+        <p>${t.starter_template_desc}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">index.html</span></div>
+            <div class="editor-content">
+                <pre><code class="language-html">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Lila JS Starter Template&lt;/title&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"&gt;&lt;/script&gt;
+    &lt;script src="lila.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;nav class="bg-white shadow-sm p-4"&gt;
+        &lt;lila-link href="/" color="purple"&gt;Home&lt;/lila-link&gt;
+        &lt;lila-link href="/about" color="purple" class="ml-4"&gt;About&lt;/lila-link&gt;
+    &lt;/nav&gt;
+    &lt;main id="app" class="container mx-auto p-4"&gt;&lt;/main&gt;
+
+    &lt;script&gt;
+        // Define templates for our pages
+        const homeTemplate = \`
+            &lt;div&gt;
+                &lt;h1 class="text-2xl"&gt;Home Page&lt;/h1&gt;
+                &lt;p&gt;Welcome to the Lila JS starter template.&lt;/p&gt;
+                &lt;counter-component&gt;&lt;/counter-component&gt;
+            &lt;/div&gt;
+        \`;
+
+        const aboutTemplate = \`
+            &lt;div&gt;
+                &lt;h1 class="text-2xl"&gt;About Page&lt;/h1&gt;
+                &lt;p&gt;This page is another route in your single-page application.&lt;/p&gt;
+            &lt;/div&gt;
+        \`;
+
+        // Define the lila-link component for navigation
+        App.createComponent('lila-link', {
+            template: \`
+                &lt;a href="#\${props.href}"
+                   class="text-\${props.color}-600 hover:underline hover:text-\${props.color}-800"
+                   data-on:click="handleClick"&gt;
+                  &lt;slot&gt;&lt;/slot&gt;
+                &lt;/a&gt;
+            \`,
+            actions: {
+                handleClick(event) {
+                    event.preventDefault();
+                    App.navigate(this.props.href);
+                }
+            }
+        });
+
+        // Define the counter component
+        App.createComponent('counter-component', {
+            state: () => ({ count: 0 }),
+            template: \`
+                &lt;div class="mt-4 border p-4 rounded-lg"&gt;
+                    &lt;p class="font-bold"&gt;Counter&lt;/p&gt;
+                    &lt;p&gt;Current count: \${state.count}&lt;/p&gt;
+                    &lt;button class="bg-purple-600 text-white px-3 py-1 rounded mt-2"
+                            data-on:click="increment"&gt;
+                        Increment
+                    &lt;/button&gt;
+                &lt;/div&gt;
+            \`,
+            actions: {
+                increment() {
+                    this.setState({ count: this.state.count + 1 });
+                }
+            }
+        });
+
+        // Define routes
+        App.defineRoute('/', () => homeTemplate);
+        App.defineRoute('/about', () => aboutTemplate);
+
+        // Mount the application
+        App.mount('app');
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                </code></pre>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-bold mt-8 mb-4">${t.core_concepts}</h2>
         <p>${t.core_concepts_text}</p>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.reactivity}</h3>
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.reactivity}</h3>
         <p>${t.reactivity_text}</p>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.routing}</h3>
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.routing}</h3>
         <p>${t.routing_text}</p>
+        <p>${t.routing_example_desc}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+// Define routes for different pages
+App.defineRoute('/', () => '&lt;h1&gt;Home Page&lt;/h1&gt;');
+App.defineRoute('/about', () => '&lt;h1&gt;About Page&lt;/h1&gt;');
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.lifecycle_hooks}</h3>
+// Create a navigational link component
+App.createComponent('lila-link', {
+    template: '&lt;a href="#\${props.href}" data-on:click="navigate"&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/a&gt;',
+    actions: {
+        navigate(e) {
+            e.preventDefault();
+            App.navigate(this.props.href);
+        }
+    }
+});
+
+// Mount the app to a DOM element
+App.mount('app');
+                </code></pre>
+            </div>
+            <div class="editor-header"><span class="editor-title">HTML</span></div>
+            <div class="editor-content">
+                <pre><code class="language-html">
+&lt;nav&gt;
+    &lt;lila-link href="/"&gt;Home&lt;/lila-link&gt;
+    &lt;lila-link href="/about"&gt;About&lt;/lila-link&gt;
+&lt;/nav&gt;
+&lt;main id="app"&gt;&lt;/main&gt;
+                </code></pre>
+            </div>
+        </div>
+
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.lifecycle_hooks}</h3>
         <p>${t.lifecycle_hooks_text}</p>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.two_way_binding}</h3>
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.two_way_binding}</h3>
         <p>${t.two_way_binding_text}</p>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.event_handling}</h3>
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.event_handling}</h3>
         <p>${t.event_handling_text}</p>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.component_communication}</h3>
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.component_communication}</h3>
         <p>${t.component_communication_text}</p>
 
-        <h2 class="text-2xl font-bold mt-8 mb-4">${t.api_reference}</h2>
+        <h2 class="text-3xl font-bold mt-8 mb-4">${t.api_reference}</h2>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.create_component}</h3>
-        <p>${t.create_component_text}</p>
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.create_component}</h3>
+        <p>Defines a new component. It takes two arguments: the component's tag name (e.g., 'my-component') and an options object.</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('my-component', {
+    // ... options
+});
+                </code></pre>
+            </div>
+        </div>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.define_route}</h3>
+        <h4 class="text-xl font-bold mt-4 mb-2">${t.create_component_options}</h4>
+
+        <h5 class="text-lg font-semibold mt-3 mb-1">${t.options_template}</h5>
+        <p>${t.options_template_desc}</p>
+
+        <h5 class="text-lg font-semibold mt-3 mb-1">${t.options_state}</h5>
+        <p>${t.options_state_desc}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('user-profile', {
+    state: (props) => ({
+        name: props.name || 'Guest',
+        followers: 0
+    }),
+    template: \`
+        &lt;div&gt;
+            &lt;h1&gt;\${state.name}&lt;/h1&gt;
+            &lt;p&gt;Followers: \${state.followers}&lt;/p&gt;
+        &lt;/div&gt;
+    \`
+});
+
+// Usage in HTML
+// &lt;user-profile name="Lila"&gt;&lt;/user-profile&gt;
+                </code></pre>
+            </div>
+        </div>
+
+        <h5 class="text-lg font-semibold mt-3 mb-1">${t.options_actions}</h5>
+        <p>${t.options_actions_desc}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('counter-button', {
+    state: () => ({ count: 0 }),
+    template: \`
+        &lt;button data-on:click="increment"&gt;
+            Clicked \${state.count} times
+        &lt;/button&gt;
+    \`,
+    actions: {
+        increment() {
+            this.setState({ count: this.state.count + 1 });
+        }
+    }
+});
+                </code></pre>
+            </div>
+        </div>
+
+        <h5 class="text-lg font-semibold mt-3 mb-1">${t.options_onmount}</h5>
+        <p>${t.options_onmount_desc}</p>
+        <div class="code-editor">
+            <div class="editor-header"><span class="editor-title">JavaScript</span></div>
+            <div class="editor-content">
+                <pre><code class="language-js">
+App.createComponent('user-data', {
+    state: () => ({ user: null }),
+    template: \`
+        &lt;div&gt;
+            &lt;div data-if="!user"&gt;Loading...&lt;/div&gt;
+            &lt;div data-if="user"&gt;
+                Welcome, \${state.user.name}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    \`,
+    onMount() {
+        fetch('/api/user')
+            .then(res => res.json())
+            .then(user => this.setState({ user }));
+    }
+});
+                </code></pre>
+            </div>
+        </div>
+
+        <h5 class="text-lg font-semibold mt-3 mb-1">${t.options_ondestroy}</h5>
+        <p>${t.options_ondestroy_desc}</p>
+
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.define_route}</h3>
         <p>${t.define_route_text}</p>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.mount}</h3>
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.mount}</h3>
         <p>${t.mount_text}</p>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.set_state}</h3>
+        <h3 class="text-2xl font-bold mt-6 mb-2">${t.set_state}</h3>
         <p>${t.set_state_text}</p>
 
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.on_mount}</h3>
-        <p>${t.on_mount_text}</p>
-
-        <h3 class="text-xl font-bold mt-6 mb-2">${t.on_unmount}</h3>
-        <p>${t.on_unmount_text}</p>
-    <br />
-           <h1 class="text-2xl font-bold mb-4">${t.important}</h1>
+        <br />
+        <h1 class="text-2xl font-bold mb-4">${t.important}</h1>
 
     </div>
 `;
