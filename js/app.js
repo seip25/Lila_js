@@ -74,7 +74,7 @@ const i18n = {
         event_handling_text: "Handle user interactions with declarative event bindings.",
         component_communication: "Component Communication",
         component_communication_text: "Pass data between components using props and custom events.",
-        important : "Important, remember to use ${props.title} or ${state.title} you must use backticks ` ` in the template literal with '\' before the $ ,like this: \\\${props.title} or \\\${state.title}. If you use single quotes ' ' or double quotes \" \" it won't work, also if you don't use '\' before the $.",
+        important: "Important, remember to use ${props.title} or ${state.title} you must use backticks ` ` in the template literal with '\' before the $ ,like this: \\\${props.title} or \\\${state.title}. If you use single quotes ' ' or double quotes \" \" it won't work, also if you don't use '\' before the $.",
         install: "Installation",
         getting_started: "Getting Started",
         getting_started_text: "Follow these steps to create your first Lila JS application.",
@@ -93,7 +93,8 @@ const i18n = {
         options_ondestroy_desc: "A function that is called when the component is removed from the DOM. Useful for cleanup tasks.",
         routing_example: "Routing Example",
         routing_example_desc: "Here’s how you can set up simple SPA routing using `defineRoute` and the `lila-link` component.",
-        examples_html: "We leave you 2 html pages with two examples so you can see the code working "
+        examples_html: "We leave you 2 html pages with two examples so you can see the code working ",
+        get_started: "Get Started",
     },
     es: {
         home: "Inicio",
@@ -170,7 +171,7 @@ const i18n = {
         event_handling_text: "Maneja interacciones del usuario con enlaces de eventos declarativos.",
         component_communication: "Comunicación entre Componentes",
         component_communication_text: "Pasa datos entre componentes usando props y eventos personalizados.",
-        important : "Importante, recuerda para utlizar ${props.title} o ${state.title} debes usar backticks ` ` en el template literal con '\' antes de los $ ,así : \\\${props.title} o \\\${state.title}. Si usas comillas simples ' ' o dobles \" \" no funcionará, tampoco si no usas '\' antes del $.",
+        important: "Importante, recuerda para utlizar ${props.title} o ${state.title} debes usar backticks ` ` en el template literal con '\' antes de los $ ,así : \\\${props.title} o \\\${state.title}. Si usas comillas simples ' ' o dobles \" \" no funcionará, tampoco si no usas '\' antes del $.",
         install: "Instalación",
         getting_started: "Empezando",
         getting_started_text: "Sigue estos pasos para crear tu primera aplicación con Lila JS.",
@@ -189,17 +190,18 @@ const i18n = {
         options_ondestroy_desc: "Una función que se llama cuando el componente se elimina del DOM. Útil para tareas de limpieza.",
         routing_example: "Ejemplo de Enrutamiento",
         routing_example_desc: "A continuación se muestra cómo puedes configurar un enrutamiento de SPA simple usando `defineRoute` y el componente `lila-link`.",
-        examples_html: "Te dejamos 2 páginas html con dos ejemplos para que puedas ver el código funcionando "
- }
+        examples_html: "Te dejamos 2 páginas html con dos ejemplos para que puedas ver el código funcionando ",
+        get_started: "Comenzar",
+    }
 };
 
 const lang = document.documentElement.lang;
 const t = i18n[lang];
- 
+
 App.createComponent('lila-link', {
     template: /*html*/`
         <a href="#\${props.href}"
-           class="text-\${props.color}-600 hover:underline hover:text-\${props.color}-800"
+           class="text-\${props.color}-600 dark:text-\${props.color}-100 hover:underline hover:text-\${props.color}-800"
            data-on:click="handleClick">
           <slot></slot>
         </a>
@@ -213,44 +215,76 @@ App.createComponent('lila-link', {
     }
 });
 
- 
+App.createComponent('button-link', {
+    template: /*html*/`
+        <a href="#\${props.href}"
+        class="\${props.class}"
+        data-on:click="handleClick">
+            <slot></slot>
+        </a>
+    `,
+    actions: {
+        handleClick(event) {
+            event.preventDefault();
+            const href = this.props.href;
+            App.navigate(href);
+        }
+    }
+});
+
+
 const homeTemplate = /*html*/`
     <div class="prose max-w-none">
     
         <div class="text-center">
-            <h1 class="text-5xl font-bold text-purple-600">Lila JS</h1>
+            <h1 class="text-5xl font-bold text-violet-400">Lila JS</h1>
             <p class="text-xl">${t.description}</p>
+            <div class="mt-4 flex justify-center space-x-4">
+            <div class=" flex flex-col sm:flex-row gap-4 mt-8 ">
+                <div class="flex justify-center gap-4 items-center">
+                   <button-link href="/documentation"  class="w-full sm:w-auto bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-800 font-semibold py-3 px-6 rounded-lg shadow-md hover:opacity-90 transition-opacity duration-200">
+                    ${t.get_started}
+                </button-link>
+
+                </div>
+                <div class="flex justify-center gap-4 items-center">
+                  <a href="https://github.com/seip25/lila_js" target="_blank"
+                        class="w-full sm:w-auto  border border-gray-400 text-gray-600 dark:border-gray-100 dark:text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 flex items-center justify-center gap-2">
+                        GitHub</a>
+                                </div>
+            </div>
+            </div>
         </div>
 
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-6 bg-white rounded-lg shadow-md">
-                <h3 class="text-2xl font-bold">${t.ultra_compact_core}</h3>
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform hover:-translate-y-1">
+                <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100">${t.ultra_compact_core}</h3>
                 <p>${t.ultra_compact_core_text}</p>
             </div>
-            <div class="p-6 bg-white rounded-lg shadow-md">
-                <h3 class="text-2xl font-bold">${t.precise_reactivity}</h3>
+            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform hover:-translate-y-1">
+                <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100">${t.precise_reactivity}</h3>
                 <p>${t.precise_reactivity_text}</p>
             </div>
-            <div class="p-6 bg-white rounded-lg shadow-md">
-                <h3 class="text-2xl font-bold">${t.self_contained_components}</h3>
+            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform hover:-translate-y-1">
+                <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100">${t.self_contained_components}</h3>
                 <p>${t.self_contained_components_text}</p>
             </div>
-            <div class="p-6 bg-white rounded-lg shadow-md">
-                <h3 class="text-2xl font-bold">${t.declarative_binding}</h3>
+            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform hover:-translate-y-1">
+                <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100">${t.declarative_binding}</h3>
                 <p>${t.declarative_binding_text}</p>
             </div>
-            <div class="p-6 bg-white rounded-lg shadow-md">
-                <h3 class="text-2xl font-bold">${t.micro_code_router}</h3>
+            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform hover:-translate-y-1">
+                <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100">${t.micro_code_router}</h3>
                 <p>${t.micro_code_router_text}</p>
             </div>
-            <div class="p-6 bg-white rounded-lg shadow-md">
-                <h3 class="text-2xl font-bold">${t.instant_boot}</h3>
+            <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md transition-transform hover:-translate-y-1">
+                <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100">${t.instant_boot}</h3>
                 <p>${t.instant_boot_text}</p>
             </div>
         </div>
     </div>
 `;
- 
+
 const documentationTemplate = /*html*/`
     <div class="prose max-w-none">
     
@@ -279,7 +313,7 @@ const documentationTemplate = /*html*/`
         <h2 class="text-3xl font-bold mt-8 mb-4">${t.getting_started}</h2>
         <p>${t.getting_started_text}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.starter_template_title}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.starter_template_title}</h3>
         <p>${t.starter_template_desc}</p>
         <div class="code-editor">
             <div class="editor-header"><span class="editor-title">index.html</span></div>
@@ -295,7 +329,7 @@ const documentationTemplate = /*html*/`
     <span class="syntax-tag">&lt;script</span> <span class="syntax-attr">src</span>=<span class="syntax-string">"lila.js"</span><span class="syntax-tag">&gt;&lt;/script&gt;</span>
 <span class="syntax-tag">&lt;/head&gt;</span>
 <span class="syntax-tag">&lt;body&gt;</span>
-    <span class="syntax-tag">&lt;nav</span> <span class="syntax-attr">class</span>=<span class="syntax-string">"bg-white shadow-sm p-4"</span><span class="syntax-tag">&gt;</span>
+    <span class="syntax-tag">&lt;nav</span> <span class="syntax-attr">class</span>=<span class="syntax-string">" bg-gray-50 shadow-sm p-4"</span><span class="syntax-tag">&gt;</span>
         <span class="syntax-tag">&lt;lila-link</span> <span class="syntax-attr">href</span>=<span class="syntax-string">"/"</span> <span class="syntax-attr">color</span>=<span class="syntax-string">"purple"</span><span class="syntax-tag">&gt;</span><span class="syntax-string">Home</span><span class="syntax-tag">&lt;/lila-link&gt;</span>
         <span class="syntax-tag">&lt;lila-link</span> <span class="syntax-attr">href</span>=<span class="syntax-string">"/about"</span> <span class="syntax-attr">color</span>=<span class="syntax-string">"purple"</span> <span class="syntax-attr">class</span>=<span class="syntax-string">"ml-4"</span><span class="syntax-tag">&gt;</span><span class="syntax-string">About</span><span class="syntax-tag">&lt;/lila-link&gt;</span>
     <span class="syntax-tag">&lt;/nav&gt;</span>
@@ -371,10 +405,10 @@ const documentationTemplate = /*html*/`
         <h2 class="text-3xl font-bold mt-8 mb-4">${t.core_concepts}</h2>
         <p>${t.core_concepts_text}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.reactivity}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.reactivity}</h3>
         <p>${t.reactivity_text}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.routing}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.routing}</h3>
         <p>${t.routing_text}</p>
         <p>${t.routing_example_desc}</p>
         <div class="code-editor">
@@ -412,7 +446,7 @@ App.mount('app');
             </div>
         </div>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${lang === 'es' ? 'Directivas de Plantilla' : 'Template Directives'}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${lang === 'es' ? 'Directivas de Plantilla' : 'Template Directives'}</h3>
         <p>${lang === 'es' ? 'Lila JS proporciona directivas especiales para manejar la lógica de plantillas directamente en el HTML.' : 'Lila JS provides special directives to handle template logic directly in HTML.'}</p>
 
         <h4 class="text-xl font-bold mt-4 mb-2">data-if: ${t.conditional_rendering}</h4>
@@ -563,21 +597,21 @@ App.createComponent('interactive-button', {
             </div>
         </div>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.lifecycle_hooks}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.lifecycle_hooks}</h3>
         <p>${t.lifecycle_hooks_text}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.two_way_binding}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.two_way_binding}</h3>
         <p>${t.two_way_binding_text}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.event_handling}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.event_handling}</h3>
         <p>${t.event_handling_text}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.component_communication}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.component_communication}</h3>
         <p>${t.component_communication_text}</p>
 
         <h2 class="text-3xl font-bold mt-8 mb-4">${t.api_reference}</h2>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.create_component}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.create_component}</h3>
         <p>${t.create_component_text}</p>
         <div class="code-editor">
             <div class="editor-header"><span class="editor-title">JavaScript</span></div>
@@ -672,13 +706,13 @@ App.createComponent('user-data', {
         <h5 class="text-lg font-semibold mt-3 mb-1">${t.options_ondestroy}</h5>
         <p>${t.options_ondestroy_desc}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.define_route}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.define_route}</h3>
         <p>${t.define_route_text}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.mount}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.mount}</h3>
         <p>${t.mount_text}</p>
 
-        <h3 class="text-2xl font-bold mt-6 mb-2">${t.set_state}</h3>
+        <h3 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-6 mb-2">${t.set_state}</h3>
         <p>${t.set_state_text}</p>
 
         <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-8">
@@ -694,27 +728,10 @@ App.createComponent('user-data', {
 
     </div>
 `;
-const examplesTemplate = /*html*/`
-    <div class="prose max-w-none"> 
 
-        <h1 class="text-4xl font-bold mb-4">${t.examples}</h1>
-        
-        <h2 class="text-2xl font-bold mt-8 mb-4">${t.counter_component}</h2>
-        <p>${t.counter_component_text}</p>
-        <div class="flex flex-col gap-8">
-            <counter-example class="w-full"></counter-example>
-            <div class="code-editor w-full">
-                <div class="editor-header">
-                    <span class="editor-title">counter-example.js</span>
-                    <div class="editor-controls">
-                        <div class="control close"></div>
-                        <div class="control minimize"></div>
-                        <div class="control maximize"></div>
-                    </div>
-                </div>
-                <div class="editor-content">
-                    <pre><code class="language-js">
-<span class="syntax-keyword">
+
+
+const counterExampleCode = `<span class="syntax-keyword">
 #In the html file
     &lt;counter-example&gt; &lt;/counter-example&gt;
 </span>
@@ -741,7 +758,7 @@ const examplesTemplate = /*html*/`
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold mt-8 mb-4">${t.conditional_rendering}</h2>
+        <h2 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-8 mb-4">${t.conditional_rendering}</h2>
         <p>${t.conditional_rendering_text}</p>
         <div class="flex flex-col gap-8">
             <conditional-example class="w-full"></conditional-example>
@@ -778,27 +795,9 @@ const examplesTemplate = /*html*/`
         }
     }
 });
-                    </code></pre>
-                </div>
-            </div>
-        </div>
+ ` ;
 
-        <h2 class="text-2xl font-bold mt-8 mb-4">${t.list_rendering}</h2>
-        <p>${t.list_rendering_text}</p>
-        <div class="flex flex-col gap-8">
-            <list-example class="w-full"></list-example>
-            <div class="code-editor w-full">
-                <div class="editor-header">
-                    <span class="editor-title">list-example.js</span>
-                    <div class="editor-controls">
-                        <div class="control close"></div>
-                        <div class="control minimize"></div>
-                        <div class="control maximize"></div>
-                    </div>
-                </div>
-                <div class="editor-content">
-                    <pre><code class="language-js">
-<span class="syntax-keyword">
+const listExampleCode = `<span class="syntax-keyword">
 #In the html file
     &lt;list-example&gt; &lt;/list-example&gt;
 </span>
@@ -827,11 +826,11 @@ const examplesTemplate = /*html*/`
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold mt-8 mb-4">${t.slot_component}</h2>
+        <h2 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-8 mb-4">${t.slot_component}</h2>
         <p>${t.slot_component_text}</p>
         <div class="flex flex-col gap-8">
             <slot-example class="w-full">
-                <span class="font-bold text-purple-600">${lang === 'es' ? '¡Este contenido es del padre!' : 'This content is from the parent!'}</span>
+                <span class="font-bold text-violet-400">${lang === 'es' ? '¡Este contenido es del padre!' : 'This content is from the parent!'}</span>
             </slot-example>
             <div class="code-editor w-full">
                 <div class="editor-header">
@@ -860,26 +859,8 @@ const examplesTemplate = /*html*/`
 &lt;<span class="syntax-tag">slot-example</span>&gt;
     &lt;<span class="syntax-tag">span</span>&gt;Contenido desde el padre.&lt;/<span class="syntax-tag">span</span>&gt;
 &lt;/<span class="syntax-tag">slot-example</span>&gt;
-                    </code></pre>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="text-2xl font-bold mt-8 mb-4">${t.form_component}</h2>
-        <p>${t.form_component_text}</p>
-        <div class="flex flex-col gap-8">
-            <form-example class="w-full"></form-example>
-            <div class="code-editor w-full">
-                <div class="editor-header">
-                    <span class="editor-title">form-example.js</span>
-                    <div class="editor-controls">
-                        <div class="control close"></div>
-                        <div class="control minimize"></div>
-                        <div class="control maximize"></div>
-                    </div>
-                </div>
-                <div class="editor-content">
-                    <pre><code class="language-js">
+`;
+const formExampleCode = `
 <span class="syntax-keyword">App</span>.createComponent('<span class="syntax-string">form-example</span>', {
     <span class="syntax-keyword">state</span>: () => ({
         <span class="syntax-prop">name</span>: '<span class="syntax-string">John Doe</span>',
@@ -921,29 +902,94 @@ const examplesTemplate = /*html*/`
         }
     }
 });
+`;
+
+const examplesTemplate = /*html*/`
+    <div class="prose max-w-none"> 
+
+        <h1 class="text-4xl font-bold mb-4">${t.examples}</h1>
+        
+        <h2 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-8 mb-4">${t.counter_component}</h2>
+        <p>${t.counter_component_text}</p>
+        <div class="flex flex-col gap-8">
+            <counter-example class="w-full"></counter-example>
+            <div class="code-editor w-full">
+                <div class="editor-header">
+                    <span class="editor-title">counter-example.js</span>
+                    <div class="editor-controls">
+                        <div class="control close"></div>
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <pre><code class="language-js">
+                        ${counterExampleCode}
+                   </code></pre>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-8 mb-4">${t.list_rendering}</h2>
+        <p>${t.list_rendering_text}</p>
+        <div class="flex flex-col gap-8">
+            <list-example class="w-full"></list-example>
+            <div class="code-editor w-full">
+                <div class="editor-header">
+                    <span class="editor-title">list-example.js</span>
+                    <div class="editor-controls">
+                        <div class="control close"></div>
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <pre><code class="language-js">
+                        ${listExampleCode}
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mt-8 mb-4">${t.form_component}</h2>
+        <p>${t.form_component_text}</p>
+        <div class="flex flex-col gap-8">
+            <form-example class="w-full"></form-example>
+            <div class="code-editor w-full">
+                <div class="editor-header">
+                    <span class="editor-title">form-example.js</span>
+                    <div class="editor-controls">
+                        <div class="control close"></div>
+                        <div class="control minimize"></div>
+                        <div class="control maximize"></div>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <pre><code class="language-js">
+                        ${formExampleCode}
                     </code></pre>
                 </div>
             </div>
         </div>
 
         
-   <div class="flex flex-col gap-8 bg-white p-4 rounded-md mt-8">
-     <p class="mt-4 mb-4 text-purple-600 text-2xl">${t.examples_html}</p>
-    <a href="examples.html" class="mb-4 text-purple-600 underline hover:text-purple-300">Views Profile example</a>
+   <div class="flex flex-col gap-8  bg-gray-50 dark:bg-gray-800 p-4 rounded-md mt-8 ">
+     <p class="mt-4 mb-4 text-gray-600 dark:text-gray-100 text-2xl">${t.examples_html}</p>
+    <a href="examples.html" class="mb-4  text-gray-600 dark:text-gray-100 underline hover:text-purple-300">Views Profile example</a>
 
-    <a href="starter.html" class="text-purple-600 hover:text-purple-300 underline" >Starter app</a>
+    <a href="starter.html" class=" text-gray-600 dark:text-gray-100 hover:text-purple-300 underline" >Starter app</a>
    </div>
      
       
 `;
- 
+
 App.defineRoute("/", () => homeTemplate);
 App.defineRoute("/documentation", () => documentationTemplate);
 App.defineRoute("/examples", () => examplesTemplate);
- 
+
 App.createComponent('counter-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md bg-white">
+        <div class="  p-4 rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
             <p class="text-lg">${lang === 'es' ? 'Conteo' : 'Count'}: \${state.count}</p>
             <button class="bg-purple-600 text-white px-4 py-2 rounded-md" data-on:click="increment">${lang === 'es' ? 'Incrementar' : 'Increment'}</button>
         </div>
@@ -960,16 +1006,16 @@ App.createComponent('counter-example', {
 
 App.createComponent('conditional-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md bg-white">
+        <div class="  p-4 rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
             <button class="bg-purple-600 text-white px-4 py-2 rounded-md mb-4 " data-on:click="toggle">${lang === 'es' ? 'Alternar' : 'Toggle'}</button>
-            <div data-if="show" class="bg-green-200 p-4 rounded-md">
+            <div data-if="show" class="bg-green-200 p-4 rounded-md dark:text-gray-900 ">
                 ${lang === 'es' ? 'Este elemento se renderiza condicionalmente.' : 'This element is conditionally rendered.'}
             </div>
         </div>
     `,
     state: (props) => ({
         show: true,
-        color : props.color || 'purple'
+        color: props.color || 'purple'
     }),
     actions: {
         toggle() {
@@ -980,7 +1026,7 @@ App.createComponent('conditional-example', {
 
 App.createComponent('list-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md bg-white">
+        <div class="  p-4 rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
             <ul class="list-disc pl-5">
                 <li data-for="item in items">\${item}</li>
             </ul>
@@ -1000,7 +1046,7 @@ App.createComponent('list-example', {
 
 App.createComponent('slot-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md bg-white">
+        <div class="  p-4 rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
             <p>${lang === 'es' ? 'Este es el contenido propio del componente. Debajo está el contenido del padre:' : 'This is the component\'s own content. Below is the content from the parent:'}</p>
             <div class="border-t mt-4 pt-4">
                 <slot></slot>
@@ -1011,23 +1057,23 @@ App.createComponent('slot-example', {
 
 App.createComponent('form-example', {
     template: /*html*/`
-        <div class="border p-4 rounded-md bg-white">
+        <div class="  p-4 rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
             <div class="mb-4">
-                <label class="block text-gray-700">${lang === 'es' ? 'Nombre' : 'Name'}</label>
-                <input type="text" class="border p-2 w-full" data-model="name" />
+                <label class="block text-gray-700 dark:text-gray-100">${lang === 'es' ? 'Nombre' : 'Name'}</label>
+                <input type="text" class="border p-2 w-full dark:bg-gray-900 dark:text-white" data-model="name" />
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700">Email</label>
-                <input type="email" class="border p-2 w-full" data-model="email" />
+                <label class="block text-gray-700 dark:text-gray-100">Email</label>
+                <input type="email" class="border p-2 w-full dark:bg-gray-900 dark:text-white" data-model="email" />
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700">${lang === 'es' ? 'Mensaje' : 'Message'}</label>
-                <textarea class="border p-2 w-full" data-model="message"></textarea>
+                <label class="block text-gray-700 dark:text-gray-100">${lang === 'es' ? 'Mensaje' : 'Message'}</label>
+                <textarea class="border p-2 w-full dark:bg-gray-900 dark:text-white" data-model="message"></textarea>
             </div>
             <button class="bg-purple-600 text-white px-4 py-2 rounded-md" data-on:click="submitForm">
                 ${lang === 'es' ? 'Enviar' : 'Submit'}
             </button>
-            <div class="mt-4 p-4 bg-gray-100">
+            <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-900 dark:text-white">
                 <h3 class="font-bold">${lang === 'es' ? 'Datos del Formulario' : 'Form Data'}:</h3>
                 <p data-bind="name">${lang === 'es' ? 'Nombre' : 'Name'}: \${state.name}</p>
                 <p data-bind="email">Email: \${state.email}</p>
@@ -1049,8 +1095,8 @@ App.createComponent('form-example', {
 
 App.createComponent('todo-app', {
     template: /*html*/`
-        <div class="border p-4 rounded-md bg-white">
-            <h2 class="text-2xl font-bold mb-4">${lang === 'es' ? 'App de Tareas' : 'Todo App'}</h2>
+        <div class="  p-4 rounded-md bg-gray-50 dark:bg-gray-800 dark:text-gray-100">
+            <h2 class="text-2xl font-semibold mb-2 text-gray-600 dark:text-gray-100 mb-4">${lang === 'es' ? 'App de Tareas' : 'Todo App'}</h2>
             
             <div class="flex mb-4">
                 <input type="text" 
@@ -1117,13 +1163,13 @@ App.createComponent('todo-app', {
     actions: {
         addTodo() {
             if (!this.state.newTodo.trim()) return;
-            
+
             const newTodo = {
                 id: Date.now(),
                 text: this.state.newTodo,
                 completed: false
             };
-            
+
             this.setState({
                 todos: [...this.state.todos, newTodo],
                 newTodo: ''
@@ -1147,7 +1193,55 @@ App.createComponent('todo-app', {
         }
     }
 });
- 
+
 App.mount("app");
- 
- 
+
+tailwind.config = {
+    darkMode: 'class',
+    theme: {
+        extend: {
+            colors: {
+                lila: '#A78BFA',
+            }
+        }
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const themeToggleButton = document.getElementById('theme-toggle-button');
+    const sunIcon = document.getElementById('theme-toggle-sun-icon');
+    const moonIcon = document.getElementById('theme-toggle-moon-icon');
+    const htmlElement = document.documentElement;
+
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            htmlElement.classList.add('dark');
+            sunIcon.classList.remove('hidden');
+            moonIcon.classList.add('hidden');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            htmlElement.classList.remove('dark');
+            sunIcon.classList.add('hidden');
+            moonIcon.classList.remove('hidden');
+            localStorage.setItem('theme', 'light');
+        }
+    };
+
+    const storedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    let initialTheme = 'light';
+    if (storedTheme) {
+        initialTheme = storedTheme;
+    } else if (systemPrefersDark) {
+        initialTheme = 'dark';
+    }
+
+    applyTheme(initialTheme);
+
+    themeToggleButton.addEventListener('click', () => {
+        const isDark = htmlElement.classList.contains('dark');
+        applyTheme(isDark ? 'light' : 'dark');
+    });
+});
