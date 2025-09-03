@@ -391,7 +391,7 @@ const documentationTemplate = /*html*/`
 
         <span class="syntax-comment">// Define routes</span>
         App.defineRoute(<span class="syntax-string">'/'</span>, () => homeTemplate);
-        App.defineRoute(<span class="syntax-string">'/about</span>, () => aboutTemplate);
+        App.defineRoute(<span class="syntax-string">'/about'</span>, () => aboutTemplate);
 
         <span class="syntax-comment">// Mount the application</span>
         App.mount(<span class="syntax-string">'app'</span>);
