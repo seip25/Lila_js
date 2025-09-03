@@ -82,7 +82,7 @@ const i18n = {
         starter_template_desc: "Here is a basic counter application with routing to get you started.",
         create_component_options: "Component Options",
         options_template: "template",
-        options_template_desc: "A string literal (using backticks ``) that defines the HTML structure of the component. You can interpolate state and props using `${state.propertyName}` and `${props.propertyName}`.",
+        options_template_desc: "A string literal (using backticks ``) that defines the HTML structure of the component. You can interpolate state and props using `\\\${state.propertyName}` and `\\\${props.propertyName}`.",
         options_state: "state",
         options_state_desc: "A function that returns the initial state of the component. It can receive `props` as an argument to initialize state based on properties passed to the component.",
         options_actions: "actions",
