@@ -1,4 +1,5 @@
 
+
 const App = {
   routes: {},
   root: null,
@@ -27,19 +28,43 @@ const App = {
         if (options.state) this.state = options.state(this.props);
 
         this.render().then(() => {
-          if (options.onMount) {
-            if (typeof options.onMount === 'function') {
-              options.onMount.call(this);
-            }
+          if (options.onMount && typeof options.onMount === 'function') {
+            options.onMount.call(this);
           }
+
           this.setupModelBindings();
           this.cacheBoundElements();
           this.exposeActions(options.actions);
 
-
           if (options.onUpdate) options.onUpdate.call(this);
+
+          this.addEventListener("click", this.handleDelegatedEvent.bind(this));
+          this.addEventListener("input", this.handleDelegatedEvent.bind(this));
+          this.addEventListener("change", this.handleDelegatedEvent.bind(this));
+          this.addEventListener("mouseover", this.handleDelegatedEvent.bind(this));
+
         });
       }
+
+      handleDelegatedEvent(e) {
+        let el = e.target;
+        while (el && el !== this) {
+          for (const attr of el.attributes) {
+            if (attr.name.startsWith("data-on:")) {
+              const eventType = attr.name.split(":")[1];
+              if (eventType === e.type) {
+                const actionName = attr.value;
+                if (this[actionName] && typeof this[actionName] === "function") {
+                  this[actionName](e);
+                  return;
+                }
+              }
+            }
+          }
+          el = el.parentElement;
+        }
+      }
+
 
       disconnectedCallback() {
         if (options.onDestroy) {
@@ -243,7 +268,7 @@ const App = {
 
         this.applyEventsToElement(newElement);
       }
-      
+
       updateListItem(element, item, index) {
         element.querySelectorAll('[data-bind]').forEach(el => {
           const bindKey = el.getAttribute('data-bind');
