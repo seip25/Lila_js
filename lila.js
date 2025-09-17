@@ -156,6 +156,15 @@ const App = {
 
       getTemplateContent() {
         let templateWithData = options.template || '';
+         templateWithData = templateWithData.replace(
+          /<([a-zA-Z0-9-]+)([^>]*?)\s+data-if="([^"]+)"([^>]*?)>([\s\S]*?)<\/\1>/g,
+          (match, tag, attrsBefore, condition, attrsAfter, content) => {
+            if (this.state[condition]) {
+              return `<${tag}${attrsBefore}${attrsAfter}>${content}</${tag}>`;
+            } else {
+              return '';
+            }
+          }
         templateWithData = templateWithData.replace(/\${props\.(\w+)}/g, (m, p) => this.props[p] || this.getAttribute(p) || '');
         templateWithData = templateWithData.replace(/\${state\.(\w+)}/g, (m, s) => this.state[s] || '');
         templateWithData = templateWithData.replace(/<slot><\/slot>/g, this._children);
