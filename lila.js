@@ -11,6 +11,7 @@ const App = {
         this._children = this.innerHTML;
         this._bindings = new Map();
         this.exposeActions(options.actions);
+        this._delegatedEventHandler = this.handleDelegatedEvent.bind(this);
       }
 
       exposeActions(actions) {
@@ -32,10 +33,10 @@ const App = {
           this.exposeActions(options.actions);
           if (options.onUpdate) options.onUpdate.call(this);
 
-          this.addEventListener("click", this.handleDelegatedEvent.bind(this));
-          this.addEventListener("input", this.handleDelegatedEvent.bind(this));
-          this.addEventListener("change", this.handleDelegatedEvent.bind(this));
-          this.addEventListener("mouseover", this.handleDelegatedEvent.bind(this));
+          this.addEventListener("click", this._delegatedEventHandler);
+          this.addEventListener("input", this._delegatedEventHandler);
+          this.addEventListener("change", this._delegatedEventHandler);
+          this.addEventListener("mouseover", this._delegatedEventHandler);
         });
       }
 
@@ -60,6 +61,10 @@ const App = {
 
       disconnectedCallback() {
         if (options.onDestroy) options.onDestroy.call(this);
+        this.removeEventListener("click", this._delegatedEventHandler);
+        this.removeEventListener("input", this._delegatedEventHandler);
+        this.removeEventListener("change", this._delegatedEventHandler);
+        this.removeEventListener("mouseover", this._delegatedEventHandler);
       }
 
       cacheBoundElements() {
